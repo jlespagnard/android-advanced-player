@@ -15,6 +15,7 @@ public class Mp3player extends Activity {
 	private Button buttonPlayStop;
     private MediaPlayer mPlayer;
     private SeekBar seekBar;
+    private boolean isPlaying = false;
  
     // Here i override onCreate method.
     //
@@ -27,6 +28,7 @@ public class Mp3player extends Activity {
             super.onCreate(icicle);
             setContentView(R.layout.main);
             initViews();  
+            createProgressThread();
  
     }
  
@@ -44,7 +46,7 @@ public class Mp3player extends Activity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 // TODO Auto-generated method stub
- 
+            	seekChange(seekBar, seekBar.getProgress(), true); 
             }
  
             @Override
@@ -56,7 +58,7 @@ public class Mp3player extends Activity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress,
                     boolean fromUser) {
-                seekChange(seekBar, progress, fromUser);
+                //seekChange(seekBar, progress, fromUser);
  
             }
         });
@@ -75,12 +77,40 @@ public class Mp3player extends Activity {
             buttonPlayStop.setText(getString(R.string.pause_str));
             try{
                 mPlayer.start();
+                isPlaying = true;
             }catch (IllegalStateException e) {
                 mPlayer.pause();
+                isPlaying = false;
             }
         }else {
             buttonPlayStop.setText(getString(R.string.play_str));
             mPlayer.pause();
+            isPlaying = false;
         }
     }
+    
+    private void createProgressThread() {
+
+        Runnable _progressUpdater = new Runnable() {
+            @Override
+            public void run() {
+            	while(true)
+            	{
+                    if(isPlaying) {
+                        try
+                        {
+                        	seekBar.setProgress(mPlayer.getCurrentPosition());    
+                        }
+                        catch(Exception e)
+                        {
+                            //Don't want this thread to intefere with the rest of the app.
+                        }
+                    }
+                }
+            }
+        };
+        Thread thread = new Thread(_progressUpdater);
+        thread.start();
+    }
+
 }

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout android:id="@+id/FrameLayout01" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+<AbsoluteLayout android:id="@+id/AbsoluteLayout02" android:layout_height="wrap_content" android:background="@drawable/fond2" android:layout_gravity="top" android:layout_width="fill_parent">
+
+
+
+
+
+
+<TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center" android:text="@string/titrechanson_str" android:id="@+id/TextView01" android:layout_x="0dip" android:layout_y="3dip"></TextView>
+
+
+
+<TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/auteurchanson_str" android:id="@+id/TextView02" android:layout_x="1dip" android:gravity="center" android:layout_y="22dip"></TextView>
+
+
+
+
+<FrameLayout android:layout_width="fill_parent" android:id="@+id/FrameLayout03" android:layout_height="fill_parent" android:layout_x="0dip" android:layout_y="0dip"><ImageView android:layout_width="wrap_content" android:id="@+id/ImageView01" android:layout_height="wrap_content" android:background="@drawable/icon" android:layout_gravity="left|center_vertical"></ImageView>
+<ImageView android:layout_width="wrap_content" android:id="@+id/ImageView02" android:layout_height="wrap_content" android:background="@drawable/icon" android:layout_gravity="right|center_vertical"></ImageView>
+</FrameLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</AbsoluteLayout>
+
+<FrameLayout android:id="@+id/FrameLayout02" android:layout_height="wrap_content" android:background="@drawable/fond1" android:layout_gravity="bottom" android:layout_width="fill_parent">
+
+<AbsoluteLayout android:id="@+id/AbsoluteLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="top|center" android:paddingBottom="5dip">
+
+
+<ImageButton android:id="@+id/ImageButton02" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/next" android:layout_x="135dip" android:layout_y="15dip"></ImageButton>
+<ImageButton android:id="@+id/ImageButton01" android:background="@drawable/play" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_x="80dip" android:layout_y="5dip"></ImageButton>
+
+
+
+
+
+
+
+
+<ImageButton android:id="@+id/ImageButton03" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/previous" android:layout_x="40dip" android:layout_y="15dip"></ImageButton>
+<ImageButton android:id="@+id/ImageButton04" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/previous2" android:layout_x="10dip" android:layout_y="17dip"></ImageButton>
+<ImageButton android:id="@+id/ImageButton05" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/next2" android:layout_x="172dip" android:layout_y="15dip"></ImageButton>
+
+
+
+
+
+
+
+
+
+</AbsoluteLayout>
+
+
+
+</FrameLayout>
+
+
+
+
+
+
+
+
+
+
+
+<AbsoluteLayout android:layout_width="fill_parent" android:id="@+id/AbsoluteLayout03" android:layout_height="fill_parent">
+<SeekBar android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/SeekBar02" android:layout_x="0dip" android:layout_y="90dip"></SeekBar>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<FrameLayout android:layout_width="fill_parent" android:id="@+id/FrameLayout04" android:layout_height="wrap_content" android:layout_x="0dip" android:background="@drawable/fond4" android:layout_y="50dip"><AbsoluteLayout android:layout_width="wrap_content" android:id="@+id/AbsoluteLayout04" android:paddingBottom="5dip" android:layout_height="wrap_content" android:layout_gravity="top|center">
+
+
+
+
+<ImageButton android:layout_height="wrap_content" android:id="@+id/ImageButton06" android:layout_width="wrap_content" android:background="@drawable/loop" android:layout_x="0dip" android:layout_y="0dip"></ImageButton>
+<ImageButton android:layout_height="wrap_content" android:id="@+id/ImageButton07" android:layout_width="wrap_content" android:background="@drawable/micro" android:layout_y="0dip" android:layout_x="50dip"></ImageButton>
+<ImageButton android:layout_height="wrap_content" android:id="@+id/ImageButton08" android:layout_width="wrap_content" android:background="@drawable/son" android:layout_y="0dip" android:layout_x="100dip"></ImageButton>
+<ImageButton android:layout_height="wrap_content" android:id="@+id/ImageButton09" android:layout_width="wrap_content" android:background="@drawable/tonalite" android:layout_y="0dip" android:layout_x="150dip"></ImageButton>
+<ImageButton android:layout_height="wrap_content" android:id="@+id/ImageButton10" android:layout_width="wrap_content" android:background="@drawable/enregistrer" android:layout_y="0dip" android:layout_x="200dip"></ImageButton>
+</AbsoluteLayout>
+</FrameLayout>
+</AbsoluteLayout>
+</FrameLayout>
