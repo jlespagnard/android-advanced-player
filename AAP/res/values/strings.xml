@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="couleurFond1_str">#737C82</string>
+    <string name="auteurchanson_str">auteur</string>
+    <string name="titrechanson_str">titre de la chanson</string>
+    <string name="hello">Hello World, AAP!</string>
+    <string name="app_name">ANDROID ADVANCED PLAYER</string>
+</resources>
