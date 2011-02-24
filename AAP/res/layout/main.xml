@@ -1,27 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout android:id="@+id/FrameLayout01" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
-<AbsoluteLayout android:id="@+id/AbsoluteLayout02" android:layout_height="wrap_content" android:layout_gravity="top" android:layout_width="fill_parent" android:background="@drawable/fond6">
-
-
-
-
-
-
-<TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center" android:layout_x="0dip" android:layout_y="3dip" android:text="titre chanson" android:id="@+id/titre"></TextView>
-
-
-
-<TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_x="1dip" android:gravity="center" android:layout_y="22dip" android:text="auteur" android:id="@+id/auteur"></TextView>
-
-
-
-
-<FrameLayout android:layout_width="fill_parent" android:id="@+id/FrameLayout03" android:layout_height="fill_parent" android:layout_x="0dip" android:layout_y="0dip">
-
-<ImageButton android:layout_width="wrap_content" android:background="@drawable/buttondossier" android:id="@+id/btnDossier" android:layout_height="wrap_content" android:layout_gravity="left|center_vertical"></ImageButton>
-<ImageButton android:layout_width="wrap_content" android:background="@drawable/buttonalbum" android:id="@+id/btnAlbum" android:layout_height="wrap_content" android:layout_gravity="right|center_vertical"></ImageButton>
-</FrameLayout>
 
 
 
@@ -29,127 +7,50 @@
 
 
 
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content" android:id="@+id/RelativeLayout01">
+                
+<AbsoluteLayout android:id="@+id/AbsoluteLayout02" android:layout_height="wrap_content" android:layout_width="fill_parent" android:background="@drawable/fond6">
+	<TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center" android:layout_x="0dip" android:layout_y="3dip" android:text="titre chanson" android:id="@+id/titre"></TextView>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	<TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_x="1dip" android:gravity="center" android:layout_y="22dip" android:text="auteur" android:id="@+id/auteur"></TextView>
+	<FrameLayout android:layout_width="fill_parent" android:id="@+id/FrameLayout03" android:layout_height="fill_parent" android:layout_x="0dip" android:layout_y="0dip">
+		<ImageButton android:layout_width="wrap_content" android:background="@drawable/buttondossier" android:layout_height="wrap_content" android:layout_gravity="left|center_vertical" android:id="@+id/btnDossier"></ImageButton>
+		<ImageButton android:layout_width="wrap_content" android:background="@drawable/buttonalbum" android:layout_height="wrap_content" android:layout_gravity="right|center_vertical" android:id="@+id/btnAlbum"></ImageButton>
+	</FrameLayout>
 </AbsoluteLayout>
 
-<FrameLayout android:id="@+id/FrameLayout02" android:layout_height="wrap_content" android:layout_gravity="bottom" android:layout_width="fill_parent" android:minHeight="78dip" android:background="@drawable/fond7">
-
-<AbsoluteLayout android:id="@+id/AbsoluteLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingBottom="5dip" android:layout_gravity="bottom|center">
-
-
-<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_y="10dip" android:layout_x="117dip" android:id="@+id/next" android:background="@drawable/buttonnext"></ImageButton>
-<ImageButton android:background="@drawable/play" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_x="70dip" android:id="@+id/playPause" android:layout_y="5dip"></ImageButton>
-
-
-
-
-
-
-
-
-<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_x="30dip" android:layout_y="10dip" android:id="@+id/previous" android:background="@drawable/buttonprevious"></ImageButton>
-<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_x="0dip" android:layout_y="16dip" android:id="@+id/previous2" android:background="@drawable/buttonprevious2"></ImageButton>
-<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_y="16dip" android:layout_x="158dip" android:id="@+id/next2" android:background="@drawable/buttonnext2"></ImageButton>
-
-
-
-
-
-
-
-
-
-</AbsoluteLayout>
-
-
-
-
-
-
-
-<SeekBar android:layout_gravity="top|center" android:thumb="@drawable/seekbar_thumb" android:maxHeight="5dip" android:layout_width="fill_parent" android:max="100" android:progressDrawable="@drawable/seekbar_fond" android:layout_height="wrap_content" android:id="@+id/seekbar_music"></SeekBar>
-
+<FrameLayout android:id="@+id/FrameLayout02" android:layout_height="wrap_content" android:layout_width="fill_parent" android:minHeight="78dip" android:background="@drawable/fond7" android:layout_alignParentBottom="true">
+	<AbsoluteLayout android:id="@+id/AbsoluteLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingBottom="5dip" android:layout_gravity="bottom|center">
+		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_y="10dip" android:layout_x="117dip" android:id="@+id/next" android:background="@drawable/buttonnext"></ImageButton>
+		<ImageButton android:background="@drawable/play" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_x="70dip" android:id="@+id/playPause" android:layout_y="5dip"></ImageButton>
+		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_x="30dip" android:layout_y="10dip" android:id="@+id/previous" android:background="@drawable/buttonprevious"></ImageButton>
+		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_x="0dip" android:layout_y="16dip" android:id="@+id/previous2" android:background="@drawable/buttonprevious2"></ImageButton>
+		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_y="16dip" android:layout_x="158dip" android:id="@+id/next2" android:background="@drawable/buttonnext2"></ImageButton>
+	</AbsoluteLayout>
+	<SeekBar android:layout_gravity="top|center" android:thumb="@drawable/seekbar_thumb" android:maxHeight="5dip" android:max="100" android:progressDrawable="@drawable/seekbar_fond" android:layout_height="wrap_content" android:id="@+id/seekbar_music" android:layout_width="fill_parent" android:paddingRight="50dip" android:paddingLeft="50dip"></SeekBar>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/duree" android:layout_gravity="top|right" android:paddingRight="5dip" android:text="00:00"></TextView>
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingLeft="5dip" android:id="@+id/position" android:text="00:00"></TextView>
 </FrameLayout>
 
-
-
-
-
-
-
-
-
-
-
-<AbsoluteLayout android:layout_width="fill_parent" android:id="@+id/AbsoluteLayout03" android:layout_height="fill_parent">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<FrameLayout android:layout_width="fill_parent" android:id="@+id/FrameLayout04" android:layout_height="wrap_content" android:layout_x="0dip" android:background="@drawable/fond5" android:layout_y="62dip"><AbsoluteLayout android:layout_width="wrap_content" android:id="@+id/AbsoluteLayout04" android:paddingBottom="5dip" android:layout_height="wrap_content" android:layout_gravity="top|center">
-
-
-
-
-<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:background="@drawable/loop" android:layout_x="0dip" android:layout_y="0dip" android:id="@+id/loop"></ImageButton>
-<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_y="0dip" android:layout_x="50dip" android:id="@+id/micro" android:background="@drawable/buttonmicro"></ImageButton>
-<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_y="0dip" android:layout_x="100dip" android:id="@+id/note" android:background="@drawable/buttonnote"></ImageButton>
-<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_y="0dip" android:layout_x="150dip" android:id="@+id/tonalite" android:background="@drawable/buttontonalite"></ImageButton>
-<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_y="0dip" android:layout_x="200dip" android:id="@+id/enregistrer" android:background="@drawable/buttonenregistrer"></ImageButton>
-</AbsoluteLayout>
-<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/sonon" android:layout_gravity="bottom|left" android:layout_marginLeft="5dip" android:id="@+id/volume"></ImageButton>
+<FrameLayout android:layout_width="fill_parent" android:id="@+id/FrameLayout04" android:layout_height="wrap_content" android:background="@drawable/fond5" android:layout_below="@id/AbsoluteLayout02">
+	<RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="top|center" android:id="@+id/RelativeLayout02">
+		<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:background="@drawable/loop" android:id="@+id/loop" android:layout_marginRight="5dip"></ImageButton>
+		<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/micro" android:background="@drawable/buttonmicro" android:layout_toRightOf="@id/loop" android:layout_marginLeft="5dip" android:layout_marginRight="5dip"></ImageButton>
+		<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/note" android:background="@drawable/buttonnote" android:layout_toRightOf="@id/micro" android:layout_marginLeft="5dip" android:layout_marginRight="5dip"></ImageButton>
+		<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/tonalite" android:background="@drawable/buttontonalite" android:layout_toRightOf="@id/note" android:layout_marginLeft="5dip" android:layout_marginRight="5dip"></ImageButton>
+		<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/enregistrer" android:background="@drawable/buttonenregistrer" android:layout_toRightOf="@id/tonalite" android:layout_marginLeft="5dip"></ImageButton>
+	</RelativeLayout>
+	<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/sonon" android:layout_gravity="bottom|left" android:layout_marginLeft="5dip" android:id="@+id/volume"></ImageButton>
 </FrameLayout>
 
+<SeekBar android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_y="100dip" android:max="100" android:thumb="@drawable/reglagev" android:maxHeight="1dip" android:layout_x="10dip" android:progressDrawable="@drawable/seekbar_fond" android:minWidth="80dip" android:id="@+id/seekbar_volume" android:thumbOffset="1dip" android:progress="30" android:visibility="invisible" android:layout_below="@id/FrameLayout04" android:layout_marginLeft="10px"></SeekBar>
+
+
+</RelativeLayout>
 
 
 
-
-
-
-
-
-
-<SeekBar android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_y="100dip" android:max="100" android:thumb="@drawable/reglagev" android:maxHeight="1dip" android:layout_x="10dip" android:progressDrawable="@drawable/seekbar_fond" android:minWidth="80dip" android:id="@+id/seekbar_volume" android:thumbOffset="1dip" android:progress="30" android:visibility="invisible"></SeekBar>
-
-
-</AbsoluteLayout>
-</FrameLayout>
