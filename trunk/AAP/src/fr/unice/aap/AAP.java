@@ -16,6 +16,7 @@ import android.view.View.OnTouchListener;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
 
 public class AAP extends Activity {
 	
@@ -64,6 +65,9 @@ public class AAP extends Activity {
     	setSong(this, R.raw.testsong);
     	System.out.println("ARTISTE = " + MediaStore.Audio.Artists.ARTIST);
     	
+    	//remplir TextView avec titre et auteur de la chanson
+    	
+    	
     	//----------------- evenements sur les boutons -----------------------------
     	
     	// Bouton dossier musiques
@@ -77,18 +81,18 @@ public class AAP extends Activity {
 		});
     	
     	// Bouton album
-    	btnAlbum = (ImageButton)findViewById(R.id.btnAlbum);
-    	btnAlbum.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-//				Intent intent = new Intent(getApplicationContext(),MusicListActivity.class);
-//				
-//				Bundle bundle = new Bundle();
-//				bundle.putInt(MediaMetadataRetriever.METADATA_KEY_ALBUM,mPlayer.);
-//				startActivity(intent);
-				return true;
-			}
-		});
+//    	btnAlbum = (ImageButton)findViewById(R.id.btnAlbum);
+//    	btnAlbum.setOnTouchListener(new OnTouchListener() {
+//			@Override
+//			public boolean onTouch(View v, MotionEvent event) {
+////				Intent intent = new Intent(getApplicationContext(),MusicListActivity.class);
+////				
+////				Bundle bundle = new Bundle();
+////				bundle.putInt(MediaMetadataRetriever.METADATA_KEY_ALBUM,mPlayer.);
+////				startActivity(intent);
+//			return true;
+//			}
+//		});
     	
     	//play/pause
     	buttonPlayStop = (ImageButton) findViewById(R.id.playPause);
@@ -183,6 +187,7 @@ public class AAP extends Activity {
         //seekbar musique
         seekBar_Music = (SeekBar) findViewById(R.id.seekbar_music);
         seekBar_Music.setMax(mPlayer.getDuration()); 
+        ((TextView)findViewById(R.id.duree)).setText(heureToString(mPlayer.getDuration()));
         seekBar_Music.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
        	 
             @Override
@@ -213,15 +218,42 @@ public class AAP extends Activity {
                     if(isPlay && !onTouchSeekBarMusic) {
                         try
                         {
-                        	seekBar_Music.setProgress(mPlayer.getCurrentPosition());  
+                        	seekBar_Music.setProgress(mPlayer.getCurrentPosition()); 
+                        	((TextView)findViewById(R.id.position)).setText(heureToString(mPlayer.getCurrentPosition()));
                         }
                         catch(Exception e)
                         {}
+                        try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
                     }
                 }
             }
         };
         thread_music = new Thread(_progressUpdater);
         thread_music.start();
+    }
+
+    private String heureToString(int ms)
+    {
+		int reste = ms/1000;
+		String texte;	
+		texte = (reste%60) + "";
+		if(reste%60 < 10)
+			texte = "0" + texte;
+		reste = reste/60;
+		texte = (reste%60) + ":" + texte;
+		if(reste%60 < 10)
+			texte = "0" + texte;
+		reste = reste/60;
+		if(reste%60 != 0){		
+			texte = (reste%60) + ":" + texte;
+			if(reste%60 < 10)
+				texte = "0" + texte;
+		}		
+		return texte;
     }
 }
