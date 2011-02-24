@@ -1,8 +1,14 @@
 package fr.unice.aap;
 
+import fr.unice.aap.musics.MusicListActivity;
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,12 +19,14 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class AAP extends Activity {
 	
+	private ImageButton btnDossier;
+	private ImageButton btnAlbum;
 	private ImageButton buttonPlayStop;
 	private ImageButton buttonLoop;
 	private ImageButton buttonVolume;
 	private SeekBar seekBar_Volume;
 	private SeekBar seekBar_Music;
-	private MediaPlayer mPlayer;
+	private static MediaPlayer mPlayer;
 	private Thread thread_music;
 	private Boolean isPlay = false;
 	private Boolean isLoop = false;
@@ -33,11 +41,54 @@ public class AAP extends Activity {
         createProgressThread();
     }
     
+    public static void setSong(Context p_appContext, int p_rawId) {
+    	if(mPlayer != null) {
+	    	mPlayer.stop();
+	    	mPlayer.seekTo(0);
+	    	mPlayer.release();
+    	}
+    	mPlayer = MediaPlayer.create(p_appContext,p_rawId);
+    }
+    
+    public static void setSong(Context p_appContext, Uri p_uri) {
+    	if(mPlayer != null) {
+	    	mPlayer.stop();
+	    	mPlayer.seekTo(0);
+	    	mPlayer.release();
+    	}
+    	mPlayer = MediaPlayer.create(p_appContext,p_uri);
+    }
+    
     private void initEven()
     {     	
-    	mPlayer = MediaPlayer.create(this, R.raw.testsong);    	    	
+    	setSong(this, R.raw.testsong);
+    	System.out.println("ARTISTE = " + MediaStore.Audio.Artists.ARTIST);
     	
     	//----------------- evenements sur les boutons -----------------------------
+    	
+    	// Bouton dossier musiques
+    	btnDossier = (ImageButton)findViewById(R.id.btnDossier);
+    	btnDossier.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(),MusicListActivity.class);
+				startActivity(intent);
+			}
+		});
+    	
+    	// Bouton album
+    	btnAlbum = (ImageButton)findViewById(R.id.btnAlbum);
+    	btnAlbum.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+//				Intent intent = new Intent(getApplicationContext(),MusicListActivity.class);
+//				
+//				Bundle bundle = new Bundle();
+//				bundle.putInt(MediaMetadataRetriever.METADATA_KEY_ALBUM,mPlayer.);
+//				startActivity(intent);
+				return true;
+			}
+		});
     	
     	//play/pause
     	buttonPlayStop = (ImageButton) findViewById(R.id.playPause);

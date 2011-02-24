@@ -19,8 +19,8 @@
 
 <FrameLayout android:layout_width="fill_parent" android:id="@+id/FrameLayout03" android:layout_height="fill_parent" android:layout_x="0dip" android:layout_y="0dip">
 
-<ImageButton android:layout_width="wrap_content" android:background="@drawable/buttondossier" android:id="@+id/ImageButton02" android:layout_height="wrap_content" android:layout_gravity="left|center_vertical"></ImageButton>
-<ImageButton android:layout_width="wrap_content" android:background="@drawable/buttonalbum" android:id="@+id/ImageButton01" android:layout_height="wrap_content" android:layout_gravity="right|center_vertical"></ImageButton>
+<ImageButton android:layout_width="wrap_content" android:background="@drawable/buttondossier" android:id="@+id/btnDossier" android:layout_height="wrap_content" android:layout_gravity="left|center_vertical"></ImageButton>
+<ImageButton android:layout_width="wrap_content" android:background="@drawable/buttonalbum" android:id="@+id/btnAlbum" android:layout_height="wrap_content" android:layout_gravity="right|center_vertical"></ImageButton>
 </FrameLayout>
 
 
