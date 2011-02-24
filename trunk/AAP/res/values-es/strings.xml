@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-    <string name="hello">Hello World, AAP!</string>
+    <string name="hello">Hola El Mundo, AAP!</string>
     <string name="app_name">ANDROID ADVANCED PLAYER</string>
-    <string name="all_songs">Toutes les chansons</string>
-	<string name="artist">Artistes</string>
-	<string name="album">Albums</string>
+    <string name="all_songs">Todas las cantas</string>
+	<string name="artist">Artistas</string>
+	<string name="album">Albumas</string>
 	<string name="genre">Genres</string>
 	<string-array name="menu_items">
 		<item>@string/all_songs</item>
