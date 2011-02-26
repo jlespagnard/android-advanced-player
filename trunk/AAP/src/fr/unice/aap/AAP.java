@@ -25,6 +25,7 @@ public class AAP extends Activity {
 	private ImageButton buttonPlayStop;
 	private ImageButton buttonLoop;
 	private ImageButton buttonVolume;
+	private ImageButton buttonTonalite;
 	private SeekBar seekBar_Volume;
 	private SeekBar seekBar_Music;
 	private static MediaPlayer mPlayer;
@@ -131,6 +132,16 @@ public class AAP extends Activity {
 				return true;
 			}
 		}); 
+        
+        //tonalite
+        buttonTonalite = (ImageButton) findViewById(R.id.tonalite);
+        buttonTonalite.setOnClickListener(new OnClickListener() {
+        	@Override public void onClick(View v) {
+        		Intent intentTonalite = new Intent();
+            	intentTonalite.setClassName("fr.unice.aap", "fr.unice.aap.EqualizerActivity");
+            	startActivity(intentTonalite);
+        	}
+        });
         
         //loop
         buttonLoop = (ImageButton) findViewById(R.id.loop);
