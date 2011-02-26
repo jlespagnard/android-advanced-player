@@ -4,18 +4,15 @@
       android:versionCode="1"
       android:versionName="1.0">
     <application android:icon="@drawable/icon" android:label="@string/app_name">
-        <activity android:name="fr.unice.aap.AAP"
+        <activity android:name=".AAP"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="fr.unice.aap.musics.MusicListActivity" />
-        <activity android:name="fr.unice.aap.musics.AllSongsListActivity" />
-		<activity android:name="fr.unice.aap.musics.ArtistsListActivity" />
-		<activity android:name="fr.unice.aap.musics.AlbumsListActivity" />
-		<activity android:name="fr.unice.aap.musics.GenresListActivity" />
+ 		<activity android:name=".EqualizerActivity">
+    	</activity>
     </application>
-    <uses-sdk android:minSdkVersion="10" android:targetSdkVersion="10" />
-</manifest>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+</manifest> 
