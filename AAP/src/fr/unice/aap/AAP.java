@@ -28,7 +28,7 @@ public class AAP extends Activity {
 	private ImageButton buttonTonalite;
 	private SeekBar seekBar_Volume;
 	private SeekBar seekBar_Music;
-	private static MediaPlayer mPlayer;
+	public static MediaPlayer mPlayer;
 	private Thread thread_music;
 	private Boolean isPlay = false;
 	private Boolean isLoop = false;
