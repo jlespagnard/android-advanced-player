@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout android:id="@+id/RelativeLayout01" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout android:orientation="horizontal" android:layout_height="wrap_content" android:id="@+id/LinearLayout02" android:layout_width="wrap_content" android:layout_centerHorizontal="true"><TextView android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="debut :"></TextView>
+<EditText android:id="@+id/EditText01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="00" android:maxLength="2" android:numeric="integer" android:singleLine="true" android:nextFocusRight="@+id/EditText02" android:nextFocusDown="@+id/EditText04"></EditText>
+
+<TextView android:text=":" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextView02"></TextView><EditText android:singleLine="true" android:layout_width="wrap_content" android:text="00" android:maxLength="2" android:numeric="integer" android:layout_height="wrap_content" android:id="@+id/EditText02" android:nextFocusRight="@+id/EditText03" android:nextFocusDown="@+id/EditText05" android:nextFocusLeft="@+id/EditText01"></EditText>
+
+
+
+
+<TextView android:text=":" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextView03"></TextView><EditText android:singleLine="true" android:layout_width="wrap_content" android:text="00" android:maxLength="2" android:numeric="integer" android:layout_height="wrap_content" android:id="@+id/EditText03" android:nextFocusDown="@+id/EditText06" android:nextFocusLeft="@+id/EditText02" android:nextFocusRight="@+id/EditText04"></EditText>
+
+
+
+</LinearLayout>
+<LinearLayout android:layout_height="wrap_content" android:id="@+id/LinearLayout01" android:layout_width="wrap_content" android:layout_below="@id/LinearLayout02" android:layout_centerHorizontal="true"><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextView04" android:text="fin :"></TextView>
+
+<EditText android:singleLine="true" android:layout_width="wrap_content" android:text="00" android:maxLength="2" android:numeric="integer" android:layout_height="wrap_content" android:id="@+id/EditText04" android:nextFocusLeft="@+id/EditText03" android:nextFocusRight="@+id/EditText05" android:nextFocusUp="@+id/EditText01"></EditText>
+
+
+<TextView android:text=":" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextView05"></TextView><EditText android:singleLine="true" android:layout_width="wrap_content" android:text="00" android:maxLength="2" android:numeric="integer" android:layout_height="wrap_content" android:id="@+id/EditText05" android:nextFocusLeft="@+id/EditText04" android:nextFocusRight="@+id/EditText06" android:nextFocusUp="@+id/EditText02"></EditText><TextView android:text=":" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextView06"></TextView><EditText android:singleLine="true" android:layout_width="wrap_content" android:text="00" android:maxLength="2" android:numeric="integer" android:layout_height="wrap_content" android:id="@+id/EditText06" android:nextFocusLeft="@+id/EditText05" android:nextFocusUp="@+id/EditText03"></EditText>
+
+
+
+
+
+
+</LinearLayout>
+</RelativeLayout>
