@@ -9,6 +9,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -231,6 +232,12 @@ public class AAP extends Activity {
                         {
                         	seekBar_Music.setProgress(mPlayer.getCurrentPosition()); 
                         	((TextView)findViewById(R.id.position)).setText(heureToString(mPlayer.getCurrentPosition()));
+                        	Log.i("INFO", mPlayer.getCurrentPosition()+" <=");
+                        	//IMPLEMENTATION DE LA BOUCLE
+                        	//=> pour l'instant, codé en dur 
+                        	//(arrivé a la seconde 5 ou plus, la musique redemare à la seconde 1)
+                        	//Afficher des "bares" deplacable pour faire ca dynamiquement !!
+                        	if(mPlayer.getCurrentPosition() >= 5000){mPlayer.seekTo(1000);}
                         }
                         catch(Exception e)
                         {}
