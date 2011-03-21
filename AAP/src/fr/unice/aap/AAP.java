@@ -1,18 +1,21 @@
 package fr.unice.aap;
 
+import java.io.IOException;
+
 import fr.unice.aap.musics.MusicListActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,14 +27,15 @@ import android.widget.TextView;
 
 public class AAP extends Activity {
 	
+	private static AAP activity;
 	private ImageButton btnDossier;
 	private ImageButton btnAlbum;
 	private ImageButton buttonPlayStop;
 	private ImageButton buttonLoop;
-	private ImageButton buttonVolume;
 	private ImageButton buttonTonalite;
-	private SeekBar seekBar_Volume;
 	private SeekBar seekBar_Music;
+	private SeekBar seekBar_debut;
+	private SeekBar seekBar_fin;
 	public static MediaPlayer mPlayer;
 	private Thread thread_music;
 	private Boolean isPlay = false;
@@ -43,6 +47,7 @@ public class AAP extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        activity = this;
         initEven();    
         createProgressThread();
     }
@@ -58,11 +63,12 @@ public class AAP extends Activity {
     
     public static void setSong(Context p_appContext, Uri p_uri) {
     	if(mPlayer != null) {
-	    	mPlayer.stop();
-	    	mPlayer.seekTo(0);
-	    	mPlayer.release();
+            mPlayer.stop();
+            mPlayer.seekTo(0);
+            mPlayer.release();
     	}
-    	mPlayer = MediaPlayer.create(p_appContext,p_uri);
+    	mPlayer = MediaPlayer.create(p_appContext,p_uri); 
+    	activity.initSeekBarMusic();
     }
     
     private void initEven()
@@ -70,20 +76,11 @@ public class AAP extends Activity {
     	setSong(this, R.raw.testsong);
     	System.out.println("ARTISTE = " + MediaStore.Audio.Artists.ARTIST);
     	
-    	//remplir TextView avec titre et auteur de la chanson
+    	//remplir TextView avec titre et auteur de la chanson   	
     	
+    	//----------------- evenements sur les boutons -----------------------------   	
     	
-    	//----------------- evenements sur les boutons -----------------------------
-    	
-    	// Bouton dossier musiques
-    	btnDossier = (ImageButton)findViewById(R.id.btnDossier);
-    	btnDossier.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(getApplicationContext(),MusicListActivity.class);
-				startActivity(intent);
-			}
-		});
+    	buttonLoop = (ImageButton) findViewById(R.id.loop);
     	
     	// Bouton album
 //    	btnAlbum = (ImageButton)findViewById(R.id.btnAlbum);
@@ -124,86 +121,24 @@ public class AAP extends Activity {
 					case MotionEvent.ACTION_UP: 
 						buttonPlayStop.setBackgroundResource(R.drawable.pause);
 						try{
-			                mPlayer.start();
-			            }catch (IllegalStateException e) {
-			                mPlayer.pause();
-			                isPlay = false;
-			            }
+				            mPlayer.start();
+				        }catch (IllegalStateException e) {
+				            mPlayer.pause();
+				            isPlay = false;
+				        }
 						isPlay = true;
 						break; 
 					}
 				}						
 				return true;
 			}
-		}); 
-        
-        //tonalite
-        buttonTonalite = (ImageButton) findViewById(R.id.tonalite);
-        buttonTonalite.setOnClickListener(new OnClickListener() {
-        	@Override public void onClick(View v) {
-        		Intent intentTonalite = new Intent();
-            	intentTonalite.setClassName("fr.unice.aap", "fr.unice.aap.EqualizerActivity");
-            	startActivity(intentTonalite);
-        	}
-        });
-        
-        //loop
-        buttonLoop = (ImageButton) findViewById(R.id.loop);
-        buttonLoop.setOnClickListener(new OnClickListener() {
-        	@Override public void onClick(View v) {
-        		if (isLoop) {
-                    buttonLoop.setBackgroundResource(R.drawable.loop);  
-                    isLoop = false;
-                }else {
-                	buttonLoop.setBackgroundResource(R.drawable.loopclick);  
-                	isLoop = true;
-                	menuLoop();
-                }
-        	}
-        });   
-        
-      //Volume
-        buttonVolume = (ImageButton) findViewById(R.id.volume);
-        buttonVolume.setOnClickListener(new OnClickListener() {
-        	@Override public void onClick(View v) {
-        		if (seekBar_Volume.getVisibility() == View.VISIBLE) {
-        			seekBar_Volume.setVisibility(View.INVISIBLE);
-                }else {
-                	seekBar_Volume.setVisibility(View.VISIBLE);
-                }
-        	}
-        }); 
-        
-        //seebar volume
-        seekBar_Volume = (SeekBar) findViewById(R.id.seekbar_volume);
-        seekBar_Volume.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-        	 
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) { 
-            }
- 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
- 
-            }
- 
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress,
-                    boolean fromUser) {
-                if(progress == 0){
-                	buttonVolume.setBackgroundResource(R.drawable.sonoff);
-                }
-                else{
-                	buttonVolume.setBackgroundResource(R.drawable.sonon);
-                }
- 
-            }
-        });
+		});           
         
         //seekbar musique
         seekBar_Music = (SeekBar) findViewById(R.id.seekbar_music);
-        seekBar_Music.setMax(mPlayer.getDuration()); 
-        ((TextView)findViewById(R.id.duree)).setText(heureToString(mPlayer.getDuration()));
+        seekBar_debut = (SeekBar) findViewById(R.id.seekbar_debut);
+        seekBar_fin = (SeekBar) findViewById(R.id.seekbar_fin);
+        initSeekBarMusic();     
         seekBar_Music.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
        	 
             @Override
@@ -219,9 +154,71 @@ public class AAP extends Activity {
  
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress,
-                    boolean fromUser) {         	              
+                    boolean fromUser) {            	
             }
-        });
+        });               
+        
+        //moins debut
+        ImageButton buttonmoinsdebut = (ImageButton) findViewById(R.id.dmoins);
+        buttonmoinsdebut.setOnClickListener(new OnClickListener() {
+        	@Override public void onClick(View v) {
+        		if(seekBar_debut.getProgress()>0){
+        			seekBar_debut.setProgress(seekBar_debut.getProgress()-1000);
+        		}      		
+        	}
+        });        
+        
+        //plus debut
+        ImageButton buttonplusdebut = (ImageButton) findViewById(R.id.dplus);
+        buttonplusdebut.setOnClickListener(new OnClickListener() {
+        	@Override public void onClick(View v) {
+        		if(seekBar_debut.getProgress()<seekBar_debut.getMax() && seekBar_debut.getProgress()<seekBar_fin.getProgress()){
+        			seekBar_debut.setProgress(seekBar_debut.getProgress()+1000);
+        		}      		
+        	}
+        });  
+        
+        //moins fin
+        ImageButton buttonmoinsfin = (ImageButton) findViewById(R.id.fmoins);
+        buttonmoinsfin.setOnClickListener(new OnClickListener() {
+        	@Override public void onClick(View v) {
+        		if(seekBar_fin.getProgress()>seekBar_debut.getProgress() && seekBar_fin.getProgress()>0){
+        			seekBar_fin.setProgress(seekBar_fin.getProgress()-1000);
+        		}      		
+        	}
+        });     
+        
+        //plus fin
+        ImageButton buttonplusfin = (ImageButton) findViewById(R.id.fplus);
+        buttonplusfin.setOnClickListener(new OnClickListener() {
+        	@Override public void onClick(View v) {
+        		if(seekBar_fin.getProgress()<seekBar_fin.getMax()){
+        			seekBar_fin.setProgress(seekBar_fin.getProgress()+1000);
+        		}      		
+        	}
+        });        
+    }
+    
+    public void openDossierMusic(View v)
+	{
+		Intent intent = new Intent(getApplicationContext(),MusicListActivity.class);
+		startActivity(intent);
+	}
+    
+    public void openEqualizer(View v){
+    	Intent intentTonalite = new Intent();
+    	intentTonalite.setClassName("fr.unice.aap", "fr.unice.aap.EqualizerActivity");
+    	startActivity(intentTonalite);
+    }
+    
+    public void onOffLoop(View v){
+    	if (isLoop) {
+            buttonLoop.setBackgroundResource(R.drawable.loop);  
+            isLoop = false;
+        }else {
+        	buttonLoop.setBackgroundResource(R.drawable.loopclick);  
+        	isLoop = true;
+        }
     }
     
     private void createProgressThread() {
@@ -240,8 +237,9 @@ public class AAP extends Activity {
                         	//IMPLEMENTATION DE LA BOUCLE
                         	//=> pour l'instant, codé en dur 
                         	//(arrivé a la seconde 5 ou plus, la musique redemare à la seconde 1)
-                        	//Afficher des "bares" deplacable pour faire ca dynamiquement !!
-                        	if(mPlayer.getCurrentPosition() >= 5000){mPlayer.seekTo(1000);}
+                        	if(isLoop){
+                        		if(mPlayer.getCurrentPosition() >= 5000){mPlayer.seekTo(1000);}
+                        	}
                         }
                         catch(Exception e)
                         {}
@@ -259,6 +257,23 @@ public class AAP extends Activity {
         thread_music.start();
     }
 
+    private void initSeekBarMusic()
+    {
+    	//seekbar_music
+    	seekBar_Music.setMax(mPlayer.getDuration()); 
+    	seekBar_Music.setProgress(0);              
+    	//seekbar_debut
+    	seekBar_debut.setMax(mPlayer.getDuration());
+    	seekBar_debut.setProgress(0);
+    	//seekbar_fin
+    	seekBar_fin.setMax(mPlayer.getDuration());
+    	seekBar_fin.setProgress(seekBar_fin.getMax());
+    	//textView position
+    	((TextView)findViewById(R.id.position)).setText("00:00");
+    	//textView duree
+        ((TextView)findViewById(R.id.duree)).setText(heureToString(mPlayer.getDuration()));
+    }
+    
     private String heureToString(int ms)
     {
 		int reste = ms/1000;
@@ -298,7 +313,8 @@ public class AAP extends Activity {
  
         //On affecte un bouton "OK" à notre AlertDialog et on lui affecte un évènement
         alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {       
+            public void onClick(DialogInterface dialog, int which) { 
+            	//((EditText)findViewById(R.id.EditText01)).getText().toString();
           } });
         
         alert.setNegativeButton("annuler", new DialogInterface.OnClickListener() {
@@ -306,5 +322,23 @@ public class AAP extends Activity {
           } });
  
         alert.show();
+    }
+    
+    /* Creates the menu items */
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(0, 1, 0, "Quit").setIcon(R.drawable.quit);
+        return true;
+    }
+
+    /* Handles item selections */
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case 1:
+            finish();
+            System.exit(0);
+            return true;
+            default :
+            	return false;
+        }
     }
 }
