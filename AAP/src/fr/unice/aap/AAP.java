@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -20,6 +21,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -41,6 +43,16 @@ public class AAP extends Activity {
 	private Boolean isPlay = false;
 	private Boolean isLoop = false;
 	private Boolean onTouchSeekBarMusic = false;
+	private Boolean down = false;
+	private actionClicProlonge action;
+	private Thread clicProlonge;
+	
+	private enum actionClicProlonge{
+		debutmoins,
+		debutplus,
+		finmoins,
+		finplus
+	}
 	
     /** Called when the activity is first created. */
     @Override
@@ -108,9 +120,7 @@ public class AAP extends Activity {
 						buttonPlayStop.setBackgroundResource(R.drawable.pauseclick);						
 						break; 
 					case MotionEvent.ACTION_UP: 
-						buttonPlayStop.setBackgroundResource(R.drawable.play);
-						mPlayer.pause();
-						isPlay = false;
+						pause();
 						break; 
 					}
 				}else{
@@ -119,14 +129,7 @@ public class AAP extends Activity {
 						buttonPlayStop.setBackgroundResource(R.drawable.playclick);
 						break; 
 					case MotionEvent.ACTION_UP: 
-						buttonPlayStop.setBackgroundResource(R.drawable.pause);
-						try{
-				            mPlayer.start();
-				        }catch (IllegalStateException e) {
-				            mPlayer.pause();
-				            isPlay = false;
-				        }
-						isPlay = true;
+						play();
 						break; 
 					}
 				}						
@@ -158,45 +161,159 @@ public class AAP extends Activity {
             }
         });               
         
+        //bouton debut
+        ImageButton buttonloopdebut = (ImageButton) findViewById(R.id.loopdebut);
+        buttonloopdebut.setOnClickListener(new OnClickListener() {
+      	@Override public void onClick(View v) {
+      		FrameLayout frame = (FrameLayout) findViewById(R.id.FrameLayout05);
+      		if(frame.getVisibility() == FrameLayout.VISIBLE){
+      			frame.setVisibility(FrameLayout.INVISIBLE);
+      		}else{
+      			frame.setVisibility(FrameLayout.VISIBLE);
+      		}
+      	}
+      }); 
+        
+      //bouton fin
+        ImageButton buttonloopfin = (ImageButton) findViewById(R.id.loopfin);
+        buttonloopfin.setOnClickListener(new OnClickListener() {
+      	@Override public void onClick(View v) {
+      		FrameLayout frame = (FrameLayout) findViewById(R.id.FrameLayout06);
+      		if(frame.getVisibility() == FrameLayout.VISIBLE){
+      			frame.setVisibility(FrameLayout.INVISIBLE);
+      		}else{
+      			frame.setVisibility(FrameLayout.VISIBLE);
+      		}
+      	}
+      }); 
+        
         //moins debut
-        ImageButton buttonmoinsdebut = (ImageButton) findViewById(R.id.dmoins);
-        buttonmoinsdebut.setOnClickListener(new OnClickListener() {
-        	@Override public void onClick(View v) {
-        		if(seekBar_debut.getProgress()>0){
-        			seekBar_debut.setProgress(seekBar_debut.getProgress()-1000);
-        		}      		
-        	}
-        });        
+        ImageButton buttonmoinsdebut = (ImageButton) findViewById(R.id.debutmoins);      
+        buttonmoinsdebut.setOnTouchListener( new OnTouchListener() {			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {									
+					if(event.getAction() == MotionEvent.ACTION_DOWN){
+						down = true;
+						action = actionClicProlonge.debutmoins;
+						threadClicProlonge();
+						
+					}
+					if(event.getAction() == MotionEvent.ACTION_UP){
+						down = false;
+					}						
+					return true;						
+			}
+		});         
         
         //plus debut
-        ImageButton buttonplusdebut = (ImageButton) findViewById(R.id.dplus);
-        buttonplusdebut.setOnClickListener(new OnClickListener() {
-        	@Override public void onClick(View v) {
-        		if(seekBar_debut.getProgress()<seekBar_debut.getMax() && seekBar_debut.getProgress()<seekBar_fin.getProgress()){
-        			seekBar_debut.setProgress(seekBar_debut.getProgress()+1000);
-        		}      		
-        	}
-        });  
+        ImageButton buttonplusdebut = (ImageButton) findViewById(R.id.debutplus);
+        buttonplusdebut.setOnTouchListener( new OnTouchListener() {			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {									
+					if(event.getAction() == MotionEvent.ACTION_DOWN){
+						down = true;
+						action = actionClicProlonge.debutplus;
+						threadClicProlonge();
+						
+					}
+					if(event.getAction() == MotionEvent.ACTION_UP){
+						down = false;
+					}						
+					return true;						
+			}
+		}); 
         
         //moins fin
-        ImageButton buttonmoinsfin = (ImageButton) findViewById(R.id.fmoins);
-        buttonmoinsfin.setOnClickListener(new OnClickListener() {
-        	@Override public void onClick(View v) {
-        		if(seekBar_fin.getProgress()>seekBar_debut.getProgress() && seekBar_fin.getProgress()>0){
-        			seekBar_fin.setProgress(seekBar_fin.getProgress()-1000);
-        		}      		
-        	}
-        });     
+        ImageButton buttonmoinsfin = (ImageButton) findViewById(R.id.finmoins);
+        buttonmoinsfin.setOnTouchListener( new OnTouchListener() {			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {									
+					if(event.getAction() == MotionEvent.ACTION_DOWN){
+						down = true;
+						action = actionClicProlonge.finmoins;
+						threadClicProlonge();
+						
+					}
+					if(event.getAction() == MotionEvent.ACTION_UP){
+						down = false;
+					}						
+					return true;						
+			}
+		}); 
         
         //plus fin
-        ImageButton buttonplusfin = (ImageButton) findViewById(R.id.fplus);
-        buttonplusfin.setOnClickListener(new OnClickListener() {
+        ImageButton buttonplusfin = (ImageButton) findViewById(R.id.finplus);
+        buttonplusfin.setOnTouchListener( new OnTouchListener() {			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {									
+					if(event.getAction() == MotionEvent.ACTION_DOWN){
+						down = true;
+						action = actionClicProlonge.finplus;
+						threadClicProlonge();
+						
+					}
+					if(event.getAction() == MotionEvent.ACTION_UP){
+						down = false;
+					}						
+					return true;						
+			}
+		}); 
+        
+        
+      //bouton stop
+        ImageButton buttonstop = (ImageButton) findViewById(R.id.stop);
+        buttonstop.setOnClickListener(new OnClickListener() {
         	@Override public void onClick(View v) {
-        		if(seekBar_fin.getProgress()<seekBar_fin.getMax()){
-        			seekBar_fin.setProgress(seekBar_fin.getProgress()+1000);
-        		}      		
+        		   pause();
+        		   //definir position seekbar
+        		   //premier click retour debut loop
+        		   if(seekBar_Music.getProgress() > seekBar_debut.getProgress()){
+        			   seekBar_Music.setProgress(seekBar_debut.getProgress());
+        			   mPlayer.seekTo(seekBar_debut.getProgress());
+        		   }
+        		   //deuxieme click retour debut chanson
+        		   else{
+        			   mPlayer.seekTo(0);
+        			   seekBar_Music.setProgress(0);
+        		   }
+        		   //textView position
+        	    	((TextView)findViewById(R.id.position)).setText(heureToString(mPlayer.getCurrentPosition()));
         	}
-        });        
+        });
+        
+        //musique suivante
+        ImageButton buttonsuivante = (ImageButton) findViewById(R.id.next);
+        buttonsuivante.setOnClickListener(new OnClickListener() {
+      	@Override public void onClick(View v) {
+      		//TODO musique suivante
+      	}
+        }); 
+        
+        //musique precedente
+        ImageButton buttonprecedente = (ImageButton) findViewById(R.id.previous);
+        buttonprecedente.setOnClickListener(new OnClickListener() {
+      	@Override public void onClick(View v) {
+      		//TODO musique precedente
+      	}
+        }); 
+        
+    }
+    
+    public void play(){
+    	buttonPlayStop.setBackgroundResource(R.drawable.pause);
+		try{
+            mPlayer.start();
+        }catch (IllegalStateException e) {
+            mPlayer.pause();
+            isPlay = false;
+        }
+		isPlay = true;
+    }
+    
+    public void pause(){
+    	buttonPlayStop.setBackgroundResource(R.drawable.play);
+		mPlayer.pause();
+		isPlay = false;
     }
     
     public void openDossierMusic(View v)
@@ -219,6 +336,44 @@ public class AAP extends Activity {
         	buttonLoop.setBackgroundResource(R.drawable.loopclick);  
         	isLoop = true;
         }
+    }
+    
+    private void threadClicProlonge() {
+
+        Runnable _progress = new Runnable() {
+            @Override
+            public void run() {
+            	while(down)
+            	{           		
+            		if(action == actionClicProlonge.debutmoins) {
+						if(seekBar_debut.getProgress()>0){
+		        			seekBar_debut.setProgress(seekBar_debut.getProgress()-1000);
+		        		} 
+            		}else if(action == actionClicProlonge.debutplus){
+            			if(seekBar_debut.getProgress()<seekBar_debut.getMax() && seekBar_debut.getProgress()<seekBar_fin.getProgress()){
+                			seekBar_debut.setProgress(seekBar_debut.getProgress()+1000);
+                		}
+            		}else if(action == actionClicProlonge.finmoins){
+            			if(seekBar_fin.getProgress()>seekBar_debut.getProgress() && seekBar_fin.getProgress()>0){
+                			seekBar_fin.setProgress(seekBar_fin.getProgress()-1000);
+                		} 
+            		}else if(action == actionClicProlonge.finplus){
+            			if(seekBar_fin.getProgress()<seekBar_fin.getMax()){
+                			seekBar_fin.setProgress(seekBar_fin.getProgress()+1000);
+                		}
+            		}
+            		
+                    try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+                }
+            }
+        };        
+        clicProlonge = new Thread(_progress);
+        clicProlonge.start();
     }
     
     private void createProgressThread() {
