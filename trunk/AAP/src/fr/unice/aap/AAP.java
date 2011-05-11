@@ -1,7 +1,5 @@
 package fr.unice.aap;
 
-import java.io.IOException;
-
 import fr.unice.aap.musics.MusicListActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -10,10 +8,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,11 +26,8 @@ import android.widget.TextView;
 public class AAP extends Activity {
 	
 	private static AAP activity = null;
-	private ImageButton btnDossier;
-	private ImageButton btnAlbum;
 	private ImageButton buttonPlayStop;
 	private ImageButton buttonLoop;
-	private ImageButton buttonTonalite;
 	private SeekBar seekBar_Music;
 	private SeekBar seekBar_debut;
 	private SeekBar seekBar_fin;
@@ -102,20 +95,6 @@ public class AAP extends Activity {
     	//----------------- evenements sur les boutons -----------------------------   	
     	
     	buttonLoop = (ImageButton) findViewById(R.id.loop);
-    	
-    	// Bouton album
-//    	btnAlbum = (ImageButton)findViewById(R.id.btnAlbum);
-//    	btnAlbum.setOnTouchListener(new OnTouchListener() {
-//			@Override
-//			public boolean onTouch(View v, MotionEvent event) {
-////				Intent intent = new Intent(getApplicationContext(),MusicListActivity.class);
-////				
-////				Bundle bundle = new Bundle();
-////				bundle.putInt(MediaMetadataRetriever.METADATA_KEY_ALBUM,mPlayer.);
-////				startActivity(intent);
-//			return true;
-//			}
-//		});
     	
     	//play/pause
     	buttonPlayStop = (ImageButton) findViewById(R.id.playPause);
@@ -306,6 +285,10 @@ public class AAP extends Activity {
       	}
         }); 
         
+        
+        //ouvrir directement la liste des musiques
+        Intent intent = new Intent(getApplicationContext(),MusicListActivity.class);
+		startActivity(intent);
     }
     
     public void play(){
@@ -455,38 +438,9 @@ public class AAP extends Activity {
 		}		
 		return texte;
     }
-    
-    public void menuLoop(){
-    	//On instancie notre layout en tant que View
-        LayoutInflater factory = LayoutInflater.from(this);
-        final View alertDialogView = factory.inflate(R.layout.paramloop, null);
- 
-        //Création de l'AlertDialog
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
- 
-        //On affecte la vue personnalisé que l'on a crée à notre AlertDialog
-        alert.setView(alertDialogView);
- 
-        //On donne un titre à l'AlertDialog
-        alert.setTitle("personnaliser la boucle");
- 
-        //On modifie l'icône de l'AlertDialog pour le fun ;)
-        alert.setIcon(android.R.drawable.btn_star);
- 
-        //On affecte un bouton "OK" à notre AlertDialog et on lui affecte un évènement
-        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) { 
-            	//((EditText)findViewById(R.id.EditText01)).getText().toString();
-          } });
-        
-        alert.setNegativeButton("annuler", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {       
-          } });
- 
-        alert.show();
-    }
-    
-    /* Creates the menu items */
+
+    /* Creates the menu items 
+     * quand on clique sur le bouton menu du telephone*/
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(0, 1, 0, "Quit").setIcon(R.drawable.quit);
         return true;
