@@ -29,7 +29,7 @@ import android.widget.TextView;
 
 public class AAP extends Activity {
 	
-	private static AAP activity;
+	private static AAP activity = null;
 	private ImageButton btnDossier;
 	private ImageButton btnAlbum;
 	private ImageButton buttonPlayStop;
@@ -40,7 +40,7 @@ public class AAP extends Activity {
 	private SeekBar seekBar_fin;
 	public static MediaPlayer mPlayer;
 	private Thread thread_music;
-	private Boolean isPlay = false;
+	private static Boolean isPlay = false;
 	private Boolean isLoop = false;
 	private Boolean onTouchSeekBarMusic = false;
 	private Boolean down = false;
@@ -59,7 +59,6 @@ public class AAP extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        activity = this;
         initEven();    
         createProgressThread();
     }
@@ -69,22 +68,32 @@ public class AAP extends Activity {
 	    	mPlayer.stop();
 	    	mPlayer.seekTo(0);
 	    	mPlayer.release();
+	    	activity.play();
     	}
     	mPlayer = MediaPlayer.create(p_appContext,p_rawId);
     }
     
-    public static void setSong(Context p_appContext, Uri p_uri) {
+    public static void setSong(Context p_appContext, Uri p_uri, String artiste, String chanson) {
+    	Boolean pl = false;
     	if(mPlayer != null) {
+    		if(isPlay){
+    			pl = true;
+    			activity.pause();  
+    		}
             mPlayer.stop();
             mPlayer.seekTo(0);
             mPlayer.release();
     	}
     	mPlayer = MediaPlayer.create(p_appContext,p_uri); 
     	activity.initSeekBarMusic();
+    	if(pl)
+    		activity.play();
+    	((TextView)activity.findViewById(R.id.titre)).setText(chanson + System.getProperty("line.separator") + artiste);
     }
     
     private void initEven()
-    {     	
+    {   
+    	activity = this;
     	setSong(this, R.raw.testsong);
     	System.out.println("ARTISTE = " + MediaStore.Audio.Artists.ARTIST);
     	
@@ -194,7 +203,7 @@ public class AAP extends Activity {
 			public boolean onTouch(View v, MotionEvent event) {									
 					if(event.getAction() == MotionEvent.ACTION_DOWN){
 						down = true;
-						action = actionClicProlonge.debutmoins;
+						action = actionClicProlonge.debutmoins;						
 						threadClicProlonge();
 						
 					}
@@ -212,7 +221,7 @@ public class AAP extends Activity {
 			public boolean onTouch(View v, MotionEvent event) {									
 					if(event.getAction() == MotionEvent.ACTION_DOWN){
 						down = true;
-						action = actionClicProlonge.debutplus;
+						action = actionClicProlonge.debutplus;						
 						threadClicProlonge();
 						
 					}
@@ -230,7 +239,7 @@ public class AAP extends Activity {
 			public boolean onTouch(View v, MotionEvent event) {									
 					if(event.getAction() == MotionEvent.ACTION_DOWN){
 						down = true;
-						action = actionClicProlonge.finmoins;
+						action = actionClicProlonge.finmoins;					
 						threadClicProlonge();
 						
 					}
@@ -248,7 +257,7 @@ public class AAP extends Activity {
 			public boolean onTouch(View v, MotionEvent event) {									
 					if(event.getAction() == MotionEvent.ACTION_DOWN){
 						down = true;
-						action = actionClicProlonge.finplus;
+						action = actionClicProlonge.finplus;						
 						threadClicProlonge();
 						
 					}
@@ -317,7 +326,7 @@ public class AAP extends Activity {
     }
     
     public void openDossierMusic(View v)
-	{
+	{   
 		Intent intent = new Intent(getApplicationContext(),MusicListActivity.class);
 		startActivity(intent);
 	}
@@ -344,26 +353,25 @@ public class AAP extends Activity {
             @Override
             public void run() {
             	while(down)
-            	{           		
-            		if(action == actionClicProlonge.debutmoins) {
-						if(seekBar_debut.getProgress()>0){
-		        			seekBar_debut.setProgress(seekBar_debut.getProgress()-1000);
-		        		} 
-            		}else if(action == actionClicProlonge.debutplus){
-            			if(seekBar_debut.getProgress()<seekBar_debut.getMax() && seekBar_debut.getProgress()<seekBar_fin.getProgress()){
-                			seekBar_debut.setProgress(seekBar_debut.getProgress()+1000);
-                		}
-            		}else if(action == actionClicProlonge.finmoins){
-            			if(seekBar_fin.getProgress()>seekBar_debut.getProgress() && seekBar_fin.getProgress()>0){
-                			seekBar_fin.setProgress(seekBar_fin.getProgress()-1000);
-                		} 
-            		}else if(action == actionClicProlonge.finplus){
-            			if(seekBar_fin.getProgress()<seekBar_fin.getMax()){
-                			seekBar_fin.setProgress(seekBar_fin.getProgress()+1000);
-                		}
-            		}
-            		
-                    try {
+            	{   
+            		try {
+	            		if(action == actionClicProlonge.debutmoins) {
+							if(seekBar_debut.getProgress()>0){
+			        			seekBar_debut.setProgress(seekBar_debut.getProgress()-1000);		        			
+			        		} 
+	            		}else if(action == actionClicProlonge.debutplus){
+	            			if(seekBar_debut.getProgress()<seekBar_debut.getMax() && seekBar_debut.getProgress()<seekBar_fin.getProgress()){
+	                			seekBar_debut.setProgress(seekBar_debut.getProgress()+1000); 			
+	                		}
+	            		}else if(action == actionClicProlonge.finmoins){
+	            			if(seekBar_fin.getProgress()>seekBar_debut.getProgress() && seekBar_fin.getProgress()>0){
+	                			seekBar_fin.setProgress(seekBar_fin.getProgress()-1000);               			
+	                		} 
+	            		}else if(action == actionClicProlonge.finplus){
+	            			if(seekBar_fin.getProgress()<seekBar_fin.getMax()){
+	                			seekBar_fin.setProgress(seekBar_fin.getProgress()+1000);                			
+	                		}
+	            		}           			            		
 						Thread.sleep(100);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
@@ -388,12 +396,11 @@ public class AAP extends Activity {
                         {
                         	seekBar_Music.setProgress(mPlayer.getCurrentPosition()); 
                         	((TextView)findViewById(R.id.position)).setText(heureToString(mPlayer.getCurrentPosition()));
-                        	Log.i("INFO", mPlayer.getCurrentPosition()+" <=");
                         	//IMPLEMENTATION DE LA BOUCLE
                         	//=> pour l'instant, codé en dur 
                         	//(arrivé a la seconde 5 ou plus, la musique redemare à la seconde 1)
                         	if(isLoop){
-                        		if(mPlayer.getCurrentPosition() >= 5000){mPlayer.seekTo(1000);}
+                        		if(mPlayer.getCurrentPosition() >= 5000){mPlayer.seekTo(0);}
                         	}
                         }
                         catch(Exception e)

@@ -13,6 +13,7 @@ import android.app.ListActivity;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -133,7 +134,9 @@ public class AllSongsListActivity extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		if(position > -1) {
 			Uri uri = Uri.parse(((Map<String,String>)getListView().getItemAtPosition(position)).get(MusicListActivity.URI));
-			AAP.setSong(MusicListActivity.getParentContext(),uri);
+			String artiste = ((Map<String,String>)getListView().getItemAtPosition(position)).get(MusicListActivity.ARTIST);
+			String chanson = ((Map<String,String>)getListView().getItemAtPosition(position)).get(MusicListActivity.TITLE);
+			AAP.setSong(MusicListActivity.getParentContext(),uri, artiste, chanson);
 		}
 		this.finish();
 	}
