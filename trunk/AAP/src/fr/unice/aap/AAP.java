@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -39,6 +40,7 @@ public class AAP extends Activity {
 	private Boolean down = false;
 	private actionClicProlonge action;
 	private Thread clicProlonge;
+	private Handler mHandler = new Handler();
 	
 	private enum actionClicProlonge{
 		debutmoins,
@@ -53,7 +55,6 @@ public class AAP extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         initEven();    
-        createProgressThread();
     }
     
     public static void setSong(Context p_appContext, int p_rawId) {
@@ -295,6 +296,10 @@ public class AAP extends Activity {
     	buttonPlayStop.setBackgroundResource(R.drawable.pause);
 		try{
             mPlayer.start();
+            
+            mHandler.removeCallbacks(progressUpdater);
+            mHandler.postDelayed(progressUpdater, 1000);
+            
         }catch (IllegalStateException e) {
             mPlayer.pause();
             isPlay = false;
@@ -366,41 +371,23 @@ public class AAP extends Activity {
         clicProlonge = new Thread(_progress);
         clicProlonge.start();
     }
-    
-    private void createProgressThread() {
 
-        Runnable _progressUpdater = new Runnable() {
+        private Runnable progressUpdater = new Runnable() {
             @Override
             public void run() {
-            	while(true)
-            	{
                     if(isPlay && !onTouchSeekBarMusic) {
-                        try
-                        {
-                        	seekBar_Music.setProgress(mPlayer.getCurrentPosition()); 
-                        	((TextView)findViewById(R.id.position)).setText(heureToString(mPlayer.getCurrentPosition()));
-                        	//IMPLEMENTATION DE LA BOUCLE
-                        	//=> pour l'instant, codé en dur 
-                        	//(arrivé a la seconde 5 ou plus, la musique redemare à la seconde 1)
-                        	if(isLoop){
-                        		if(mPlayer.getCurrentPosition() >= 5000){mPlayer.seekTo(0);}
-                        	}
-                        }
-                        catch(Exception e)
-                        {}
-                        try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+                    	seekBar_Music.setProgress(mPlayer.getCurrentPosition()); 
+                    	((TextView)findViewById(R.id.position)).setText(heureToString(mPlayer.getCurrentPosition()));
+                    	//IMPLEMENTATION DE LA BOUCLE
+                    	//=> pour l'instant, codé en dur 
+                    	//(arrivé a la seconde 5 ou plus, la musique redemare à la seconde 1)
+                    	if(isLoop){
+                    		if(mPlayer.getCurrentPosition() >= 5000){mPlayer.seekTo(0);}
+                    	}                       
+						mHandler.postDelayed(this, 1000);
                     }
-                }
             }
         };
-        thread_music = new Thread(_progressUpdater);
-        thread_music.start();
-    }
 
     private void initSeekBarMusic()
     {
