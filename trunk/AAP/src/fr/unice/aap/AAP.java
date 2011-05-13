@@ -2,16 +2,13 @@ package fr.unice.aap;
 
 import fr.unice.aap.musics.MusicListActivity;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -33,7 +30,6 @@ public class AAP extends Activity {
 	private SeekBar seekBar_debut;
 	private SeekBar seekBar_fin;
 	public static MediaPlayer mPlayer;
-	private Thread thread_music;
 	private static Boolean isPlay = false;
 	private Boolean isLoop = false;
 	private Boolean onTouchSeekBarMusic = false;
@@ -41,6 +37,7 @@ public class AAP extends Activity {
 	private actionClicProlonge action;
 	private Thread clicProlonge;
 	private Handler mHandler = new Handler();
+	private Intent musicList;
 	
 	private enum actionClicProlonge{
 		debutmoins,
@@ -89,7 +86,7 @@ public class AAP extends Activity {
     {   
     	activity = this;
     	setSong(this, R.raw.testsong);
-    	System.out.println("ARTISTE = " + MediaStore.Audio.Artists.ARTIST);
+    	musicList = new Intent(getApplicationContext(),MusicListActivity.class);
     	
     	//remplir TextView avec titre et auteur de la chanson   	
     	
@@ -314,9 +311,8 @@ public class AAP extends Activity {
     }
     
     public void openDossierMusic(View v)
-	{   
-		Intent intent = new Intent(getApplicationContext(),MusicListActivity.class);
-		startActivity(intent);
+	{   		
+		startActivity(musicList);
 	}
     
     public void openEqualizer(View v){
@@ -345,11 +341,11 @@ public class AAP extends Activity {
             		try {
 	            		if(action == actionClicProlonge.debutmoins) {
 							if(seekBar_debut.getProgress()>0){
-			        			seekBar_debut.setProgress(seekBar_debut.getProgress()-1000);		        			
+			        			seekBar_debut.setProgress(seekBar_debut.getProgress()-1000);			      			
 			        		} 
 	            		}else if(action == actionClicProlonge.debutplus){
 	            			if(seekBar_debut.getProgress()<seekBar_debut.getMax() && seekBar_debut.getProgress()<seekBar_fin.getProgress()){
-	                			seekBar_debut.setProgress(seekBar_debut.getProgress()+1000); 			
+	                			seekBar_debut.setProgress(seekBar_debut.getProgress()+1000); 
 	                		}
 	            		}else if(action == actionClicProlonge.finmoins){
 	            			if(seekBar_fin.getProgress()>seekBar_debut.getProgress() && seekBar_fin.getProgress()>0){
@@ -362,7 +358,6 @@ public class AAP extends Activity {
 	            		}           			            		
 						Thread.sleep(100);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
                 }
@@ -383,7 +378,7 @@ public class AAP extends Activity {
                     	//(arrivé a la seconde 5 ou plus, la musique redemare à la seconde 1)
                     	if(isLoop){
                     		if(mPlayer.getCurrentPosition() >= 5000){mPlayer.seekTo(0);}
-                    	}                       
+                    	}                                       	
 						mHandler.postDelayed(this, 1000);
                     }
             }
