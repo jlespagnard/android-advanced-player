@@ -1,5 +1,6 @@
 package fr.unice.aap;
 
+import fr.unice.aap.musics.AllSongsListActivity;
 import fr.unice.aap.musics.MusicListActivity;
 import android.app.Activity;
 import android.content.Context;
@@ -8,7 +9,6 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -38,6 +38,7 @@ public class AAP extends Activity {
 	private Thread clicProlonge;
 	private Handler mHandler = new Handler();
 	private Intent musicList;
+	public static AllSongsListActivity AllSongList = null;
 	
 	private enum actionClicProlonge{
 		debutmoins,
@@ -79,6 +80,7 @@ public class AAP extends Activity {
     	activity.initSeekBarMusic();
     	if(pl)
     		activity.play();
+    	
     	((TextView)activity.findViewById(R.id.titre)).setText(chanson + System.getProperty("line.separator") + artiste);
     }
     
@@ -268,25 +270,25 @@ public class AAP extends Activity {
         });
         
         //musique suivante
-        ImageButton buttonsuivante = (ImageButton) findViewById(R.id.next);
+        ImageButton buttonsuivante = (ImageButton) findViewById(R.id.next2);
         buttonsuivante.setOnClickListener(new OnClickListener() {
       	@Override public void onClick(View v) {
-      		//TODO musique suivante
+      		if(AllSongList != null)
+      			AllSongList.nextSong();
       	}
         }); 
         
         //musique precedente
-        ImageButton buttonprecedente = (ImageButton) findViewById(R.id.previous);
+        ImageButton buttonprecedente = (ImageButton) findViewById(R.id.previous2);
         buttonprecedente.setOnClickListener(new OnClickListener() {
       	@Override public void onClick(View v) {
-      		//TODO musique precedente
+      		if(AllSongList != null)
+      			AllSongList.previousSong();
       	}
-        }); 
+        });        
         
-        
-        //ouvrir directement la liste des musiques
-        Intent intent = new Intent(getApplicationContext(),MusicListActivity.class);
-		startActivity(intent);
+        //ouvrir directement la liste des musiques        
+		startActivity(musicList);
     }
     
     public void play(){

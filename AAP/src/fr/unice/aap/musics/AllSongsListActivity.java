@@ -19,10 +19,13 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 public class AllSongsListActivity extends ListActivity {
+	
+	public static int position = 0;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		AAP.AllSongList = this;
 		int metadataKey = -1;
 		String metadataValue = null;
 		if(getIntent() != null && getIntent().getExtras() != null) {
@@ -133,11 +136,38 @@ public class AllSongsListActivity extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		if(position > -1) {
+			AllSongsListActivity.position = position;
 			Uri uri = Uri.parse(((Map<String,String>)getListView().getItemAtPosition(position)).get(MusicListActivity.URI));
 			String artiste = ((Map<String,String>)getListView().getItemAtPosition(position)).get(MusicListActivity.ARTIST);
 			String chanson = ((Map<String,String>)getListView().getItemAtPosition(position)).get(MusicListActivity.TITLE);
 			AAP.setSong(MusicListActivity.getParentContext(),uri, artiste, chanson);
 		}
 		this.finish();
+	}
+	
+	public void nextSong(){
+		if(getListView().getCount() > 1){
+			if(AllSongsListActivity.position < getListView().getCount()-1){
+				AllSongsListActivity.position ++;				
+			}else{
+				AllSongsListActivity.position = 0;
+			}
+			Uri uri = Uri.parse(((Map<String,String>)getListView().getItemAtPosition(AllSongsListActivity.position)).get(MusicListActivity.URI));
+			String artiste = ((Map<String,String>)getListView().getItemAtPosition(AllSongsListActivity.position)).get(MusicListActivity.ARTIST);
+			String chanson = ((Map<String,String>)getListView().getItemAtPosition(AllSongsListActivity.position)).get(MusicListActivity.TITLE);
+			AAP.setSong(MusicListActivity.getParentContext(),uri, artiste, chanson);
+		}
+	}
+	
+	public void previousSong(){
+		if(AllSongsListActivity.position > 0 && getListView().getCount() > 1){
+			AllSongsListActivity.position --;			
+		}else{
+			AllSongsListActivity.position = getListView().getCount()-1;
+		}
+		Uri uri = Uri.parse(((Map<String,String>)getListView().getItemAtPosition(AllSongsListActivity.position)).get(MusicListActivity.URI));
+		String artiste = ((Map<String,String>)getListView().getItemAtPosition(AllSongsListActivity.position)).get(MusicListActivity.ARTIST);
+		String chanson = ((Map<String,String>)getListView().getItemAtPosition(AllSongsListActivity.position)).get(MusicListActivity.TITLE);
+		AAP.setSong(MusicListActivity.getParentContext(),uri, artiste, chanson);
 	}
 }

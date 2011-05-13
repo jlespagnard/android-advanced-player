@@ -38,6 +38,7 @@ public class MusicListActivity extends ListActivity {
 	private static List<File> musicFiles = null;
 	private static Map<Integer,List<String>> mediaMetadatas = null;
 	private static Context parentContext = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
