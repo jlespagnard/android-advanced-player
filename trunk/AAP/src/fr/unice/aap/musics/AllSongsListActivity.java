@@ -10,6 +10,7 @@ import fr.unice.aap.AAP;
 import fr.unice.aap.R;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
@@ -142,7 +143,7 @@ public class AllSongsListActivity extends ListActivity {
 			String chanson = ((Map<String,String>)getListView().getItemAtPosition(position)).get(MusicListActivity.TITLE);
 			AAP.setSong(MusicListActivity.getParentContext(),uri, artiste, chanson);
 		}
-		this.finish();
+		this.finish();		
 	}
 	
 	public void nextSong(){

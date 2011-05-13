@@ -73,6 +73,7 @@ public class MusicListActivity extends ListActivity {
 			
 			if(intent != null) {
 				startActivity(intent);
+				this.finish();
 			}
 		}
 	}
