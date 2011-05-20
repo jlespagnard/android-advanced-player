@@ -154,15 +154,19 @@ public class AAP extends Activity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {           	           	
             	if(btLoopDebutOn){
             		if(progress<seekBar_fin.getProgress()){
-            			seekBar_debut.setProgress(progress); 
+            			seekBar_debut.setProgress(progress);
+            			((TextView)findViewById(R.id.positiondebut)).setText(heureToString(progress));
             		}else{
             			seekBar.setProgress(seekBar_fin.getProgress()); 
+            			((TextView)findViewById(R.id.positiondebut)).setText(seekBar_fin.getProgress());
             		}
             	}else if(btLoopFinOn){
             		if(progress>seekBar_debut.getProgress()){
             			seekBar_fin.setProgress(progress);
+            			((TextView)findViewById(R.id.positionfin)).setText(heureToString(progress));
             		}else{
             			seekBar.setProgress(seekBar_debut.getProgress()); 
+            			((TextView)findViewById(R.id.positionfin)).setText(heureToString(seekBar_debut.getProgress()));
             		}
             	}
             }
@@ -323,6 +327,10 @@ public class AAP extends Activity {
     	((TextView)findViewById(R.id.position)).setText("00:00");
     	//textView duree
         ((TextView)findViewById(R.id.duree)).setText(heureToString(mPlayer.getDuration()));
+        //textView position debut
+    	((TextView)findViewById(R.id.positiondebut)).setText("00:00");
+    	//textView position fin
+        ((TextView)findViewById(R.id.positionfin)).setText(heureToString(mPlayer.getDuration()));
     }
     
     private String heureToString(int ms)
