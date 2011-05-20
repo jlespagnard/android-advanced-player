@@ -13,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -29,23 +28,16 @@ public class AAP extends Activity {
 	private SeekBar seekBar_Music;
 	private SeekBar seekBar_debut;
 	private SeekBar seekBar_fin;
+	private SeekBar seekBar_reglageLoop;
 	public static MediaPlayer mPlayer;
 	private static Boolean isPlay = false;
 	private Boolean isLoop = false;
 	private Boolean onTouchSeekBarMusic = false;
-	private Boolean down = false;
-	private actionClicProlonge action;
-	private Thread clicProlonge;
 	private Handler mHandler = new Handler();
 	private Intent musicList;
 	public static AllSongsListActivity AllSongList = null;
-	
-	private enum actionClicProlonge{
-		debutmoins,
-		debutplus,
-		finmoins,
-		finplus
-	}
+	public boolean btLoopDebutOn = false;
+	public boolean btLoopFinOn = false;
 	
     /** Called when the activity is first created. */
     @Override
@@ -129,6 +121,7 @@ public class AAP extends Activity {
         seekBar_Music = (SeekBar) findViewById(R.id.seekbar_music);
         seekBar_debut = (SeekBar) findViewById(R.id.seekbar_debut);
         seekBar_fin = (SeekBar) findViewById(R.id.seekbar_fin);
+        seekBar_reglageLoop = (SeekBar) findViewById(R.id.seekbar_reglageloop);  
         initSeekBarMusic();     
         seekBar_Music.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
        	 
@@ -147,146 +140,34 @@ public class AAP extends Activity {
             public void onProgressChanged(SeekBar seekBar, int progress,
                     boolean fromUser) {            	
             }
-        });               
-        
-        //bouton debut
-        ImageButton buttonloopdebut = (ImageButton) findViewById(R.id.loopdebut);
-        buttonloopdebut.setOnClickListener(new OnClickListener() {
-      	@Override public void onClick(View v) {
-      		FrameLayout frame = (FrameLayout) findViewById(R.id.FrameLayout05);
-      		if(frame.getVisibility() == FrameLayout.VISIBLE){
-      			frame.setVisibility(FrameLayout.INVISIBLE);
-      		}else{
-      			frame.setVisibility(FrameLayout.VISIBLE);
-      		}
-      	}
-      }); 
-        
-      //bouton fin
-        ImageButton buttonloopfin = (ImageButton) findViewById(R.id.loopfin);
-        buttonloopfin.setOnClickListener(new OnClickListener() {
-      	@Override public void onClick(View v) {
-      		FrameLayout frame = (FrameLayout) findViewById(R.id.FrameLayout06);
-      		if(frame.getVisibility() == FrameLayout.VISIBLE){
-      			frame.setVisibility(FrameLayout.INVISIBLE);
-      		}else{
-      			frame.setVisibility(FrameLayout.VISIBLE);
-      		}
-      	}
-      }); 
-        
-        //moins debut
-        ImageButton buttonmoinsdebut = (ImageButton) findViewById(R.id.debutmoins);      
-        buttonmoinsdebut.setOnTouchListener( new OnTouchListener() {			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {									
-					if(event.getAction() == MotionEvent.ACTION_DOWN){
-						down = true;
-						action = actionClicProlonge.debutmoins;						
-						threadClicProlonge();
-						
-					}
-					if(event.getAction() == MotionEvent.ACTION_UP){
-						down = false;
-					}						
-					return true;						
-			}
-		});         
-        
-        //plus debut
-        ImageButton buttonplusdebut = (ImageButton) findViewById(R.id.debutplus);
-        buttonplusdebut.setOnTouchListener( new OnTouchListener() {			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {									
-					if(event.getAction() == MotionEvent.ACTION_DOWN){
-						down = true;
-						action = actionClicProlonge.debutplus;						
-						threadClicProlonge();
-						
-					}
-					if(event.getAction() == MotionEvent.ACTION_UP){
-						down = false;
-					}						
-					return true;						
-			}
-		}); 
-        
-        //moins fin
-        ImageButton buttonmoinsfin = (ImageButton) findViewById(R.id.finmoins);
-        buttonmoinsfin.setOnTouchListener( new OnTouchListener() {			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {									
-					if(event.getAction() == MotionEvent.ACTION_DOWN){
-						down = true;
-						action = actionClicProlonge.finmoins;					
-						threadClicProlonge();
-						
-					}
-					if(event.getAction() == MotionEvent.ACTION_UP){
-						down = false;
-					}						
-					return true;						
-			}
-		}); 
-        
-        //plus fin
-        ImageButton buttonplusfin = (ImageButton) findViewById(R.id.finplus);
-        buttonplusfin.setOnTouchListener( new OnTouchListener() {			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {									
-					if(event.getAction() == MotionEvent.ACTION_DOWN){
-						down = true;
-						action = actionClicProlonge.finplus;						
-						threadClicProlonge();
-						
-					}
-					if(event.getAction() == MotionEvent.ACTION_UP){
-						down = false;
-					}						
-					return true;						
-			}
-		}); 
-        
-        
-      //bouton stop
-        ImageButton buttonstop = (ImageButton) findViewById(R.id.stop);
-        buttonstop.setOnClickListener(new OnClickListener() {
-        	@Override public void onClick(View v) {
-        		   pause();
-        		   //definir position seekbar
-        		   //premier click retour debut loop
-        		   if(seekBar_Music.getProgress() > seekBar_debut.getProgress()){
-        			   seekBar_Music.setProgress(seekBar_debut.getProgress());
-        			   mPlayer.seekTo(seekBar_debut.getProgress());
-        		   }
-        		   //deuxieme click retour debut chanson
-        		   else{
-        			   mPlayer.seekTo(0);
-        			   seekBar_Music.setProgress(0);
-        		   }
-        		   //textView position
-        	    	((TextView)findViewById(R.id.position)).setText(heureToString(mPlayer.getCurrentPosition()));
-        	}
-        });
-        
-        //musique suivante
-        ImageButton buttonsuivante = (ImageButton) findViewById(R.id.next2);
-        buttonsuivante.setOnClickListener(new OnClickListener() {
-      	@Override public void onClick(View v) {
-      		if(AllSongList != null)
-      			AllSongList.nextSong();
-      	}
-        }); 
-        
-        //musique precedente
-        ImageButton buttonprecedente = (ImageButton) findViewById(R.id.previous2);
-        buttonprecedente.setOnClickListener(new OnClickListener() {
-      	@Override public void onClick(View v) {
-      		if(AllSongList != null)
-      			AllSongList.previousSong();
-      	}
-        });        
-        
+        });           
+          
+        seekBar_reglageLoop.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+       	 
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+ 
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+ 
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {           	           	
+            	if(btLoopDebutOn){
+            		if(progress<seekBar_fin.getProgress()){
+            			seekBar_debut.setProgress(progress); 
+            		}else{
+            			seekBar.setProgress(seekBar_fin.getProgress()); 
+            		}
+            	}else if(btLoopFinOn){
+            		if(progress>seekBar_debut.getProgress()){
+            			seekBar_fin.setProgress(progress);
+            		}else{
+            			seekBar.setProgress(seekBar_debut.getProgress()); 
+            		}
+            	}
+            }
+        });      
+                
         //ouvrir directement la liste des musiques        
 		startActivity(musicList);
     }
@@ -317,6 +198,79 @@ public class AAP extends Activity {
 		startActivity(musicList);
 	}
     
+    //musique suivante
+    public void musiqueSuivante(View v) {
+  		if(AllSongList != null)
+  			AllSongList.nextSong();
+  	}           
+    
+    //musique precedente
+    public void musiquePrecedente(View v) {
+  		if(AllSongList != null)
+  			AllSongList.previousSong();
+  	}      
+  
+  //bouton debut
+    public void loopDebut(View v) {
+  		ImageButton bouton = (ImageButton) findViewById(R.id.loopdebut);
+  		FrameLayout frame = (FrameLayout) findViewById(R.id.FrameLayout05);
+  		if(!btLoopDebutOn){
+  			//reglage debut
+  			btLoopDebutOn = true;
+  			bouton.setBackgroundResource(R.drawable.boutondebutclick);
+  			if(btLoopFinOn){
+  				btLoopFinOn = false;
+  				((ImageButton)findViewById(R.id.loopfin)).setBackgroundResource(R.drawable.boutonfin);
+  			}
+  			seekBar_reglageLoop.setProgress(seekBar_debut.getProgress());
+  			if(frame.getVisibility() == FrameLayout.INVISIBLE)
+                frame.setVisibility(FrameLayout.VISIBLE);
+  		}else{
+  			btLoopDebutOn = false;
+  			bouton.setBackgroundResource(R.drawable.boutondebut);
+  			frame.setVisibility(FrameLayout.INVISIBLE);
+  		} 		
+  	} 
+    
+  //bouton fin
+    public void loopFin(View v) {
+    	
+    	ImageButton bouton = (ImageButton) findViewById(R.id.loopfin);
+    	FrameLayout frame = (FrameLayout) findViewById(R.id.FrameLayout05);
+  		if(!btLoopFinOn){
+  			btLoopFinOn = true;
+  			bouton.setBackgroundResource(R.drawable.boutonfinclick);
+  			if(btLoopDebutOn){
+  				btLoopDebutOn = false;
+  				((ImageButton)findViewById(R.id.loopdebut)).setBackgroundResource(R.drawable.boutondebut);
+  			}
+  			seekBar_reglageLoop.setProgress(seekBar_fin.getProgress());
+  			if(frame.getVisibility() == FrameLayout.INVISIBLE)
+                frame.setVisibility(FrameLayout.VISIBLE);
+  		}else{
+  			btLoopFinOn = false;
+  			bouton.setBackgroundResource(R.drawable.boutonfin);
+  			frame.setVisibility(FrameLayout.INVISIBLE);
+  		}
+  	}
+    
+    public void stop(View v) {
+		   pause();
+		   //definir position seekbar
+		   //premier click retour debut loop
+		   if(seekBar_Music.getProgress() > seekBar_debut.getProgress()){
+			   seekBar_Music.setProgress(seekBar_debut.getProgress());
+			   mPlayer.seekTo(seekBar_debut.getProgress());
+		   }
+		   //deuxieme click retour debut chanson
+		   else{
+			   mPlayer.seekTo(0);
+			   seekBar_Music.setProgress(0);
+		   }
+		   //textView position
+	    	((TextView)findViewById(R.id.position)).setText(heureToString(mPlayer.getCurrentPosition()));
+	}
+    
     public void openEqualizer(View v){
     	Intent intentTonalite = new Intent();
     	intentTonalite.setClassName("fr.unice.aap", "fr.unice.aap.EqualizerActivity");
@@ -332,60 +286,25 @@ public class AAP extends Activity {
         	isLoop = true;
         }
     }
-    
-    private void threadClicProlonge() {
-
-        Runnable _progress = new Runnable() {
-            @Override
-            public void run() {
-            	while(down)
-            	{   
-            		try {
-	            		if(action == actionClicProlonge.debutmoins) {
-							if(seekBar_debut.getProgress()>0){
-			        			seekBar_debut.setProgress(seekBar_debut.getProgress()-1000);			      			
-			        		} 
-	            		}else if(action == actionClicProlonge.debutplus){
-	            			if(seekBar_debut.getProgress()<seekBar_debut.getMax() && seekBar_debut.getProgress()<seekBar_fin.getProgress()){
-	                			seekBar_debut.setProgress(seekBar_debut.getProgress()+1000); 
-	                		}
-	            		}else if(action == actionClicProlonge.finmoins){
-	            			if(seekBar_fin.getProgress()>seekBar_debut.getProgress() && seekBar_fin.getProgress()>0){
-	                			seekBar_fin.setProgress(seekBar_fin.getProgress()-1000);               			
-	                		} 
-	            		}else if(action == actionClicProlonge.finplus){
-	            			if(seekBar_fin.getProgress()<seekBar_fin.getMax()){
-	                			seekBar_fin.setProgress(seekBar_fin.getProgress()+1000);                			
-	                		}
-	            		}           			            		
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+  	
+    private Runnable progressUpdater = new Runnable() {
+        @Override
+        public void run() {
+                if(isPlay && !onTouchSeekBarMusic) {
+                	seekBar_Music.setProgress(mPlayer.getCurrentPosition()); 
+                	((TextView)findViewById(R.id.position)).setText(heureToString(mPlayer.getCurrentPosition()));
+                	//IMPLEMENTATION DE LA BOUCLE
+                	//=> pour l'instant, codé en dur 
+                	//(arrivé a la seconde 5 ou plus, la musique redemare à la seconde 0)
+                	if(isLoop){
+                		if(mPlayer.getCurrentPosition() >= 5000){mPlayer.seekTo(0);}
+                	}                                       	
+					mHandler.postDelayed(this, 1000);
                 }
-            }
-        };        
-        clicProlonge = new Thread(_progress);
-        clicProlonge.start();
-    }
+        }
+    };
 
-        private Runnable progressUpdater = new Runnable() {
-            @Override
-            public void run() {
-                    if(isPlay && !onTouchSeekBarMusic) {
-                    	seekBar_Music.setProgress(mPlayer.getCurrentPosition()); 
-                    	((TextView)findViewById(R.id.position)).setText(heureToString(mPlayer.getCurrentPosition()));
-                    	//IMPLEMENTATION DE LA BOUCLE
-                    	//=> pour l'instant, codé en dur 
-                    	//(arrivé a la seconde 5 ou plus, la musique redemare à la seconde 1)
-                    	if(isLoop){
-                    		if(mPlayer.getCurrentPosition() >= 5000){mPlayer.seekTo(0);}
-                    	}                                       	
-						mHandler.postDelayed(this, 1000);
-                    }
-            }
-        };
-
+    
     private void initSeekBarMusic()
     {
     	//seekbar_music
@@ -397,6 +316,9 @@ public class AAP extends Activity {
     	//seekbar_fin
     	seekBar_fin.setMax(mPlayer.getDuration());
     	seekBar_fin.setProgress(seekBar_fin.getMax());
+    	//seekBar_reglageLoop
+    	seekBar_reglageLoop.setMax(mPlayer.getDuration());
+    	seekBar_reglageLoop.setProgress(0);
     	//textView position
     	((TextView)findViewById(R.id.position)).setText("00:00");
     	//textView duree

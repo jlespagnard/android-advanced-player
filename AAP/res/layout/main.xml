@@ -17,11 +17,11 @@
 
 <FrameLayout android:layout_width="fill_parent" android:id="@+id/FrameLayout04" android:layout_below="@id/AbsoluteLayout02" android:background="@drawable/fond2" android:layout_height="wrap_content">
 	<RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/RelativeLayout02" android:layout_gravity="center">
-		<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/loop" android:background="@drawable/loop" android:layout_marginRight="15dip" android:onClick="onOffLoop"></ImageButton>
-		<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/micro" android:layout_toRightOf="@id/loop" android:background="@drawable/buttonmicro" android:layout_marginRight="15dip"></ImageButton>
-		<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/note" android:background="@drawable/buttonnote" android:layout_toRightOf="@id/micro" android:layout_marginRight="15dip"></ImageButton>
-		<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/tonalite" android:background="@drawable/buttontonalite" android:layout_toRightOf="@id/note" android:layout_marginRight="15dip" android:onClick="openEqualizer"></ImageButton>
-		<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/enregistrer" android:background="@drawable/buttonenregistrer" android:layout_toRightOf="@id/tonalite"></ImageButton>
+		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/stop" android:background="@drawable/buttonstop" android:layout_centerVertical="true" android:layout_marginRight="25dip" android:onClick="stop"></ImageButton>
+		<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/tonalite" android:background="@drawable/buttontonalite" android:onClick="openEqualizer" android:layout_toRightOf="@id/stop" android:layout_marginRight="25dip" android:layout_centerVertical="true"></ImageButton>		
+		<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/loop" android:background="@drawable/loop" android:onClick="onOffLoop" android:layout_toRightOf="@id/tonalite" android:layout_marginRight="25dip" android:layout_centerVertical="true"></ImageButton>
+		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/loopdebut" android:background="@drawable/boutondebut" android:layout_toRightOf="@id/loop" android:layout_marginRight="25dip" android:onClick="loopDebut" android:layout_centerVertical="true"></ImageButton>
+		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/loopfin" android:background="@drawable/boutonfin" android:layout_toRightOf="@id/loopdebut" android:onClick="loopFin" android:layout_centerVertical="true"></ImageButton>		
 	</RelativeLayout>
 </FrameLayout>
 
@@ -30,35 +30,24 @@
 		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/next" android:background="@drawable/buttonnext" android:layout_y="16dip" android:layout_x="208dip"></ImageButton>
 		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/playPause" android:layout_y="5dip" android:background="@drawable/play" android:layout_x="100dip"></ImageButton>
 		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/previous" android:background="@drawable/buttonprevious" android:layout_x="0dip" android:layout_y="16dip"></ImageButton>
-		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/previous2" android:background="@drawable/buttonprevious2" android:layout_x="50dip" android:layout_y="14dip"></ImageButton>
-		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/next2" android:background="@drawable/buttonnext2" android:layout_y="14dip" android:layout_x="142dip"></ImageButton>
+		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/previous2" android:background="@drawable/buttonprevious2" android:layout_x="50dip" android:layout_y="14dip" android:onClick="musiquePrecedente"></ImageButton>
+		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/next2" android:background="@drawable/buttonnext2" android:layout_y="14dip" android:layout_x="142dip" android:onClick="musiqueSuivante"></ImageButton>
 	</AbsoluteLayout>
-<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="left|center" android:layout_margin="10dp" android:id="@+id/stop" android:background="@drawable/buttonstop"></ImageButton>
-
 </FrameLayout>
 
-<FrameLayout android:id="@+id/FrameLayout01" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_above="@id/FrameLayout02" android:background="@drawable/fond2" android:minHeight="80dp">
+<FrameLayout android:id="@+id/FrameLayout01" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_above="@id/FrameLayout02" android:background="@drawable/fond2">
 	<SeekBar android:max="100" android:layout_height="wrap_content" android:id="@+id/seekbar_debut" android:paddingRight="50dip" android:paddingLeft="50dip" android:layout_width="fill_parent" android:maxHeight="0px" android:thumb="@drawable/seekbar_thumbdebut" android:layout_gravity="bottom|center" android:layout_marginBottom="5dp" android:progress="0"></SeekBar>
 	<SeekBar android:max="100" android:layout_height="wrap_content" android:id="@+id/seekbar_fin" android:paddingRight="50dip" android:paddingLeft="50dip" android:layout_width="fill_parent" android:maxHeight="0px" android:thumb="@drawable/seekbar_thumbfin" android:layout_gravity="bottom|center" android:layout_marginBottom="5dp" android:progress="100"></SeekBar>
 	<SeekBar android:max="100" android:layout_height="wrap_content" android:id="@+id/seekbar_music" android:paddingRight="50dip" android:paddingLeft="50dip" android:layout_width="fill_parent" android:maxHeight="10dp" android:thumb="@drawable/seekbar_thumb" android:progressDrawable="@drawable/seekbar_fond" android:layout_gravity="bottom|center" android:layout_marginBottom="5dp"></SeekBar>
 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/duree" android:paddingRight="5dip" android:text="00:00" android:layout_gravity="right|bottom" android:layout_marginBottom="5dp"></TextView>
 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingLeft="5dip" android:id="@+id/position" android:text="00:00" android:layout_gravity="left|bottom" android:layout_marginBottom="5dp"></TextView>
-
-<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="top|left" android:id="@+id/loopdebut" android:background="@drawable/boutondebut" android:layout_marginTop="5dp" android:layout_marginLeft="5dp"></ImageButton>
-
-<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="top|right" android:id="@+id/loopfin" android:background="@drawable/boutonfin" android:layout_marginTop="5dp" android:layout_marginRight="5dp"></ImageButton>
-
 </FrameLayout>
 
-<FrameLayout android:layout_height="wrap_content" android:id="@+id/FrameLayout05" android:layout_width="wrap_content" android:layout_above="@+id/FrameLayout01" android:layout_alignParentLeft="true" android:background="@drawable/fond1" android:minHeight="70dp" android:minWidth="40dp" android:visibility="invisible">
-		<ImageButton android:layout_width="wrap_content" android:id="@+id/debutplus" android:background="@drawable/boutonplus" android:layout_height="wrap_content" android:layout_gravity="top|center_horizontal" android:layout_marginTop="5dp"></ImageButton>
-		<ImageButton android:layout_width="wrap_content" android:id="@+id/debutmoins" android:background="@drawable/boutonmoins" android:layout_height="wrap_content" android:layout_gravity="bottom|center_horizontal"></ImageButton>
+<FrameLayout android:id="@+id/FrameLayout05" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_above="@id/FrameLayout01" android:layout_marginBottom="5dp" android:visibility="invisible">
+	<SeekBar android:max="100" android:layout_height="wrap_content" android:id="@+id/seekbar_reglageloop" android:paddingRight="50dip" android:paddingLeft="50dip" android:layout_width="fill_parent" android:layout_gravity="bottom|center" android:maxHeight="3px" android:thumb="@drawable/seekbar_thumbreglageloop" android:progressDrawable="@drawable/seekbar_fond_loop" android:progress="0"></SeekBar>
 </FrameLayout>
 
-<FrameLayout android:layout_height="wrap_content" android:id="@+id/FrameLayout06" android:layout_width="wrap_content" android:layout_above="@+id/FrameLayout01" android:layout_alignParentRight="true" android:background="@drawable/fond1" android:minHeight="70dp" android:minWidth="40dp" android:visibility="invisible">
-		<ImageButton android:layout_width="wrap_content" android:id="@+id/finplus" android:background="@drawable/boutonplus" android:layout_height="wrap_content" android:layout_gravity="top|center_horizontal" android:layout_marginTop="5dp"></ImageButton>
-		<ImageButton android:layout_width="wrap_content" android:id="@+id/finmoins" android:background="@drawable/boutonmoins" android:layout_height="wrap_content" android:layout_gravity="bottom|center_horizontal"></ImageButton>
-</FrameLayout>
+
 
 </RelativeLayout>
 
