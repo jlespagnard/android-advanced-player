@@ -127,8 +127,10 @@ public class AAP extends Activity {
        	 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-            	mPlayer.seekTo(seekBar_Music.getProgress());
             	onTouchSeekBarMusic = false;
+            	mPlayer.seekTo(seekBar_Music.getProgress());
+            	mHandler.removeCallbacks(progressUpdater);
+                mHandler.postDelayed(progressUpdater, 0);
             }
  
             @Override
@@ -170,8 +172,8 @@ public class AAP extends Activity {
             		}
             	}
             }
-        });      
-                
+        });             
+		
         //ouvrir directement la liste des musiques        
 		startActivity(musicList);
     }
@@ -182,7 +184,7 @@ public class AAP extends Activity {
             mPlayer.start();
             
             mHandler.removeCallbacks(progressUpdater);
-            mHandler.postDelayed(progressUpdater, 1000);
+            mHandler.postDelayed(progressUpdater, 0);
             
         }catch (IllegalStateException e) {
             mPlayer.pause();
@@ -302,7 +304,8 @@ public class AAP extends Activity {
                 	//(arrivé a la seconde 5 ou plus, la musique redemare à la seconde 0)
                 	if(isLoop){
                 		if(mPlayer.getCurrentPosition() >= 5000){mPlayer.seekTo(0);}
-                	}                                       	
+                	}                	               	
+                	
 					mHandler.postDelayed(this, 1000);
                 }
         }
