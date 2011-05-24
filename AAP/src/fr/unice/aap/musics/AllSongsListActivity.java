@@ -1,6 +1,7 @@
 package fr.unice.aap.musics;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Map;
 import fr.unice.aap.AAP;
 import fr.unice.aap.R;
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.media.MediaMetadataRetriever;
@@ -22,6 +24,8 @@ import android.widget.SimpleAdapter;
 public class AllSongsListActivity extends ListActivity {
 	
 	public static int position = 0;
+	public static int mediaDataKey = -1;
+	public static String valueMediaDataKey = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +44,7 @@ public class AllSongsListActivity extends ListActivity {
 		Map<String, String> infos;
 		
 		MediaMetadataRetriever mmr = MusicListActivity.getMediaMetadataRetriever();
-				
+		
 		for(File music : MusicListActivity.getMusicFiles()) {
 			mmr.setDataSource(music.getPath());
 			infos = new LinkedHashMap<String, String>();
@@ -143,9 +147,9 @@ public class AllSongsListActivity extends ListActivity {
 			String chanson = ((Map<String,String>)getListView().getItemAtPosition(position)).get(MusicListActivity.TITLE);
 			AAP.setSong(MusicListActivity.getParentContext(),uri, artiste, chanson);
 		}
-		this.finish();		
+		this.finish();	
 	}
-	
+
 	public void nextSong(){
 		if(getListView().getCount() > 1){
 			if(AllSongsListActivity.position < getListView().getCount()-1){
