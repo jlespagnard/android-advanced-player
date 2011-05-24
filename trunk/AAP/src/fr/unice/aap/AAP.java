@@ -254,10 +254,16 @@ public class AAP extends Activity {
   			}
   			seekBar_reglageLoop.setProgress(seekBar_debut.getProgress());
   			if(frame.getVisibility() == FrameLayout.INVISIBLE)
-                frame.setVisibility(FrameLayout.VISIBLE);
+  			{
+  				Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animreglageloopin);
+	            frame.startAnimation(a);
+	            frame.setVisibility(FrameLayout.VISIBLE);
+  			}              
   		}else{
   			btLoopDebutOn = false;
   			bouton.setBackgroundResource(R.drawable.boutondebut);
+  			Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animreglageloopout);
+            frame.startAnimation(a);
   			frame.setVisibility(FrameLayout.INVISIBLE);
   		} 		
   	} 
@@ -275,11 +281,16 @@ public class AAP extends Activity {
   				((ImageButton)findViewById(R.id.loopdebut)).setBackgroundResource(R.drawable.boutondebut);
   			}
   			seekBar_reglageLoop.setProgress(seekBar_fin.getProgress());
-  			if(frame.getVisibility() == FrameLayout.INVISIBLE)
+  			if(frame.getVisibility() == FrameLayout.INVISIBLE){
+  				Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animreglageloopin);
+	            frame.startAnimation(a);
                 frame.setVisibility(FrameLayout.VISIBLE);
+  			}
   		}else{
   			btLoopFinOn = false;
   			bouton.setBackgroundResource(R.drawable.boutonfin);
+  			Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animreglageloopout);
+            frame.startAnimation(a);
   			frame.setVisibility(FrameLayout.INVISIBLE);
   		}
   	}

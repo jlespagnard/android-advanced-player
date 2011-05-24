@@ -28,12 +28,18 @@
 
 <FrameLayout android:id="@+id/FrameLayout02" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_alignParentBottom="true" android:background="@drawable/fond6" android:minHeight="50dip">
 	<AbsoluteLayout android:id="@+id/AbsoluteLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingBottom="5dip" android:layout_gravity="bottom|center" android:layout_marginLeft="10dp">
-		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/next" android:background="@drawable/buttonnext" android:layout_y="16dip" android:layout_x="208dip"></ImageButton>
-		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/playPause" android:layout_y="5dip" android:background="@drawable/play" android:layout_x="100dip"></ImageButton>
-		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/previous" android:background="@drawable/buttonprevious" android:layout_x="0dip" android:layout_y="16dip"></ImageButton>
-		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/previous2" android:background="@drawable/buttonprevious2" android:layout_x="50dip" android:layout_y="14dip" android:onClick="musiquePrecedente"></ImageButton>
-		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/next2" android:background="@drawable/buttonnext2" android:layout_y="14dip" android:layout_x="142dip" android:onClick="musiqueSuivante"></ImageButton>
+		
+		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/playPause" android:layout_y="5dip" android:background="@drawable/play" android:layout_x="50dp"></ImageButton>
+		
+		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/previous2" android:background="@drawable/buttonprevious2" android:layout_y="14dip" android:onClick="musiquePrecedente"></ImageButton>
+		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/next2" android:background="@drawable/buttonnext2" android:layout_y="14dip" android:onClick="musiqueSuivante" android:layout_x="90dp"></ImageButton>
 	</AbsoluteLayout>
+</FrameLayout>
+
+<FrameLayout android:id="@+id/FrameLayout05" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_above="@id/FrameLayout02" android:layout_marginBottom="55dp" android:visibility="invisible">
+	<SeekBar android:max="100" android:layout_height="wrap_content" android:id="@+id/seekbar_reglageloop" android:paddingRight="50dip" android:paddingLeft="50dip" android:layout_width="fill_parent" android:layout_gravity="bottom|center" android:maxHeight="3px" android:thumb="@drawable/seekbar_thumbreglageloop" android:progressDrawable="@drawable/seekbar_fond_loop" android:progress="0"></SeekBar>
+	<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/positionfin" android:paddingRight="5dip" android:text="00:00" android:layout_gravity="right|bottom" android:layout_marginBottom="3dp" android:textColor="#FFFFFF"></TextView>
+	<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingLeft="5dip" android:id="@+id/positiondebut" android:text="00:00" android:layout_gravity="left|bottom" android:layout_marginBottom="3dp" android:textColor="#FFFFFF"></TextView>
 </FrameLayout>
 
 <FrameLayout android:id="@+id/FrameLayout01" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_above="@id/FrameLayout02" android:background="@drawable/fond2" android:minHeight="48dp">
@@ -43,14 +49,6 @@
 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/duree" android:paddingRight="5dip" android:text="00:00" android:layout_gravity="right|bottom" android:layout_marginBottom="14dp" android:textColor="#FFFFFF"></TextView>
 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingLeft="5dip" android:id="@+id/position" android:text="00:00" android:layout_gravity="left|bottom" android:layout_marginBottom="14dp" android:textColor="#FFFFFF"></TextView>
 </FrameLayout>
-
-<FrameLayout android:id="@+id/FrameLayout05" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_above="@id/FrameLayout01" android:layout_marginBottom="5dp" android:visibility="invisible">
-	<SeekBar android:max="100" android:layout_height="wrap_content" android:id="@+id/seekbar_reglageloop" android:paddingRight="50dip" android:paddingLeft="50dip" android:layout_width="fill_parent" android:layout_gravity="bottom|center" android:maxHeight="3px" android:thumb="@drawable/seekbar_thumbreglageloop" android:progressDrawable="@drawable/seekbar_fond_loop" android:progress="0"></SeekBar>
-	<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/positionfin" android:paddingRight="5dip" android:text="00:00" android:layout_gravity="right|bottom" android:layout_marginBottom="3dp" android:textColor="#FFFFFF"></TextView>
-	<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingLeft="5dip" android:id="@+id/positiondebut" android:text="00:00" android:layout_gravity="left|bottom" android:layout_marginBottom="3dp" android:textColor="#FFFFFF"></TextView>
-</FrameLayout>
-
-
 
 </RelativeLayout>
 
