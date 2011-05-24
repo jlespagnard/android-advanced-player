@@ -14,6 +14,11 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
+import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
@@ -174,6 +179,25 @@ public class AAP extends Activity {
             }
         });             
 		
+        ((TextView)findViewById(R.id.fonctionnalites)).setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				FrameLayout frame = (FrameLayout) findViewById(R.id.FrameLayout04);
+		    	if(frame.getVisibility() == FrameLayout.INVISIBLE){		           		            
+		            Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animframein);
+		            frame.startAnimation(a);
+		            frame.setVisibility(FrameLayout.VISIBLE);		            
+		    	}
+		    	else{
+		    		Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animframeout);
+		            frame.startAnimation(a);
+		    		frame.setVisibility(FrameLayout.INVISIBLE); 
+		    	}
+			}
+		});
+        
+        
         //ouvrir directement la liste des musiques        
 		startActivity(musicList);
     }
