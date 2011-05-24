@@ -303,7 +303,9 @@ public class AAP extends Activity {
                 	//=> pour l'instant, codé en dur 
                 	//(arrivé a la seconde 5 ou plus, la musique redemare à la seconde 0)
                 	if(isLoop){
-                		if(mPlayer.getCurrentPosition() >= 5000){mPlayer.seekTo(0);}
+                		if(mPlayer.getCurrentPosition() >= seekBar_fin.getProgress()){
+                			mPlayer.seekTo(seekBar_debut.getProgress());
+                			}
                 	}                	               	
                 	
 					mHandler.postDelayed(this, 1000);
