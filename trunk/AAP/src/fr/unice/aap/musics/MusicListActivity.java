@@ -38,6 +38,8 @@ public class MusicListActivity extends ListActivity {
 	private static List<File> musicFiles = null;
 	private static Map<Integer,List<String>> mediaMetadatas = null;
 	private static Context parentContext = null;
+	private static SharedPreferences.Editor appPrefEditor;
+	private static SharedPreferences appPref;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,13 @@ public class MusicListActivity extends ListActivity {
 		parentContext = this.getApplicationContext();
 		
 		setContentView(R.layout.musics_list);
+		
+		// Edition des preferences : il faut la mettre a la bonne place dans AAP
+		appPrefEditor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+		appPrefEditor.putString(MUSIC_FILES_PATHS, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getPath());
+		appPrefEditor.commit();
+		
+		appPref = PreferenceManager.getDefaultSharedPreferences(this);
 				
 		initMusicFiles();
 
@@ -111,13 +120,7 @@ public class MusicListActivity extends ListActivity {
 		return mediaMetadataRetriever;
 	}
 	
-	private void initMusicFiles() {
-		// Edition des preferences : il faut la mettre a la bonne place dans AAP
-		SharedPreferences.Editor appPrefEditor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-		appPrefEditor.putString(MUSIC_FILES_PATHS, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getPath());
-		appPrefEditor.commit();
-		
-		SharedPreferences appPref = PreferenceManager.getDefaultSharedPreferences(this);
+	private static void initMusicFiles() {
 		String prefMusicFilesPaths = appPref.getString(MUSIC_FILES_PATHS, null);
 		if(prefMusicFilesPaths != null) {
 			String[] paths = prefMusicFilesPaths.split(";");
@@ -196,5 +199,28 @@ public class MusicListActivity extends ListActivity {
 				new int[] {R.id.metadata});
 		
 		p_metadataActivity.setListAdapter(adapter);
+	}
+	
+	public static void refreshListSongs(int p_metadataKey, String p_metadataValue) {
+		initMusicFiles();
+		if(p_metadataKey != -1 && p_metadataValue != null && !p_metadataValue.trim().isEmpty()) {
+			List<File> oldMusicFiles = musicFiles;
+			musicFiles = new LinkedList<File>();
+			
+			MediaMetadataRetriever mmr = MusicListActivity.getMediaMetadataRetriever();
+			for(File musicFile : oldMusicFiles) {
+				mmr.setDataSource(musicFile.getPath());
+				
+				String value = mmr.extractMetadata(p_metadataKey);
+				if(value == null || value.isEmpty()) {
+					if(p_metadataValue.equals(MusicListActivity.UNKNOWN)) {
+						musicFiles.add(musicFile);
+					}
+				}
+				else if(p_metadataValue.equals(value)) {
+					musicFiles.add(musicFile);
+				}
+			}
+		}
 	}
 }
