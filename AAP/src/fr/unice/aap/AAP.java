@@ -44,6 +44,9 @@ public class AAP extends Activity {
 	public boolean btLoopDebutOn = false;
 	public boolean btLoopFinOn = false;
 	
+	private Intent intentTonalite = new Intent();
+	public static EqualizerActivity equalizerActivity;
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -230,14 +233,20 @@ public class AAP extends Activity {
     
     //musique suivante
     public void musiqueSuivante(View v) {
-  		if(AllSongList != null)
+  		if(AllSongList != null){
+  			if(equalizerActivity!=null)
+  				equalizerActivity.resetEqualizer();
   			AllSongList.nextSong();
+  		}
   	}           
     
     //musique precedente
     public void musiquePrecedente(View v) {
-  		if(AllSongList != null)
+  		if(AllSongList != null){
+  			if(equalizerActivity!=null)
+  				equalizerActivity.resetEqualizer();
   			AllSongList.previousSong();
+  		}
   	}      
   
   //bouton debut
@@ -313,7 +322,6 @@ public class AAP extends Activity {
 	}
     
     public void openEqualizer(View v){
-    	Intent intentTonalite = new Intent();
     	intentTonalite.setClassName("fr.unice.aap", "fr.unice.aap.EqualizerActivity");
     	startActivity(intentTonalite);
     }
