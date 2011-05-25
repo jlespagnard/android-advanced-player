@@ -14,7 +14,8 @@
 		<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/tonalite" android:background="@drawable/buttontonalite" android:onClick="openEqualizer" android:layout_below="@id/loop" android:layout_marginRight="30dp"></ImageButton>	
 		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/paroles" android:background="@drawable/buttonmicro" android:layout_toRightOf="@id/tonalite" android:layout_below="@id/loopdebut" android:layout_marginRight="30dp" android:layout_marginTop="5dp"></ImageButton>	
 		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/partition" android:background="@drawable/buttonnote" android:layout_toRightOf="@id/paroles" android:layout_below="@id/loopfin" android:layout_marginRight="30dp" android:layout_marginTop="5dp"></ImageButton>					
-		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/enregistrer" android:background="@drawable/buttonenregistrer" android:layout_marginBottom="30dp" android:layout_toRightOf="@id/loopfin"></ImageButton>
+		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/enregistrer" android:background="@drawable/buttonenregistrer" android:layout_marginBottom="30dp" android:layout_toRightOf="@id/loopfin" android:layout_marginRight="30dp" android:onClick="enregistrer"></ImageButton>
+		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/chargerSauv" android:layout_marginBottom="30dp" android:layout_toRightOf="@id/enregistrer" android:background="@drawable/buttonchargersauv" android:onClick="chargerSauv"></ImageButton>
 		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/rec" android:background="@drawable/rec" android:layout_toRightOf="@id/partition" android:layout_below="@id/enregistrer" android:layout_marginRight="30dp" android:onClick="record"></ImageButton>
 	</RelativeLayout>
 </FrameLayout> 
@@ -24,7 +25,7 @@
 	<ImageButton android:layout_width="wrap_content" android:background="@drawable/buttondossier" android:layout_height="wrap_content" android:id="@+id/btnDossier" android:onClick="openDossierMusic"></ImageButton>	
 </AbsoluteLayout>
 
-<TextView android:layout_width="fill_parent" android:id="@+id/fonctionnalites" android:layout_below="@id/AbsoluteLayout02" android:gravity="center" android:layout_height="wrap_content" android:layout_centerHorizontal="true" android:minHeight="35dp" android:shadowColor="#000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1.5" android:text="fonctionnalites" android:background="@drawable/buttonfonctionnalites" android:textColor="#B8BAB9"></TextView>
+<TextView android:layout_width="fill_parent" android:id="@+id/fonctionnalites" android:layout_below="@id/AbsoluteLayout02" android:gravity="center" android:layout_height="wrap_content" android:layout_centerHorizontal="true" android:minHeight="35dp" android:shadowColor="#000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1.5" android:textColor="#B8BAB9" android:text="fonctionnalites" android:background="@drawable/buttonfonctionnalites"></TextView>
 
 <FrameLayout android:id="@+id/FrameLayout02" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_alignParentBottom="true" android:background="@drawable/fond6" android:minHeight="50dip">
 	<RelativeLayout android:layout_width="wrap_content" android:layout_height="fill_parent" android:id="@+id/RelativeLayout03" android:layout_gravity="center" android:layout_marginRight="10dp">					

@@ -9,6 +9,8 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -24,28 +26,34 @@ import android.widget.TextView;
 
 public class AAP extends Activity {
 	
+	/* ************************** attributs ******************* */
+	
+	/* notre fenetre principale */
 	private static AAP activity = null;
+	/* view de l'interface */
 	private ImageButton buttonPlayStop;
 	private ImageButton buttonLoop;
 	private SeekBar seekBar_Music;
 	private SeekBar seekBar_debut;
 	private SeekBar seekBar_fin;
 	private SeekBar seekBar_reglageLoop;
+	private Intent musicList;
+	public static AllSongsListActivity AllSongList = null;		
+	private Intent intentTonalite = new Intent();
+	public static EqualizerActivity equalizerActivity;
+	/* objet contenant la musique */
 	public static MediaPlayer mPlayer;
+	/* differents controles */
 	private static Boolean isPlay = false;
 	private Boolean isLoop = false;
 	private Boolean onTouchSeekBarMusic = false;
-	private Handler mHandler = new Handler();
-	private Intent musicList;
-	public static AllSongsListActivity AllSongList = null;
 	public boolean btLoopDebutOn = false;
 	public boolean btLoopFinOn = false;
 	public boolean record = false;
+	/* permet de gerer la thread qui synchronise la musique avec la seekBar */
+	private Handler mHandler = new Handler();	
 	
-	private Intent intentTonalite = new Intent();
-	public static EqualizerActivity equalizerActivity;
-	
-    /** Called when the activity is first created. */
+    /* *********************** Called when the activity is first created. *************** */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +61,7 @@ public class AAP extends Activity {
         initEven();    
     }
     
+    /* ************************ modifier la musique ************************ */
     public static void setSong(Context p_appContext, int p_rawId) {
     	if(mPlayer != null) {
 	    	mPlayer.stop();
@@ -82,16 +91,16 @@ public class AAP extends Activity {
     	((TextView)activity.findViewById(R.id.titre)).setText(chanson + System.getProperty("line.separator") + artiste);
     }
     
+    /* **************** initialisation des elements de l'application **************** */
     private void initEven()
     {   
     	activity = this;
     	setSong(this, R.raw.testsong);
-    	musicList = new Intent(getApplicationContext(),MusicListActivity.class);
-    	
-    	//remplir TextView avec titre et auteur de la chanson   	
+    	musicList = new Intent(getApplicationContext(),MusicListActivity.class);	
     	
     	//----------------- evenements sur les boutons -----------------------------   	
     	
+    	//bouton de la boucle
     	buttonLoop = (ImageButton) findViewById(R.id.loop);
     	
     	//play/pause
@@ -180,8 +189,8 @@ public class AAP extends Activity {
             }
         });             
 		
-        ((TextView)findViewById(R.id.fonctionnalites)).setOnClickListener(new View.OnClickListener() {
-			
+        //ouverture des fonctionnalites
+        ((TextView)findViewById(R.id.fonctionnalites)).setOnClickListener(new View.OnClickListener() {			
 			@Override
 			public void onClick(View arg0) {
 				animFonctionnalites(false);
@@ -193,6 +202,7 @@ public class AAP extends Activity {
 		startActivity(musicList);
     }
     
+    /* ************** ouverture/fermeture de la fenetre fonctionnalites ************** */
     public void animFonctionnalites(Boolean close){
     	FrameLayout frame = (FrameLayout) findViewById(R.id.FrameLayout04);
     	if(frame.getVisibility() == FrameLayout.INVISIBLE){	
@@ -209,6 +219,7 @@ public class AAP extends Activity {
     	}
     }
     
+    /* ********************** play musique **************** */
     public void play(){
     	buttonPlayStop.setBackgroundResource(R.drawable.pause);
 		try{
@@ -224,12 +235,14 @@ public class AAP extends Activity {
 		isPlay = true;
     }
     
+    /* *********************** pause musique ****************** */
     public void pause(){
     	buttonPlayStop.setBackgroundResource(R.drawable.play);
 		mPlayer.pause();
 		isPlay = false;
     }
     
+    /* ********************* click bouton enregistrement d'un son ************* */
     public void record(View v){
     	ImageButton buttonRecord = (ImageButton) findViewById(R.id.rec);
     	if (record) {
@@ -241,13 +254,51 @@ public class AAP extends Activity {
         }
     }
     
+    /* ************************ chargement d'une sauvegarde ******************* */
+    public void chargerSauv(View v){
+    	//ouverture d'un menu contextuel avec la liste des sauv disponibles pour cette chanson
+    	registerForContextMenu(v);
+    	v.showContextMenu();
+    }
+    
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		menu.add(0, 0, 0, "annuler");
+		menu.add(0, 1, 0,  "sauv1");
+		menu.add(0, 2, 0,  "sauv2");
+	}
+	
+	public boolean onContextItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case 0:
+				//code annuler
+				return true;
+			case 1:
+				//code pour sauv1
+				seekBar_debut.setProgress(30000);
+				return true;
+			case 2:
+				//code pour sauv2
+				seekBar_debut.setProgress(50000);
+				return true;	
+			default:
+				return super.onContextItemSelected(item);
+		}
+	}
+    
+	/* **************** click bouton enregistrer sauvegarde loop *************** */
+	public void enregistrer(View v){
+		//evenement quand on clique sur enregistrer
+	}
+	
+	/* ********************* click bouton ouvrir repertoire Music de la sccard ********* */
     public void openDossierMusic(View v)
 	{   
     	animFonctionnalites(true);
 		startActivity(musicList);
 	}
     
-    //musique suivante
+    /* ************************* musique suivante ***************** */
     public void musiqueSuivante(View v) {
     	animFonctionnalites(true);
   		if(AllSongList != null){
@@ -257,7 +308,7 @@ public class AAP extends Activity {
   		}
   	}           
     
-    //musique precedente
+    /* ********************** musique precedente ******************* */
     public void musiquePrecedente(View v) {
     	animFonctionnalites(true);
   		if(AllSongList != null){
@@ -267,7 +318,7 @@ public class AAP extends Activity {
   		}
   	}      
   
-  //bouton debut
+    /* ********************** click bouton reglage du debut de la boucle *********** */
     public void loopDebut(View v) {
   		ImageButton bouton = (ImageButton) findViewById(R.id.loopdebut);
   		FrameLayout frame = (FrameLayout) findViewById(R.id.FrameLayout05);
@@ -295,7 +346,7 @@ public class AAP extends Activity {
   		} 		
   	} 
     
-  //bouton fin
+    /* ********************** click bouton reglage de la fin de la boucle *********** */
     public void loopFin(View v) {
     	
     	ImageButton bouton = (ImageButton) findViewById(R.id.loopfin);
@@ -322,9 +373,9 @@ public class AAP extends Activity {
   		}
   	}
     
+    /* ******************* click bouton stop musique **************** */
     public void stop(View v) {
 		   pause();
-		   //definir position seekbar
 		   //premier click retour debut loop
 		   if(seekBar_Music.getProgress() > seekBar_debut.getProgress()){
 			   seekBar_Music.setProgress(seekBar_debut.getProgress());
@@ -339,12 +390,15 @@ public class AAP extends Activity {
 	    	((TextView)findViewById(R.id.position)).setText(heureToString(mPlayer.getCurrentPosition()));
 	}
     
+    
+    /* ******************** click bouton ouverture de l'equalizer ************* */
     public void openEqualizer(View v){
     	animFonctionnalites(true);
     	intentTonalite.setClassName("fr.unice.aap", "fr.unice.aap.EqualizerActivity");
     	startActivity(intentTonalite);
     }
     
+    /* ****************** activation/desactivation de la boucle ************ */
     public void onOffLoop(View v){
     	if (isLoop) {
             buttonLoop.setBackgroundResource(R.drawable.loop);  
@@ -355,6 +409,7 @@ public class AAP extends Activity {
         }
     }
   	
+    /* ************ thread qui synchronyse la musique et la seekbar et controle la boucle ***** */
     private Runnable progressUpdater = new Runnable() {
         @Override
         public void run() {
@@ -375,7 +430,7 @@ public class AAP extends Activity {
         }
     };
 
-    
+    /* ******* initialisation des differentes seekbar et text de position, duree, .. musique *** */
     private void initSeekBarMusic()
     {
     	//seekbar_music
@@ -400,6 +455,7 @@ public class AAP extends Activity {
         ((TextView)findViewById(R.id.positionfin)).setText(heureToString(mPlayer.getDuration()));
     }
     
+    /* ************* convertisseur milliseconde to string 00:00:00 ********** */
     private String heureToString(int ms)
     {
 		int reste = ms/1000;
@@ -420,8 +476,8 @@ public class AAP extends Activity {
 		return texte;
     }
 
-    /* Creates the menu items 
-     * quand on clique sur le bouton menu du telephone*/
+    /* *** menu items correspondant a celui qu'on affiche quand on clique sur le bouton menu du telephone **** */
+    /* Creates the menu items */
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(0, 1, 0, "Quit").setIcon(R.drawable.quit);
         return true;
