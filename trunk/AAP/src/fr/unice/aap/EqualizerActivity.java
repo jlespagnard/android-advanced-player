@@ -38,6 +38,7 @@ public class EqualizerActivity extends Activity {
         setContentView(mLinearLayout);
         setupVisualizerFxAndUI();
         setupEqualizerFxAndUI();
+        AAP.equalizerActivity = this;
         // Make sure the visualizer is enabled only when you actually want to receive data, and
         // when it makes sense to receive data.
         mVisualizer.setEnabled(true);
@@ -52,7 +53,6 @@ public class EqualizerActivity extends Activity {
     
     private void setupEqualizerFxAndUI() {
     	// Create the Equalizer object (an AudioEffect subclass) and attach it to our media player,
-    	// with a default priority (0).
     	mEqualizer = new Equalizer(0, AAP.mPlayer.getAudioSessionId());
     	mEqualizer.setEnabled(true);
     	TextView eqTextView = new TextView(this);
@@ -127,12 +127,15 @@ public class EqualizerActivity extends Activity {
     	}, Visualizer.getMaxCaptureRate() / 2, true, false);
     }
     
+    public void resetEqualizer(){
+    	mEqualizer.release();
+    }
+    
     @Override
     protected void onPause() {
     	super.onPause();
     	if (isFinishing() && AAP.mPlayer != null) {
     		mVisualizer.release();
-    		mEqualizer.release();
     	}
     }
 }
