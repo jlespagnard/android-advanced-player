@@ -263,9 +263,12 @@ public class AAP extends Activity {
     
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
+		menu.setHeaderTitle("Chargement");
+		menu.setHeaderIcon(R.drawable.uploadclick);
 		menu.add(0, 0, 0, "annuler");
-		menu.add(0, 1, 0,  "sauv1");
-		menu.add(0, 2, 0,  "sauv2");
+		
+		for(int i=1 ; i<10 ; i++)
+			menu.add(0, i, 0, "sauv"+i);	
 	}
 	
 	public boolean onContextItemSelected(MenuItem item) {
@@ -299,9 +302,9 @@ public class AAP extends Activity {
 	}
     
     /* ************************* musique suivante ***************** */
-    public void musiqueSuivante(View v) {
-    	animFonctionnalites(true);
+    public void musiqueSuivante(View v) {  	
   		if(AllSongList != null){
+  			animFonctionnalites(true);
   			if(equalizerActivity!=null)
   				equalizerActivity.resetEqualizer();
   			AllSongList.nextSong();
@@ -309,9 +312,9 @@ public class AAP extends Activity {
   	}           
     
     /* ********************** musique precedente ******************* */
-    public void musiquePrecedente(View v) {
-    	animFonctionnalites(true);
+    public void musiquePrecedente(View v) {   	
   		if(AllSongList != null){
+  			animFonctionnalites(true);
   			if(equalizerActivity!=null)
   				equalizerActivity.resetEqualizer();
   			AllSongList.previousSong();
