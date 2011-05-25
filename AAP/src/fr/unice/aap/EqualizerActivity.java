@@ -26,6 +26,7 @@ public class EqualizerActivity extends Activity {
     private EqualizerView mVisualizerView;
     private TextView mStatusTextView;
 	private Button closeButton;
+	private Button annulerButton;
 
     @Override
     public void onCreate(Bundle icicle) {
@@ -48,7 +49,7 @@ public class EqualizerActivity extends Activity {
             	finish();
             }
         });
-        
+            
     }
     
     private void setupEqualizerFxAndUI() {
@@ -104,7 +105,7 @@ public class EqualizerActivity extends Activity {
     	}
     	
     	closeButton = new Button(this);
-    	closeButton.setText("Fermer");
+    	closeButton.setText("Valider");
     	mLinearLayout.addView(closeButton);
     }
     
