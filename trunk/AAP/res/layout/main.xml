@@ -6,16 +6,16 @@
 
 <ImageView android:layout_alignParentLeft="true" android:layout_below="@+id/fonctionnalites" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginBottom="50dip" android:id="@+id/fondmusic" android:background="@drawable/fond7"></ImageView>
  
-<FrameLayout android:layout_width="fill_parent" android:id="@+id/FrameLayout04" android:layout_below="@+id/fonctionnalites" android:layout_height="fill_parent" android:layout_marginBottom="140dp" android:background="@drawable/fond3" android:visibility="invisible">
-	<RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/RelativeLayout02" android:layout_gravity="center">					
+<FrameLayout android:layout_width="fill_parent" android:id="@+id/FrameLayout04" android:layout_below="@+id/fonctionnalites" android:background="@drawable/fond3" android:layout_marginBottom="96dp" android:layout_height="fill_parent" android:visibility="invisible">
+	<RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/RelativeLayout02" android:layout_gravity="center" android:layout_margin="10dp">					
 		<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/loop" android:background="@drawable/loop" android:onClick="onOffLoop" android:layout_marginBottom="30dp" android:layout_marginRight="30dp"></ImageButton>
 		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/loopdebut" android:background="@drawable/boutondebut" android:layout_toRightOf="@id/loop" android:onClick="loopDebut" android:layout_marginBottom="30dp" android:layout_marginRight="30dp" android:layout_marginLeft="2dp"></ImageButton>
-		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/loopfin" android:background="@drawable/boutonfin" android:layout_toRightOf="@id/loopdebut" android:onClick="loopFin" android:layout_marginBottom="30dp" android:layout_marginRight="30dp" android:layout_marginLeft="5dp"></ImageButton>	
-		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/stop" android:background="@drawable/buttonstop" android:onClick="stop" android:layout_toRightOf="@id/loopfin" android:layout_marginBottom="30dp" android:layout_marginLeft="8dp"></ImageButton>
+		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/loopfin" android:background="@drawable/boutonfin" android:layout_toRightOf="@id/loopdebut" android:onClick="loopFin" android:layout_marginBottom="30dp" android:layout_marginRight="30dp" android:layout_marginLeft="5dp"></ImageButton>			
 		<ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/tonalite" android:background="@drawable/buttontonalite" android:onClick="openEqualizer" android:layout_below="@id/loop" android:layout_marginRight="30dp"></ImageButton>	
 		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/paroles" android:background="@drawable/buttonmicro" android:layout_toRightOf="@id/tonalite" android:layout_below="@id/loopdebut" android:layout_marginRight="30dp" android:layout_marginTop="5dp"></ImageButton>	
 		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/partition" android:background="@drawable/buttonnote" android:layout_toRightOf="@id/paroles" android:layout_below="@id/loopfin" android:layout_marginRight="30dp" android:layout_marginTop="5dp"></ImageButton>					
-		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/enregistrer" android:background="@drawable/buttonenregistrer" android:layout_toRightOf="@id/partition" android:layout_below="@id/stop" android:layout_marginTop="5dp"></ImageButton>
+		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/enregistrer" android:background="@drawable/buttonenregistrer" android:layout_marginBottom="30dp" android:layout_toRightOf="@id/loopfin"></ImageButton>
+		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/rec" android:background="@drawable/rec" android:layout_toRightOf="@id/partition" android:layout_below="@id/enregistrer" android:layout_marginRight="30dp" android:onClick="record"></ImageButton>
 	</RelativeLayout>
 </FrameLayout> 
                 
@@ -27,13 +27,12 @@
 <TextView android:layout_width="fill_parent" android:id="@+id/fonctionnalites" android:layout_below="@id/AbsoluteLayout02" android:gravity="center" android:layout_height="wrap_content" android:layout_centerHorizontal="true" android:minHeight="35dp" android:shadowColor="#000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1.5" android:text="fonctionnalites" android:background="@drawable/buttonfonctionnalites" android:textColor="#B8BAB9"></TextView>
 
 <FrameLayout android:id="@+id/FrameLayout02" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_alignParentBottom="true" android:background="@drawable/fond6" android:minHeight="50dip">
-	<AbsoluteLayout android:id="@+id/AbsoluteLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingBottom="5dip" android:layout_gravity="bottom|center" android:layout_marginLeft="10dp">
-		
-		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/playPause" android:layout_y="5dip" android:background="@drawable/play" android:layout_x="50dp"></ImageButton>
-		
-		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/previous2" android:background="@drawable/buttonprevious2" android:layout_y="14dip" android:onClick="musiquePrecedente"></ImageButton>
-		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/next2" android:background="@drawable/buttonnext2" android:layout_y="14dip" android:onClick="musiqueSuivante" android:layout_x="90dp"></ImageButton>
-	</AbsoluteLayout>
+	<RelativeLayout android:layout_width="wrap_content" android:layout_height="fill_parent" android:id="@+id/RelativeLayout03" android:layout_gravity="center" android:layout_marginRight="10dp">					
+		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/stop" android:background="@drawable/buttonstop" android:onClick="stop" android:layout_centerVertical="true" android:layout_marginRight="10dp"></ImageButton>
+		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/previous2" android:background="@drawable/buttonprevious2" android:onClick="musiquePrecedente" android:layout_centerVertical="true" android:layout_toRightOf="@id/stop"></ImageButton>
+		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/playPause" android:background="@drawable/play" android:layout_centerVertical="true" android:layout_toRightOf="@id/previous2" android:layout_marginRight="5dp" android:layout_marginLeft="5dp"></ImageButton>				
+		<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/next2" android:background="@drawable/buttonnext2" android:onClick="musiqueSuivante" android:layout_centerVertical="true" android:layout_toRightOf="@id/playPause"></ImageButton>
+	</RelativeLayout>
 </FrameLayout>
 
 <FrameLayout android:id="@+id/FrameLayout05" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_above="@id/FrameLayout02" android:layout_marginBottom="55dp" android:visibility="invisible">
