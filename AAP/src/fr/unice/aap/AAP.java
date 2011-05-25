@@ -14,11 +14,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
-import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
@@ -43,6 +40,7 @@ public class AAP extends Activity {
 	public static AllSongsListActivity AllSongList = null;
 	public boolean btLoopDebutOn = false;
 	public boolean btLoopFinOn = false;
+	public boolean record = false;
 	
 	private Intent intentTonalite = new Intent();
 	public static EqualizerActivity equalizerActivity;
@@ -186,23 +184,29 @@ public class AAP extends Activity {
 			
 			@Override
 			public void onClick(View arg0) {
-				FrameLayout frame = (FrameLayout) findViewById(R.id.FrameLayout04);
-		    	if(frame.getVisibility() == FrameLayout.INVISIBLE){		           		            
-		            Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animframein);
-		            frame.startAnimation(a);
-		            frame.setVisibility(FrameLayout.VISIBLE);		            
-		    	}
-		    	else{
-		    		Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animframeout);
-		            frame.startAnimation(a);
-		    		frame.setVisibility(FrameLayout.INVISIBLE); 
-		    	}
+				animFonctionnalites(false);
 			}
 		});
         
         
         //ouvrir directement la liste des musiques        
 		startActivity(musicList);
+    }
+    
+    public void animFonctionnalites(Boolean close){
+    	FrameLayout frame = (FrameLayout) findViewById(R.id.FrameLayout04);
+    	if(frame.getVisibility() == FrameLayout.INVISIBLE){	
+    		if(!close) {
+	            Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animframein);
+	            frame.startAnimation(a);
+	            frame.setVisibility(FrameLayout.VISIBLE);
+    		}
+    	}
+    	else{
+    		Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animframeout);
+            frame.startAnimation(a);
+    		frame.setVisibility(FrameLayout.INVISIBLE); 
+    	}
     }
     
     public void play(){
@@ -226,13 +230,26 @@ public class AAP extends Activity {
 		isPlay = false;
     }
     
+    public void record(View v){
+    	ImageButton buttonRecord = (ImageButton) findViewById(R.id.rec);
+    	if (record) {
+    		buttonRecord.setBackgroundResource(R.drawable.rec);  
+    		record = false;
+        }else {
+        	buttonRecord.setBackgroundResource(R.drawable.recclick);  
+        	record = true;
+        }
+    }
+    
     public void openDossierMusic(View v)
-	{   		
+	{   
+    	animFonctionnalites(true);
 		startActivity(musicList);
 	}
     
     //musique suivante
     public void musiqueSuivante(View v) {
+    	animFonctionnalites(true);
   		if(AllSongList != null){
   			if(equalizerActivity!=null)
   				equalizerActivity.resetEqualizer();
@@ -242,6 +259,7 @@ public class AAP extends Activity {
     
     //musique precedente
     public void musiquePrecedente(View v) {
+    	animFonctionnalites(true);
   		if(AllSongList != null){
   			if(equalizerActivity!=null)
   				equalizerActivity.resetEqualizer();
@@ -322,6 +340,7 @@ public class AAP extends Activity {
 	}
     
     public void openEqualizer(View v){
+    	animFonctionnalites(true);
     	intentTonalite.setClassName("fr.unice.aap", "fr.unice.aap.EqualizerActivity");
     	startActivity(intentTonalite);
     }
