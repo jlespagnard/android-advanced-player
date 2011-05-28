@@ -20,6 +20,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -204,7 +205,7 @@ public class AAP extends Activity {
     
     /* ************** ouverture/fermeture de la fenetre fonctionnalites ************** */
     public void animFonctionnalites(Boolean close){
-    	FrameLayout frame = (FrameLayout) findViewById(R.id.FrameLayout04);
+    	RelativeLayout frame = (RelativeLayout) findViewById(R.id.RelativeLayout04);
     	if(frame.getVisibility() == FrameLayout.INVISIBLE){	
     		if(!close) {
 	            Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animframein);
@@ -225,7 +226,9 @@ public class AAP extends Activity {
 		try{
             mPlayer.start();
             
+            //supprime tout ce qu'il y avait dans la file d'attente
             mHandler.removeCallbacks(progressUpdater);
+            //ajoute dans la file d'attente la thread
             mHandler.postDelayed(progressUpdater, 0);
             
         }catch (IllegalStateException e) {
