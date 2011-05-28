@@ -220,6 +220,11 @@ public class AAP extends Activity {
     	}
     }
     
+    /* ******************** cacher fenetre de fonctionnalites */
+    public void retour(View v){
+    	animFonctionnalites(true);
+    }
+    
     /* ********************** play musique **************** */
     public void play(){
     	buttonPlayStop.setBackgroundResource(R.drawable.pause);
