@@ -26,7 +26,6 @@ public class EqualizerActivity extends Activity {
     private EqualizerView mVisualizerView;
     private TextView mStatusTextView;
 	private Button closeButton;
-	private Button annulerButton;
 
     @Override
     public void onCreate(Bundle icicle) {

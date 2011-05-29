@@ -1,5 +1,12 @@
 package fr.unice.aap;
 
+import java.util.Currency;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+
 import fr.unice.aap.musics.AllSongsListActivity;
 import fr.unice.aap.musics.MusicListActivity;
 import android.app.Activity;
@@ -9,6 +16,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.sax.Element;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -18,11 +26,15 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 public class AAP extends Activity {
@@ -42,6 +54,9 @@ public class AAP extends Activity {
 	public static AllSongsListActivity AllSongList = null;		
 	private Intent intentTonalite = new Intent();
 	public static EqualizerActivity equalizerActivity;
+	public static String currentArtist = null;
+	public static String currentSong = null;
+	public String urlLyrics = null;
 	/* objet contenant la musique */
 	public static MediaPlayer mPlayer;
 	/* differents controles */
@@ -85,6 +100,10 @@ public class AAP extends Activity {
             mPlayer.seekTo(0);
             mPlayer.release();
     	}
+    	
+    	currentArtist = artiste;
+    	currentSong = chanson;
+    	
     	mPlayer = MediaPlayer.create(p_appContext,p_uri); 
     	activity.initSeekBarMusic();
     	if(pl)
@@ -419,6 +438,75 @@ public class AAP extends Activity {
         }
     }
   	
+    /* ****************** affichage des paroles ****************** */
+    public void findLyrics(View v){
+    	// On enlève le menu 
+    	System.out.println("UUIQSJHDUINQSDNDSIQJNQSIUSJDIUJSQs");
+    	((RelativeLayout) findViewById(R.id.RelativeLayout04)).setVisibility(FrameLayout.INVISIBLE);
+        ((TableLayout) findViewById(R.id.FrameLayout06)).setVisibility(FrameLayout.VISIBLE);
+	    //On initialise les deux champs pour la recherche manuelle
+    	((EditText) findViewById(R.id.ArtistName)).setText(currentArtist);
+    	((EditText) findViewById(R.id.SongName)).setText(currentSong);
+        //On affiche le résultat
+    	setLyricsTextResult(currentArtist, currentSong);
+    }
+    
+    public void setLyricsTextResult(String artist, String song){
+    	try{
+    		TableLayout webBrowser = (TableLayout) findViewById(R.id.FrameLayout08);
+    		if(webBrowser.getVisibility() == FrameLayout.VISIBLE)
+    			webBrowser.setVisibility(FrameLayout.INVISIBLE);
+    		TableLayout lyricsSearch = (TableLayout) findViewById(R.id.FrameLayout06);
+    		if(lyricsSearch.getVisibility() == FrameLayout.INVISIBLE)
+    			lyricsSearch.setVisibility(FrameLayout.VISIBLE);
+    		
+    		TextView lyricsTextView = (TextView) findViewById(R.id.lyricsTextView);
+    		// L'url "path" permet d'interroger le serveur pour récupérer les paroles de l'artiste et de la chanson passés en paramètre
+    		//On demande le format de retour en xml qu'on parsera
+    		String path = "http://lyrics.wikia.com/api.php?fmt=xml";
+    		artist = formatString(artist);
+    		song = formatString(song);
+    		if (artist != null && artist.length() > 0)
+    			path += "&artist=" + artist;
+    		if (song != null && song.length() > 0)
+    			path += "&song=" + song;
+    		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+    		DocumentBuilder db = dbf.newDocumentBuilder();
+    		Document doc = db.parse(path);
+    		String lyrics = "";
+    		lyrics = doc.getElementsByTagName("lyrics").item(0).getTextContent();
+    		urlLyrics = doc.getElementsByTagName("url").item(0).getTextContent();
+    		lyricsTextView.setText(lyrics);
+
+    		//Si les paroles sont disponibles, on affiche un bouton pour afficher la page web qui les contient
+    		if(lyrics.length() > 1 && !lyrics.equalsIgnoreCase("Not Found")) {
+    			((Button)findViewById(R.id.lyricsBrowserButton)).setVisibility(FrameLayout.VISIBLE);
+    		} else {
+    			((Button)findViewById(R.id.lyricsBrowserButton)).setVisibility(FrameLayout.INVISIBLE);
+    		}
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    public void updateLyricSearch(View v){
+    	String artist = ((EditText) findViewById(R.id.ArtistName)).getText().toString();
+    	String song = ((EditText) findViewById(R.id.SongName)).getText().toString();
+    	setLyricsTextResult(artist, song);
+    }
+    
+    public void openBrowser(View v){
+    	((TableLayout) findViewById(R.id.FrameLayout06)).setVisibility(FrameLayout.INVISIBLE);
+    	((TableLayout) findViewById(R.id.FrameLayout08)).setVisibility(FrameLayout.VISIBLE);
+    	WebView lyricsView = (WebView)findViewById(R.id.lyricsWebView);
+    	lyricsView.getSettings().setJavaScriptEnabled(true);
+    	lyricsView.loadUrl(urlLyrics);
+    }
+    
+    public String formatString(String s){
+    	return s.replace(" ", "%20");
+    }
+    
     /* ************ thread qui synchronyse la musique et la seekbar et controle la boucle ***** */
     private Runnable progressUpdater = new Runnable() {
         @Override
