@@ -16,8 +16,8 @@
 	</RelativeLayout>
 	<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/RelativeLayout06" android:layout_below="@+id/RelativeLayout05" android:gravity="center">	
 		<ImageButton android:id="@+id/tonalite" android:background="@drawable/buttontonalite" android:onClick="openEqualizer" android:layout_marginRight="25dp" android:layout_height="wrap_content" android:layout_width="wrap_content"></ImageButton>	
-		<ImageButton android:layout_toRightOf="@id/tonalite" android:id="@+id/paroles" android:background="@drawable/buttonmicro" android:layout_marginRight="25dp" android:layout_height="wrap_content" android:layout_width="wrap_content"></ImageButton>	
-		<ImageButton android:layout_toRightOf="@id/paroles" android:id="@+id/partition" android:background="@drawable/buttonnote" android:layout_marginRight="25dp" android:layout_height="wrap_content" android:layout_width="wrap_content"></ImageButton>					
+		<ImageButton android:layout_toRightOf="@id/tonalite" android:id="@+id/paroles" android:background="@drawable/buttonmicro" android:layout_marginRight="25dp" android:layout_height="wrap_content" android:layout_width="wrap_content" android:onClick="findLyrics" ></ImageButton>	
+		<ImageButton android:layout_toRightOf="@id/paroles" android:id="@+id/partition" android:background="@drawable/buttonnote" android:layout_marginRight="25dp" android:layout_height="wrap_content" android:layout_width="wrap_content" ></ImageButton>					
 		<ImageButton android:id="@+id/rec" android:layout_toRightOf="@id/partition" android:background="@drawable/rec" android:onClick="record" android:layout_height="wrap_content" android:layout_width="wrap_content"></ImageButton>			
 	</RelativeLayout>
 </RelativeLayout>			 
@@ -28,6 +28,32 @@
 </RelativeLayout>
 
 <TextView android:layout_width="fill_parent" android:id="@+id/fonctionnalites" android:layout_below="@+id/RelativeLayout7" android:gravity="center" android:layout_centerHorizontal="true" android:shadowColor="#000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1.5" android:textColor="#B8BAB9" android:text="fonctionnalites" android:background="@drawable/buttonfonctionnalites" android:layout_height="45dp"></TextView>
+
+<FrameLayout android:id="@+id/FrameLayout07" android:layout_below="@+id/fonctionnalites" android:layout_height="wrap_content" android:layout_width="fill_parent">
+	<TableLayout android:id="@+id/FrameLayout08" android:layout_centerInParent="true" android:layout_height="fill_parent" android:layout_width="fill_parent" android:visibility="invisible">
+		<TableRow>
+			<WebView android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_below="@+id/fonctionnalites" android:id="@+id/lyricsWebView"></WebView>
+		</TableRow>
+		<TableRow>
+		<Button android:text="Retour" android:onClick="updateLyricSearch"></Button>
+		<Button android:text="Quitter" android:onClick="updateLyricSearch"></Button>
+		</TableRow>
+	</TableLayout>
+	<TableLayout android:id="@+id/FrameLayout06" android:layout_centerInParent="true" android:layout_height="fill_parent" android:layout_width="fill_parent" android:visibility="invisible">
+		<TextView android:layout_alignParentLeft="true" android:layout_below="@+id/fonctionnalites" android:layout_above="@+id/FrameLayout02" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginBottom="50dip" android:id="@+id/lyricsTextView"  android:gravity="center_horizontal" android:layout_weight=".100" android:textStyle="bold" ></TextView>
+		<Button android:text="Ouvrir paroles" android:onClick="openBrowser" android:id="@+id/lyricsBrowserButton" android:visibility="invisible"></Button>
+		
+		<TableRow>
+			<TextView android:layout_marginLeft="20px" android:layout_width="fill_parent" android:layout_weight=".30" android:text="Artiste" android:layout_column="1"></TextView>
+			<EditText android:layout_width="fill_parent" android:id="@+id/ArtistName" android:layout_weight=".70" ></EditText>
+		</TableRow>
+		<TableRow>
+			<TextView android:layout_marginLeft="20px" android:layout_width="fill_parent" android:text="Chanson" android:layout_weight=".30" android:layout_column="1"></TextView>
+			<EditText android:layout_width="fill_parent" android:layout_weight=".70" android:id="@+id/SongName"></EditText>
+		</TableRow>
+		<Button android:text="Rechercher" android:onClick="updateLyricSearch"></Button>
+	</TableLayout>
+</FrameLayout>
 
 <FrameLayout android:id="@+id/FrameLayout02" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_alignParentBottom="true" android:background="@drawable/fond6" android:minHeight="50dip">
 	<RelativeLayout android:layout_width="wrap_content" android:layout_height="fill_parent" android:id="@+id/RelativeLayout03" android:layout_gravity="center" android:layout_marginRight="20dp">					
