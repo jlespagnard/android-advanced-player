@@ -64,13 +64,14 @@ public class AAP extends Activity {
     
     /* ************************ modifier la musique ************************ */
     public static void setSong(Context p_appContext, int p_rawId) {
-    	if(mPlayer != null) {
-	    	mPlayer.stop();
-	    	mPlayer.seekTo(0);
-	    	mPlayer.release();
-	    	activity.play();
-    	}
+//    	if(mPlayer != null) {
+//	    	mPlayer.stop();
+//	    	mPlayer.seekTo(0);
+//	    	mPlayer.release();
+//	    	activity.play();
+//    	}
     	mPlayer = MediaPlayer.create(p_appContext,p_rawId);
+    	activity.initSeekBarMusic();
     }
     
     public static void setSong(Context p_appContext, Uri p_uri, String artiste, String chanson) {
@@ -95,8 +96,7 @@ public class AAP extends Activity {
     /* **************** initialisation des elements de l'application **************** */
     private void initEven()
     {   
-    	activity = this;
-    	setSong(this, R.raw.testsong);
+    	activity = this;   	
     	musicList = new Intent(getApplicationContext(),MusicListActivity.class);	
     	
     	//----------------- evenements sur les boutons -----------------------------   	
@@ -137,8 +137,7 @@ public class AAP extends Activity {
         seekBar_Music = (SeekBar) findViewById(R.id.seekbar_music);
         seekBar_debut = (SeekBar) findViewById(R.id.seekbar_debut);
         seekBar_fin = (SeekBar) findViewById(R.id.seekbar_fin);
-        seekBar_reglageLoop = (SeekBar) findViewById(R.id.seekbar_reglageloop);  
-        initSeekBarMusic();     
+        seekBar_reglageLoop = (SeekBar) findViewById(R.id.seekbar_reglageloop);              
         seekBar_Music.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
        	 
             @Override
@@ -198,7 +197,7 @@ public class AAP extends Activity {
 			}
 		});
         
-        
+        setSong(this, R.raw.testsong);
         //ouvrir directement la liste des musiques        
 		startActivity(musicList);
     }
