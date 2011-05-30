@@ -446,6 +446,8 @@ public class AAP extends Activity {
     	((RelativeLayout) findViewById(R.id.RelativeLayout04)).setVisibility(FrameLayout.INVISIBLE);
     	((ScrollView) findViewById(R.id.FrameLayout07)).setVisibility(FrameLayout.VISIBLE);
         ((TableLayout) findViewById(R.id.FrameLayout06)).setVisibility(FrameLayout.VISIBLE);
+        ((TextView) findViewById(R.id.lyricsTextView)).setText("Bienvenue sur la recherche de paroles.\nUne connexion internet est nécessaire.");
+        ((Button)findViewById(R.id.lyricsBrowserButton)).setVisibility(FrameLayout.INVISIBLE);
 	    //On initialise les deux champs pour la recherche manuelle
     	((EditText) findViewById(R.id.ArtistName)).setText(currentArtist);
     	((EditText) findViewById(R.id.SongName)).setText(currentSong);
@@ -533,6 +535,13 @@ public class AAP extends Activity {
     
     public String formatString(String s){
     	return s.replace(" ", "%20");
+    }
+    
+    //On met toutes les view concernées en invisible
+    public void closeLyricViews(View v){
+    	ScrollView scrollview = (ScrollView) findViewById(R.id.FrameLayout07);
+    	if(scrollview.getVisibility() == FrameLayout.VISIBLE)
+    		scrollview.setVisibility(FrameLayout.INVISIBLE);
     }
     
     /* ************ thread qui synchronyse la musique et la seekbar et controle la boucle ***** */
