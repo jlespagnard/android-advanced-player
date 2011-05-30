@@ -3,8 +3,9 @@ X Faire partie Michel
 X Faire partie Julien
 X Intégrer les références d'Anthony
 X Revoir la capture d'écran d'Antho concernant la liste des fichiers dans Winrar (screen1.PNG)
+X Terminer la partie "Les principes fondamentaux sur les applications Android"
 + Faire la page de présentation
 + Voir pour améliorer le contenu du pied de page
 + Intégrer les fonctionnalités partition et paroles d'Anthony
-+ Terminer les parties "Les principes fondamentaux sur les applications Android" et "Organisation et déroulement du projet"
++ Terminer la partie "Organisation et déroulement du projet"
 + Faire "Remerciements" et "Ce que le projet nous a apporté"
