@@ -6,17 +6,15 @@
 		android:id="@+id/layout_menu_list_item"
 		android:background="#000000">
 	<TextView android:layout_width="wrap_content" 
-			android:layout_height="wrap_content" 
 			android:id="@+id/menu_item" 
 			android:text="Menu item" 
 			android:layout_marginLeft="2px"
 			android:layout_alignParentLeft="true" 
-			android:textStyle="bold" />
+			android:textStyle="bold" android:layout_height="wrap_content" android:gravity="center_vertical" android:minHeight="50dp"/>
 	<TextView android:layout_width="wrap_content" 
-			android:layout_height="wrap_content" 
 			android:id="@+id/menu_array" 
 			android:text=">" 
 			android:layout_marginLeft="2px"
 			android:layout_alignParentRight="true" 
-			android:textStyle="bold" />
+			android:textStyle="bold" android:layout_height="wrap_content" android:gravity="center_vertical" android:minHeight="50dp"/>
 </RelativeLayout>
