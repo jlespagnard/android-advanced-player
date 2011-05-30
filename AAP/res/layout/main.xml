@@ -35,7 +35,7 @@
 			<WebView android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/lyricsWebView"></WebView>
 			<TableRow android:gravity="center_horizontal">
 				<Button android:onClick="updateLyricSearchButtonReturn" android:background="@drawable/retour" android:layout_marginRight="5dip" android:layout_height="wrap_content" android:layout_width="wrap_content"></Button>
-				<Button android:onClick="updateLyricSearch" android:background="@drawable/quit" android:layout_marginLeft="5dip" android:layout_height="wrap_content" android:layout_width="wrap_content"></Button>
+				<Button android:onClick="closeLyricViews" android:background="@drawable/quit" android:layout_marginLeft="5dip" android:layout_height="wrap_content" android:layout_width="wrap_content"></Button>
 			</TableRow>
 		</TableLayout>
 		<TableLayout android:id="@+id/FrameLayout06" android:layout_centerInParent="true" android:layout_height="fill_parent" android:layout_width="fill_parent" android:visibility="invisible">
