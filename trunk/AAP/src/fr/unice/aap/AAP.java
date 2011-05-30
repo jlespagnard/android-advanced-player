@@ -1,6 +1,5 @@
 package fr.unice.aap;
 
-import java.util.Currency;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -16,7 +15,6 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.sax.Element;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -214,6 +212,7 @@ public class AAP extends Activity {
         ((TextView)findViewById(R.id.fonctionnalites)).setOnClickListener(new View.OnClickListener() {			
 			@Override
 			public void onClick(View arg0) {
+				 fermerParoles();
 				animFonctionnalites(false);
 			}
 		});
@@ -221,6 +220,16 @@ public class AAP extends Activity {
         setSong(this, R.raw.testsong);
         //ouvrir directement la liste des musiques        
 		startActivity(musicList);
+    }
+    
+    public void fermerParoles(){
+    	ScrollView fenetreParoles = (ScrollView) findViewById(R.id.FrameLayout07);
+		if(fenetreParoles.getVisibility() == ScrollView.VISIBLE){
+			//animation pour la fermeture de la fenetre des paroles
+	    	Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animalphaout);       
+	    	fenetreParoles.startAnimation(a);
+	    	fenetreParoles.setVisibility(FrameLayout.INVISIBLE);
+		}
     }
     
     /* ************** ouverture/fermeture de la fenetre fonctionnalites ************** */
@@ -326,6 +335,7 @@ public class AAP extends Activity {
     public void openDossierMusic(View v)
 	{   
     	animFonctionnalites(true);
+    	fermerParoles();
 		startActivity(musicList);
 	}
     
@@ -443,8 +453,13 @@ public class AAP extends Activity {
     /* ****************** affichage des paroles ****************** */
     public void findLyrics(View v){
     	// On enlève le menu 
-    	((RelativeLayout) findViewById(R.id.RelativeLayout04)).setVisibility(FrameLayout.INVISIBLE);
-    	((ScrollView) findViewById(R.id.FrameLayout07)).setVisibility(FrameLayout.VISIBLE);
+    	animFonctionnalites(true);
+    	//animation pour l'ouverture de la fenetre des paroles
+    	Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animalphain);       
+    	ScrollView fenetreParoles = (ScrollView) findViewById(R.id.FrameLayout07);
+    	fenetreParoles.startAnimation(a);
+    	fenetreParoles.setVisibility(FrameLayout.VISIBLE);
+    	
         ((TableLayout) findViewById(R.id.FrameLayout06)).setVisibility(FrameLayout.VISIBLE);
         ((TextView) findViewById(R.id.lyricsTextView)).setText("Bienvenue sur la recherche de paroles.\nUne connexion internet est nécessaire.");
         ((Button)findViewById(R.id.lyricsBrowserButton)).setVisibility(FrameLayout.INVISIBLE);
@@ -539,9 +554,7 @@ public class AAP extends Activity {
     
     //On met toutes les view concernées en invisible
     public void closeLyricViews(View v){
-    	ScrollView scrollview = (ScrollView) findViewById(R.id.FrameLayout07);
-    	if(scrollview.getVisibility() == FrameLayout.VISIBLE)
-    		scrollview.setVisibility(FrameLayout.INVISIBLE);
+    	fermerParoles();
     }
     
     /* ************ thread qui synchronyse la musique et la seekbar et controle la boucle ***** */
