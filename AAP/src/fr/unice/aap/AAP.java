@@ -32,6 +32,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TableLayout;
@@ -441,17 +442,17 @@ public class AAP extends Activity {
     /* ****************** affichage des paroles ****************** */
     public void findLyrics(View v){
     	// On enlève le menu 
-    	System.out.println("UUIQSJHDUINQSDNDSIQJNQSIUSJDIUJSQs");
     	((RelativeLayout) findViewById(R.id.RelativeLayout04)).setVisibility(FrameLayout.INVISIBLE);
+    	((ScrollView) findViewById(R.id.FrameLayout07)).setVisibility(FrameLayout.VISIBLE);
         ((TableLayout) findViewById(R.id.FrameLayout06)).setVisibility(FrameLayout.VISIBLE);
 	    //On initialise les deux champs pour la recherche manuelle
     	((EditText) findViewById(R.id.ArtistName)).setText(currentArtist);
     	((EditText) findViewById(R.id.SongName)).setText(currentSong);
         //On affiche le résultat
-    	setLyricsTextResult(currentArtist, currentSong);
+    	setLyricsTextResult(currentArtist, currentSong, false);
     }
     
-    public void setLyricsTextResult(String artist, String song){
+    public void setLyricsTextResult(String artist, String song, boolean estRetour){
     	try{
     		TableLayout webBrowser = (TableLayout) findViewById(R.id.FrameLayout08);
     		if(webBrowser.getVisibility() == FrameLayout.VISIBLE)
@@ -459,30 +460,45 @@ public class AAP extends Activity {
     		TableLayout lyricsSearch = (TableLayout) findViewById(R.id.FrameLayout06);
     		if(lyricsSearch.getVisibility() == FrameLayout.INVISIBLE)
     			lyricsSearch.setVisibility(FrameLayout.VISIBLE);
+    		boolean artistAlone = false;
     		
     		TextView lyricsTextView = (TextView) findViewById(R.id.lyricsTextView);
+
     		// L'url "path" permet d'interroger le serveur pour récupérer les paroles de l'artiste et de la chanson passés en paramètre
     		//On demande le format de retour en xml qu'on parsera
-    		String path = "http://lyrics.wikia.com/api.php?fmt=xml";
+    		String path = "http://lyrics.wikia.com/api.php?";
     		artist = formatString(artist);
     		song = formatString(song);
-    		if (artist != null && artist.length() > 0)
-    			path += "&artist=" + artist;
-    		if (song != null && song.length() > 0)
-    			path += "&song=" + song;
-    		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-    		DocumentBuilder db = dbf.newDocumentBuilder();
-    		Document doc = db.parse(path);
-    		String lyrics = "";
-    		lyrics = doc.getElementsByTagName("lyrics").item(0).getTextContent();
-    		urlLyrics = doc.getElementsByTagName("url").item(0).getTextContent();
-    		lyricsTextView.setText(lyrics);
-
-    		//Si les paroles sont disponibles, on affiche un bouton pour afficher la page web qui les contient
-    		if(lyrics.length() > 1 && !lyrics.equalsIgnoreCase("Not Found")) {
-    			((Button)findViewById(R.id.lyricsBrowserButton)).setVisibility(FrameLayout.VISIBLE);
+    		if (artist != null && artist.length() > 0){
+    			path += "artist=" + artist;
+    			artistAlone = true;
+    		}
+    		if (song != null && song.length() > 0){
+    			if(artistAlone)
+    				path+="&";
+    			path+= "song=" + song;
+    			artistAlone = false;
+    		}
+    		if(artistAlone == true && estRetour == false){
+    			urlLyrics = path;
+    			openBrowser();
     		} else {
-    			((Button)findViewById(R.id.lyricsBrowserButton)).setVisibility(FrameLayout.INVISIBLE);
+    			path += "&fmt=xml";
+	    		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+	    		DocumentBuilder db = dbf.newDocumentBuilder();
+	    		Document doc = db.parse(path);
+	    		String lyrics = "";
+	    		lyrics = doc.getElementsByTagName("lyrics").item(0).getTextContent();
+	    		urlLyrics = doc.getElementsByTagName("url").item(0).getTextContent();
+	    		
+	    		lyricsTextView.setText(lyrics);
+	    		//Si les paroles sont disponibles, on affiche un bouton pour afficher la page web qui les contient
+	    		if(lyrics.length() > 1 && !lyrics.equalsIgnoreCase("Not Found")) {
+	    			((Button)findViewById(R.id.lyricsBrowserButton)).setVisibility(FrameLayout.VISIBLE);
+	    		} else {
+	    			lyricsTextView.setText("Not Found");
+	    			((Button)findViewById(R.id.lyricsBrowserButton)).setVisibility(FrameLayout.INVISIBLE);
+	    		}
     		}
     	} catch (Exception e) {
     		e.printStackTrace();
@@ -492,15 +508,25 @@ public class AAP extends Activity {
     public void updateLyricSearch(View v){
     	String artist = ((EditText) findViewById(R.id.ArtistName)).getText().toString();
     	String song = ((EditText) findViewById(R.id.SongName)).getText().toString();
-    	setLyricsTextResult(artist, song);
+    	setLyricsTextResult(artist, song, false);
     }
     
-    public void openBrowser(View v){
+    public void updateLyricSearchButtonReturn(View v){
+    	String artist = ((EditText) findViewById(R.id.ArtistName)).getText().toString();
+    	String song = ((EditText) findViewById(R.id.SongName)).getText().toString();
+    	setLyricsTextResult(artist, song, true);
+    }
+    
+    public void openBrowser(){
     	((TableLayout) findViewById(R.id.FrameLayout06)).setVisibility(FrameLayout.INVISIBLE);
     	((TableLayout) findViewById(R.id.FrameLayout08)).setVisibility(FrameLayout.VISIBLE);
     	WebView lyricsView = (WebView)findViewById(R.id.lyricsWebView);
     	lyricsView.getSettings().setJavaScriptEnabled(true);
-    	lyricsView.loadUrl(urlLyrics);
+    	lyricsView.loadUrl(urlLyrics);    	
+    }
+    
+    public void openBrowser(View v){
+    	openBrowser();
     }
     
     public String formatString(String s){
