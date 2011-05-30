@@ -7,3 +7,4 @@ X Revoir la capture d'écran d'Antho concernant la liste des fichiers dans Winrar
 + Voir pour améliorer le contenu du pied de page
 + Intégrer les fonctionnalités partition et paroles d'Anthony
 + Terminer les parties "Les principes fondamentaux sur les applications Android" et "Organisation et déroulement du projet"
++ Faire "Remerciements" et "Ce que le projet nous a apporté"
