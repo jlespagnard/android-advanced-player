@@ -6,15 +6,15 @@
 
 <ImageView android:layout_alignParentLeft="true" android:layout_below="@+id/fonctionnalites" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginBottom="50dip" android:id="@+id/fondmusic" android:background="@drawable/fond7"></ImageView>
  
-<RelativeLayout android:background="@drawable/fond3" android:layout_below="@+id/fonctionnalites" android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/RelativeLayout04" android:layout_marginBottom="93dp" android:visibility="invisible">	
-	<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/RelativeLayout05" android:gravity="center" android:layout_marginBottom="13dp" android:layout_marginTop="20dp">	
+<RelativeLayout android:background="@drawable/fond3" android:layout_below="@+id/fonctionnalites" android:layout_width="fill_parent" android:id="@+id/RelativeLayout04" android:layout_marginBottom="93dp" android:layout_height="wrap_content" android:visibility="invisible">	
+	<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/RelativeLayout05" android:gravity="center" android:layout_marginBottom="13dp" android:layout_marginTop="10dp">	
 		<ImageButton android:id="@+id/loop" android:background="@drawable/loop" android:onClick="onOffLoop" android:layout_gravity="left" android:layout_marginRight="25dp" android:layout_width="wrap_content" android:layout_height="wrap_content"></ImageButton>
 		<ImageButton android:layout_toRightOf="@id/loop" android:id="@+id/loopdebut" android:background="@drawable/boutondebut" android:onClick="loopDebut" android:layout_gravity="center" android:layout_marginRight="25dp" android:layout_width="wrap_content" android:layout_height="wrap_content"></ImageButton>
 		<ImageButton android:layout_toRightOf="@id/loopdebut" android:id="@+id/loopfin" android:background="@drawable/boutonfin" android:onClick="loopFin" android:layout_gravity="center" android:layout_marginRight="25dp" android:layout_height="wrap_content" android:layout_width="wrap_content"></ImageButton>
 		<ImageButton android:id="@+id/enregistrer" android:layout_toRightOf="@id/loopfin" android:background="@drawable/buttonenregistrer" android:onClick="enregistrer" android:layout_marginRight="25dp" android:layout_height="wrap_content" android:layout_width="wrap_content"></ImageButton>			
 		<ImageButton android:id="@+id/chargerSauv" android:layout_toRightOf="@id/enregistrer" android:background="@drawable/buttonchargersauv" android:onClick="chargerSauv" android:layout_gravity="right" android:layout_height="wrap_content" android:layout_width="wrap_content"></ImageButton>
 	</RelativeLayout>
-	<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/RelativeLayout06" android:layout_below="@+id/RelativeLayout05" android:gravity="center">	
+	<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/RelativeLayout06" android:layout_below="@+id/RelativeLayout05" android:gravity="center" android:paddingBottom="10dp">	
 		<ImageButton android:id="@+id/tonalite" android:background="@drawable/buttontonalite" android:onClick="openEqualizer" android:layout_marginRight="25dp" android:layout_height="wrap_content" android:layout_width="wrap_content"></ImageButton>	
 		<ImageButton android:layout_toRightOf="@id/tonalite" android:id="@+id/paroles" android:background="@drawable/buttonmicro" android:layout_marginRight="25dp" android:layout_height="wrap_content" android:layout_width="wrap_content" android:onClick="findLyrics" ></ImageButton>	
 		<ImageButton android:layout_toRightOf="@id/paroles" android:id="@+id/partition" android:background="@drawable/buttonnote" android:layout_marginRight="25dp" android:layout_height="wrap_content" android:layout_width="wrap_content" ></ImageButton>					
@@ -29,7 +29,7 @@
 
 <TextView android:layout_width="fill_parent" android:id="@+id/fonctionnalites" android:layout_below="@+id/RelativeLayout7" android:gravity="center" android:layout_centerHorizontal="true" android:shadowColor="#000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1.5" android:textColor="#B8BAB9" android:text="fonctionnalites" android:background="@drawable/buttonfonctionnalites" android:layout_height="45dp"></TextView>
 
-<ScrollView  android:id="@+id/FrameLayout07" android:layout_below="@+id/fonctionnalites"  android:layout_above="@+id/FrameLayout01" android:layout_width="fill_parent" android:layout_height="wrap_content" android:background="@drawable/fond3" android:visibility="invisible">
+<ScrollView  android:id="@+id/FrameLayout07" android:layout_below="@+id/fonctionnalites"  android:layout_above="@+id/FrameLayout01" android:layout_width="fill_parent" android:layout_height="wrap_content" android:visibility="invisible" android:background="@drawable/fond4">
 	<FrameLayout android:layout_height="wrap_content" android:layout_width="fill_parent">
 		<TableLayout android:id="@+id/FrameLayout08" android:layout_centerInParent="true" android:layout_height="fill_parent" android:layout_width="fill_parent" android:visibility="invisible">
 			<WebView android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/lyricsWebView"></WebView>
