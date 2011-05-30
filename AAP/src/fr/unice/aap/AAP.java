@@ -27,6 +27,7 @@ import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -522,7 +523,8 @@ public class AAP extends Activity {
     	((TableLayout) findViewById(R.id.FrameLayout08)).setVisibility(FrameLayout.VISIBLE);
     	WebView lyricsView = (WebView)findViewById(R.id.lyricsWebView);
     	lyricsView.getSettings().setJavaScriptEnabled(true);
-    	lyricsView.loadUrl(urlLyrics);    	
+    	lyricsView.loadUrl(urlLyrics);
+    	lyricsView.setWebViewClient(new WebViewClient());
     }
     
     public void openBrowser(View v){
