@@ -11,5 +11,5 @@
 			android:text="Metadata" 
 			android:layout_marginLeft="2px"
 			android:layout_alignParentLeft="true" 
-			android:textStyle="bold" />
+			android:textStyle="bold" android:minHeight="50dp" android:gravity="center_vertical"/>
 </RelativeLayout>
