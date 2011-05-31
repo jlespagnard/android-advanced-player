@@ -13,7 +13,7 @@
 
 <TextView android:layout_width="fill_parent" android:id="@+id/fonctionnalites" android:layout_below="@+id/RelativeLayout7" android:gravity="center" android:layout_centerHorizontal="true" android:shadowColor="#000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1.5" android:textColor="#B8BAB9" android:text="fonctionnalites" android:background="@drawable/buttonfonctionnalites" android:layout_height="45dp"></TextView>
 
-<RelativeLayout android:layout_width="fill_parent" android:id="@+id/RelativeLayout04" android:layout_height="wrap_content" android:visibility="invisible" android:background="@drawable/fond6">	
+<RelativeLayout android:layout_width="fill_parent" android:id="@+id/RelativeLayout04" android:layout_height="wrap_content" android:background="@drawable/fond3" android:visibility="invisible">	
 	<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/RelativeLayout05" android:gravity="center" android:layout_marginBottom="13dp" android:layout_marginTop="20dp">	
 		<ImageButton android:id="@+id/loop" android:background="@drawable/loop" android:onClick="onOffLoop" android:layout_gravity="left" android:layout_marginRight="25dp" android:layout_width="wrap_content" android:layout_height="wrap_content"></ImageButton>
 		<ImageButton android:layout_toRightOf="@id/loop" android:id="@+id/loopdebut" android:background="@drawable/boutondebut" android:onClick="loopDebut" android:layout_gravity="center" android:layout_marginRight="25dp" android:layout_width="wrap_content" android:layout_height="wrap_content"></ImageButton>
