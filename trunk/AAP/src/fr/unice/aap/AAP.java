@@ -1,13 +1,17 @@
 package fr.unice.aap;
 
 
+import java.util.ArrayList;
+import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
 
+
 import fr.unice.aap.musics.AllSongsListActivity;
 import fr.unice.aap.musics.MusicListActivity;
+import fr.unice.loop.*;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +19,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -67,7 +72,8 @@ public class AAP extends Activity {
 	public boolean btLoopFinOn = false;
 	public boolean record = false;
 	/* permet de gerer la thread qui synchronise la musique avec la seekBar */
-	private Handler mHandler = new Handler();	
+	private Handler mHandler = new Handler();
+	
 	
     /* *********************** Called when the activity is first created. *************** */
     @Override
@@ -79,12 +85,14 @@ public class AAP extends Activity {
     
     /* ************************ modifier la musique ************************ */
     public static void setSong(Context p_appContext, int p_rawId) {
+
 //    	if(mPlayer != null) {
 //	    	mPlayer.stop();
 //	    	mPlayer.seekTo(0);
 //	    	mPlayer.release();
 //	    	activity.play();
 //    	}
+
     	mPlayer = MediaPlayer.create(p_appContext,p_rawId);
     	activity.initSeekBarMusic();
     }
@@ -151,6 +159,7 @@ public class AAP extends Activity {
 			public boolean onTouch(View v, MotionEvent event) {
 				
 				if(isPlay){
+					
 					switch ( event.getAction() ) { 
 					case MotionEvent.ACTION_DOWN:
 						buttonPlayStop.setBackgroundResource(R.drawable.pauseclick);						
@@ -386,32 +395,36 @@ public class AAP extends Activity {
 		menu.setHeaderTitle("Chargement");
 		menu.setHeaderIcon(R.drawable.uploadclick);
 		menu.add(0, 0, 0, "annuler");
-		
-		for(int i=1 ; i<10 ; i++)
-			menu.add(0, i, 0, "sauv"+i);	
+		TextView t = (TextView)activity.findViewById(R.id.titre);
+		ArrayList<Loop> lstLoop = ExtractLoopConf.getLoops(t.getText().toString());
+		Log.i("INFO", "SIZE "+lstLoop.size());
+		for(int k=0;k<lstLoop.size();k++)
+		{
+			menu.add(0,k,0,String.valueOf(lstLoop.get(k).getDebutLoop())+"-"+String.valueOf(lstLoop.get(k).getFinLoop()));
+		}
 	}
 	
 	public boolean onContextItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case 0:
-				//code annuler
-				return true;
-			case 1:
-				//code pour sauv1
-				seekBar_debut.setProgress(30000);
-				return true;
-			case 2:
-				//code pour sauv2
-				seekBar_debut.setProgress(50000);
-				return true;	
-			default:
-				return super.onContextItemSelected(item);
+		if(item.getTitle().equals("annuler"))
+		{
+			return true;
+		}
+		else
+		{
+			String[] tabLoop = item.getTitle().toString().split("-");
+			seekBar_debut.setProgress(Integer.parseInt(tabLoop[0]));
+			seekBar_fin.setProgress(Integer.parseInt(tabLoop[1]));
+			return true;
 		}
 	}
     
 	/* **************** click bouton enregistrer sauvegarde loop *************** */
 	public void enregistrer(View v){
-		//evenement quand on clique sur enregistrer
+		Log.i("INFO","debut: "+seekBar_debut.getProgress());
+		Log.i("INFO","fin: "+seekBar_fin.getProgress());
+		TextView t = (TextView)activity.findViewById(R.id.titre);
+		Log.i("INFO","chanson: "+t.getText().toString());
+		ExtractLoopConf.addLoop(new Loop("test",seekBar_debut.getProgress(),seekBar_fin.getProgress(),t.getText().toString()));
 	}
 	
 	/* ********************* click bouton ouvrir repertoire Music de la sccard ********* */
@@ -651,9 +664,7 @@ public class AAP extends Activity {
                 if(isPlay && !onTouchSeekBarMusic) {
                 	seekBar_Music.setProgress(mPlayer.getCurrentPosition()); 
                 	((TextView)findViewById(R.id.position)).setText(heureToString(mPlayer.getCurrentPosition()));
-                	//IMPLEMENTATION DE LA BOUCLE
-                	//=> pour l'instant, codé en dur 
-                	//(arrivé a la seconde 5 ou plus, la musique redemare à la seconde 0)
+                	//Log.i("Info", )
                 	if(isLoop){
                 		if(mPlayer.getCurrentPosition() >= seekBar_fin.getProgress()){
                 			mPlayer.seekTo(seekBar_debut.getProgress());
