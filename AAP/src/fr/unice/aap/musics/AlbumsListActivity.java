@@ -2,12 +2,9 @@ package fr.unice.aap.musics;
 
 import java.util.Map;
 
-import fr.unice.aap.AAP;
-import fr.unice.aap.R;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.media.MediaMetadataRetriever;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;

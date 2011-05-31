@@ -5,7 +5,6 @@ package fr.unice.aap;
  import android.graphics.Color;
  import android.graphics.Paint;
  import android.graphics.Rect;
-import android.util.Log;
 import android.view.View;
  
  public class EqualizerView extends View {
