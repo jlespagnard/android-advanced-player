@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -31,11 +32,13 @@ public class EqualizerActivity extends Activity {
     public void onCreate(Bundle icicle) {
     	super.onCreate(icicle);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        mStatusTextView = new TextView(this);
+        mStatusTextView = new TextView(this); 
+        ScrollView page = new ScrollView(this);
         mLinearLayout = new LinearLayout(this);
         mLinearLayout.setOrientation(LinearLayout.VERTICAL);
         mLinearLayout.addView(mStatusTextView);
-        setContentView(mLinearLayout);
+        page.addView(mLinearLayout);
+        setContentView(page);
         setupVisualizerFxAndUI();
         setupEqualizerFxAndUI();
         AAP.equalizerActivity = this;

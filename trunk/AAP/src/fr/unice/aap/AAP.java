@@ -112,6 +112,27 @@ public class AAP extends Activity {
     	((TextView)activity.findViewById(R.id.titre)).setText(chanson + System.getProperty("line.separator") + artiste);
     }
     
+    /* ************ sauvegarde etat de l'appli avant changement orientation *********** */
+    @Override
+    public Object onRetainNonConfigurationInstance() {
+    	if(mPlayer.getCurrentPosition() == 0){
+    		mPlayer.start();
+    		mPlayer.pause();
+    	}
+        final Object[] data = new Object[10];
+        data[0] = mPlayer; //musique en cours
+        data[1] = isPlay; //etat pause / play
+        data[2] = isLoop; //loop select
+        data[3] = AllSongList; //liste des musiques (pour suivante et precedente)
+        data[4] = currentArtist; //artiste en cours
+        data[5] = currentSong; //titre de la chanson en cours
+        data[6] = seekBar_debut.getProgress();
+        data[7] = seekBar_fin.getProgress();
+        data[8] = ((ScrollView) findViewById(R.id.FrameLayout07)).getVisibility(); //parole ouvert
+        data[9] = ((TableLayout) findViewById(R.id.FrameLayout08)).getVisibility(); //paroles web ouvert
+        return data;
+    }
+    
     /* **************** initialisation des elements de l'application **************** */
     private void initEven()
     {   
@@ -217,9 +238,71 @@ public class AAP extends Activity {
 			}
 		});
         
-        setSong(this, R.raw.testsong);
-        //ouvrir directement la liste des musiques        
-		startActivity(musicList);
+        
+        //recuperation de la sauvegarde en cas de changement de configuration
+        // paysage / paysage
+        final Object[] data = (Object[]) getLastNonConfigurationInstance();
+        if (data == null) {
+        	setSong(this, R.raw.testsong);
+            //ouvrir directement la liste des musiques        
+    		startActivity(musicList);
+        }else{
+        	restauration(data);
+        }
+    }
+    
+    public void restauration(Object[] data){
+    	//restauration
+    	mPlayer = (MediaPlayer) data[0];
+    	AllSongList = (AllSongsListActivity) data[3];
+    	currentArtist = (String) data[4];
+    	currentSong = (String) data[5];
+    	((TextView)activity.findViewById(R.id.titre)).setText(currentSong + System.getProperty("line.separator") + currentArtist);
+    	
+    	//initseekbar
+    	//seekbar_music
+    	seekBar_Music.setMax(mPlayer.getDuration()); 
+    	seekBar_Music.setProgress(mPlayer.getCurrentPosition());              
+    	//seekbar_debut
+    	seekBar_debut.setMax(mPlayer.getDuration());
+    	seekBar_debut.setProgress((Integer) data[6]);
+    	//seekbar_fin
+    	seekBar_fin.setMax(mPlayer.getDuration());
+    	seekBar_fin.setProgress((Integer) data[7]);
+    	//seekBar_reglageLoop
+    	seekBar_reglageLoop.setMax(mPlayer.getDuration());
+    	seekBar_reglageLoop.setProgress(0);
+    	//textView position
+    	((TextView)findViewById(R.id.position)).setText(heureToString(mPlayer.getCurrentPosition()));
+    	//textView duree
+        ((TextView)findViewById(R.id.duree)).setText(heureToString(mPlayer.getDuration()));
+        //textView position debut
+    	((TextView)findViewById(R.id.positiondebut)).setText(heureToString(seekBar_debut.getProgress()));
+    	//textView position fin
+        ((TextView)findViewById(R.id.positionfin)).setText(heureToString(seekBar_fin.getProgress()));
+    	
+    	//musique en cours d'écoute : play/pause
+    	isPlay = (Boolean) data[1];
+    	if(isPlay)
+    		play();
+    	else
+    		pause();
+    	//loop selectionne
+    	isLoop = (Boolean) data[2];
+    	if(isLoop)
+    		buttonLoop.setBackgroundResource(R.drawable.loopclick); 
+    	else
+    		buttonLoop.setBackgroundResource(R.drawable.loop); 
+    	
+    	//fenetre paroles
+    	if((Integer)data[8] == ScrollView.VISIBLE){
+    		findLyrics();
+    	}
+    	
+    	//fenetre paroles web
+    	if((Integer)data[9] == FrameLayout.VISIBLE){
+    		openBrowser();
+    	}
     }
     
     public void fermerParoles(){
@@ -235,17 +318,17 @@ public class AAP extends Activity {
     /* ************** ouverture/fermeture de la fenetre fonctionnalites ************** */
     public void animFonctionnalites(Boolean close){
     	RelativeLayout frame = (RelativeLayout) findViewById(R.id.RelativeLayout04);
-    	if(frame.getVisibility() == FrameLayout.INVISIBLE){	
+    	if(frame.getVisibility() == RelativeLayout.INVISIBLE){	
     		if(!close) {
 	            Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animframein);
 	            frame.startAnimation(a);
-	            frame.setVisibility(FrameLayout.VISIBLE);
+	            frame.setVisibility(RelativeLayout.VISIBLE);
     		}
     	}
     	else{
     		Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animframeout);
             frame.startAnimation(a);
-    		frame.setVisibility(FrameLayout.INVISIBLE); 
+    		frame.setVisibility(RelativeLayout.INVISIBLE); 
     	}
     }
     
@@ -452,13 +535,17 @@ public class AAP extends Activity {
   	
     /* ****************** affichage des paroles ****************** */
     public void findLyrics(View v){
+    	findLyrics();
+    }
+    
+    public void findLyrics(){
     	// On enlève le menu 
     	animFonctionnalites(true);
     	//animation pour l'ouverture de la fenetre des paroles
     	Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animalphain);       
     	ScrollView fenetreParoles = (ScrollView) findViewById(R.id.FrameLayout07);
     	fenetreParoles.startAnimation(a);
-    	fenetreParoles.setVisibility(FrameLayout.VISIBLE);
+    	fenetreParoles.setVisibility(ScrollView.VISIBLE);
     	
         ((TableLayout) findViewById(R.id.FrameLayout06)).setVisibility(FrameLayout.VISIBLE);
         ((TextView) findViewById(R.id.lyricsTextView)).setText("Bienvenue sur la recherche de paroles.\nUne connexion internet est nécessaire.");
