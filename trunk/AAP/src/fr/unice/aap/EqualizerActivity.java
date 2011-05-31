@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 public class EqualizerActivity extends Activity {
      
-	private static final String TAG = "AudioFxDemo";
     private static final float VISUALIZER_HEIGHT_DIP = 50f;
     private Visualizer mVisualizer;
     private Equalizer mEqualizer;
