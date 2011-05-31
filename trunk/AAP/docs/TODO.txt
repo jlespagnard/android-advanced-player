@@ -7,6 +7,6 @@ X Terminer la partie "Les principes fondamentaux sur les applications Android"
 X Faire la page de présentation
 X Faire "Remerciements"
 X Terminer la partie "Organisation et déroulement du projet"
-+ Voir pour améliorer le contenu du pied de page
-+ Intégrer les fonctionnalités partition et paroles d'Anthony
+X Intégrer la fonctionnalité paroles d'Anthony
 + Faire "Ce que le projet nous a apporté"
++ Intégrer la partie concernant le mode paysage d'Élodie
