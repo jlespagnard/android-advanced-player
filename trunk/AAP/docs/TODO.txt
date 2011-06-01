@@ -8,5 +8,5 @@ X Faire la page de présentation
 X Faire "Remerciements"
 X Terminer la partie "Organisation et déroulement du projet"
 X Intégrer la fonctionnalité paroles d'Anthony
-+ Faire "Ce que le projet nous a apporté"
-+ Intégrer la partie concernant le mode paysage d'Élodie
+X Faire "Ce que le projet nous a apporté"
+X Intégrer la partie concernant le mode paysage d'Élodie
