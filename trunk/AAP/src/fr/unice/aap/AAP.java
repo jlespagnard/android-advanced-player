@@ -3,6 +3,8 @@ package fr.unice.aap;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -397,10 +399,12 @@ public class AAP extends Activity {
 		menu.add(0, 0, 0, "annuler");
 		TextView t = (TextView)activity.findViewById(R.id.titre);
 		ArrayList<Loop> lstLoop = ExtractLoopConf.getLoops(t.getText().toString());
-		Log.i("INFO", "SIZE "+lstLoop.size());
 		for(int k=0;k<lstLoop.size();k++)
 		{
-			menu.add(0,k,0,String.valueOf(lstLoop.get(k).getDebutLoop())+"-"+String.valueOf(lstLoop.get(k).getFinLoop()));
+			String hhmmssDeb = millisToDate(lstLoop.get(k).getDebutLoop());
+			String hhmmssFin = millisToDate(lstLoop.get(k).getFinLoop());
+		
+			menu.add(0,k,0,hhmmssDeb+"-"+hhmmssFin);
 		}
 	}
 	
@@ -412,8 +416,19 @@ public class AAP extends Activity {
 		else
 		{
 			String[] tabLoop = item.getTitle().toString().split("-");
-			seekBar_debut.setProgress(Integer.parseInt(tabLoop[0]));
-			seekBar_fin.setProgress(Integer.parseInt(tabLoop[1]));
+			Log.i("INFO","tabLoop"+tabLoop[0]+"-"+tabLoop[1]);
+			String[] tabDeb = tabLoop[0].split(":");
+			String hDeb = tabDeb[0];
+			String mDeb = tabDeb[1];
+			String sDeb = tabDeb[2];
+			
+			String[] tabFin = tabLoop[1].split(":");
+			String hFin = tabFin[0];
+			String mFin = tabFin[1];
+			String sFin = tabFin[2];
+			
+			seekBar_debut.setProgress(Integer.parseInt(String.valueOf(TimeUnit.HOURS.toMillis(Long.parseLong(hDeb))+TimeUnit.MINUTES.toMillis(Long.parseLong(mDeb))+TimeUnit.SECONDS.toMillis(Long.parseLong(sDeb)))));
+			seekBar_fin.setProgress(Integer.parseInt(String.valueOf(TimeUnit.HOURS.toMillis(Long.parseLong(hFin))+TimeUnit.MINUTES.toMillis(Long.parseLong(mFin))+TimeUnit.SECONDS.toMillis(Long.parseLong(sFin)))));
 			return true;
 		}
 	}
@@ -739,5 +754,27 @@ public class AAP extends Activity {
             default :
             	return false;
         }
+    }
+    /* *** fonction de conversion *** */
+    /* Conversion de milli-secondes en HH-MM-SS */
+    public String millisToDate(long millis)
+    {
+    	long timeMillis = millis;
+		long time = timeMillis / 1000;
+		String seconds = Integer.toString((int)(time % 60));
+		String minutes = Integer.toString((int)((time % 3600) / 60));
+		String hours = Integer.toString((int)(time / 3600));
+		for (int i = 0; i < 2; i++) {
+		if (seconds.length() < 2) {
+		seconds = "0" + seconds;
+		}
+		if (minutes.length() < 2) {
+		minutes = "0" + minutes;
+		}
+		if (hours.length() < 2) {
+		hours = "0" + hours;
+		}
+		}
+		return hours+":"+minutes+":"+seconds;
     }
 }
