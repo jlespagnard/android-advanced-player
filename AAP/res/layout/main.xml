@@ -76,6 +76,8 @@
 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingLeft="5dip" android:id="@+id/position" android:text="00:00" android:layout_gravity="left|bottom" android:layout_marginBottom="14dp" android:textColor="#FFFFFF"></TextView>
 </FrameLayout>
 
+<TextView android:layout_width="wrap_content" android:id="@+id/infoEnregistrement" android:gravity="center" android:layout_centerHorizontal="true" android:shadowColor="#000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1.5" android:textColor="#B8BAB9" android:background="@drawable/fond6" android:layout_height="wrap_content" android:layout_centerVertical="true" android:visibility="invisible" android:text="enregistrement effectué"></TextView>
+
 </RelativeLayout>
 
 
