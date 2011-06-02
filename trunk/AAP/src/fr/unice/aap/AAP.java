@@ -2,7 +2,6 @@ package fr.unice.aap;
 
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -15,6 +14,8 @@ import fr.unice.aap.musics.AllSongsListActivity;
 import fr.unice.aap.musics.MusicListActivity;
 import fr.unice.loop.*;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -440,6 +441,13 @@ public class AAP extends Activity {
 		TextView t = (TextView)activity.findViewById(R.id.titre);
 		Log.i("INFO","chanson: "+t.getText().toString());
 		ExtractLoopConf.addLoop(new Loop("test",seekBar_debut.getProgress(),seekBar_fin.getProgress(),t.getText().toString()));
+		
+		//ouvrir fenetre info
+		TextView fenetre = (TextView)findViewById(R.id.infoEnregistrement);
+		fenetre.setVisibility(TextView.VISIBLE);
+		Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animalphainfo);
+		fenetre.startAnimation(a);			
+		fenetre.setVisibility(TextView.INVISIBLE);
 	}
 	
 	/* ********************* click bouton ouvrir repertoire Music de la sccard ********* */
