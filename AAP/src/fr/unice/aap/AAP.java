@@ -14,8 +14,6 @@ import fr.unice.aap.musics.AllSongsListActivity;
 import fr.unice.aap.musics.MusicListActivity;
 import fr.unice.loop.*;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -73,7 +71,6 @@ public class AAP extends Activity {
 	private Boolean onTouchSeekBarMusic = false;
 	public boolean btLoopDebutOn = false;
 	public boolean btLoopFinOn = false;
-	public boolean record = false;
 	/* permet de gerer la thread qui synchronise la musique avec la seekBar */
 	private Handler mHandler = new Handler();
 	
@@ -372,18 +369,6 @@ public class AAP extends Activity {
     	buttonPlayStop.setBackgroundResource(R.drawable.play);
 		mPlayer.pause();
 		isPlay = false;
-    }
-    
-    /* ********************* click bouton enregistrement d'un son ************* */
-    public void record(View v){
-    	ImageButton buttonRecord = (ImageButton) findViewById(R.id.rec);
-    	if (record) {
-    		buttonRecord.setBackgroundResource(R.drawable.rec);  
-    		record = false;
-        }else {
-        	buttonRecord.setBackgroundResource(R.drawable.recclick);  
-        	record = true;
-        }
     }
     
     /* ************************ chargement d'une sauvegarde ******************* */
