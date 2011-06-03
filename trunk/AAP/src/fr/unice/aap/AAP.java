@@ -72,6 +72,7 @@ public class AAP extends Activity {
 	public boolean btLoopDebutOn = false;
 	public boolean btLoopFinOn = false;
 	public boolean editLoop = false;
+	public boolean record = false;
 	/* permet de gerer la thread qui synchronise la musique avec la seekBar */
 	private Handler mHandler = new Handler();
 	
@@ -464,6 +465,21 @@ public class AAP extends Activity {
   		}
   	}      
   
+    /* ********************* enregistrement sonore *************** */
+    public void recordSon(View v){
+    	ImageButton buttonRecord = (ImageButton) findViewById(R.id.rec);
+    	if (record) {
+    		buttonRecord.setBackgroundResource(R.drawable.rec);  
+    		record = false;
+    		//arret enregistrement sonore
+        }else {
+        	buttonRecord.setBackgroundResource(R.drawable.recclick);  
+        	record = true;
+        	//demarrage enregistrement sonore
+        }
+    }
+    
+    
     /* ******************* edition de la boucle ************************************* */
     public void editLoop(View v){
     	ImageButton bouton = (ImageButton) findViewById(R.id.editLoop);
