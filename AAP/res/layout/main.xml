@@ -12,7 +12,7 @@
 		<ImageButton android:layout_toRightOf="@id/loop" android:id="@+id/loopdebut" android:background="@drawable/boutondebut" android:onClick="loopDebut" android:layout_gravity="center" android:layout_marginRight="25dp" android:layout_width="wrap_content" android:layout_height="wrap_content"></ImageButton>
 		<ImageButton android:layout_toRightOf="@id/loopdebut" android:id="@+id/loopfin" android:background="@drawable/boutonfin" android:onClick="loopFin" android:layout_gravity="center" android:layout_marginRight="25dp" android:layout_height="wrap_content" android:layout_width="wrap_content"></ImageButton>
 		<ImageButton android:id="@+id/editLoop" android:layout_toRightOf="@id/loopfin" android:background="@drawable/edit" android:onClick="editLoop" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginRight="25dp"></ImageButton>			
-		<ImageButton android:id="@+id/enregistrer" android:layout_toRightOf="@id/editLoop" android:background="@drawable/buttonenregistrer" android:onClick="enregistrer" android:layout_height="wrap_content" android:layout_width="wrap_content"></ImageButton>			
+		<ImageButton android:id="@+id/enregistrer" android:layout_toRightOf="@id/editLoop" android:background="@drawable/buttonenregistrer" android:onClick="enregistrerLoop" android:layout_height="wrap_content" android:layout_width="wrap_content"></ImageButton>			
 	</RelativeLayout>
 	<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/RelativeLayout06" android:layout_below="@+id/RelativeLayout05" android:gravity="center" android:paddingBottom="10dp">
 		<ImageButton android:id="@+id/chargerSauv" android:background="@drawable/buttonchargersauv" android:onClick="chargerSauv" android:layout_gravity="center" android:layout_marginRight="25dp" android:layout_height="wrap_content" android:layout_width="wrap_content"></ImageButton>	
@@ -34,7 +34,7 @@
 	<ImageButton android:id="@+id/help" android:background="@drawable/buttonhelp" android:onClick="help" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="center"></ImageButton>
 </FrameLayout>
 
-<ScrollView  android:id="@+id/FrameLayout07" android:layout_below="@+id/fonctionnalites"  android:layout_above="@+id/FrameLayout01" android:layout_width="fill_parent" android:layout_height="wrap_content" android:visibility="invisible" android:background="@drawable/fond4">
+<ScrollView  android:id="@+id/LyricsView" android:layout_below="@+id/fonctionnalites"  android:layout_above="@+id/FrameLayout01" android:layout_width="fill_parent" android:layout_height="wrap_content" android:visibility="invisible" android:background="@drawable/fond4">
 	<FrameLayout android:layout_height="wrap_content" android:layout_width="fill_parent">
 		<TableLayout android:id="@+id/FrameLayout08" android:layout_centerInParent="true" android:layout_height="fill_parent" android:layout_width="fill_parent" android:visibility="invisible">
 			<WebView android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/lyricsWebView"></WebView>
