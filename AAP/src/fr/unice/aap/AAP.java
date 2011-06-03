@@ -71,6 +71,7 @@ public class AAP extends Activity {
 	private Boolean onTouchSeekBarMusic = false;
 	public boolean btLoopDebutOn = false;
 	public boolean btLoopFinOn = false;
+	public boolean editLoop = false;
 	/* permet de gerer la thread qui synchronise la musique avec la seekBar */
 	private Handler mHandler = new Handler();
 	
@@ -463,59 +464,100 @@ public class AAP extends Activity {
   		}
   	}      
   
+    /* ******************* edition de la boucle ************************************* */
+    public void editLoop(View v){
+    	ImageButton bouton = (ImageButton) findViewById(R.id.editLoop);
+    	if (editLoop) {
+    		bouton.setBackgroundResource(R.drawable.edit);      		
+    		btLoopFinOn = false;
+    		btLoopDebutOn = false;
+    		ImageButton boutondebut = (ImageButton) findViewById(R.id.loopdebut);
+    		ImageButton boutonfin = (ImageButton) findViewById(R.id.loopfin);
+  			boutondebut.setBackgroundResource(R.drawable.boutondebut);
+  			boutonfin.setBackgroundResource(R.drawable.boutonfin);
+  			FrameLayout frame = (FrameLayout) findViewById(R.id.FrameLayout05);
+  			if(frame.getVisibility() == FrameLayout.VISIBLE){
+	  			Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animreglageloopout);
+	            frame.startAnimation(a);
+	  			frame.setVisibility(FrameLayout.INVISIBLE);
+  			}  		
+            editLoop = false;
+        }else {
+        	bouton.setBackgroundResource(R.drawable.editclick);  
+        	editLoop = true;
+        }
+    }
+    
     /* ********************** click bouton reglage du debut de la boucle *********** */
     public void loopDebut(View v) {
-  		ImageButton bouton = (ImageButton) findViewById(R.id.loopdebut);
-  		FrameLayout frame = (FrameLayout) findViewById(R.id.FrameLayout05);
-  		if(!btLoopDebutOn){
-  			//reglage debut
-  			btLoopDebutOn = true;
-  			bouton.setBackgroundResource(R.drawable.boutondebutclick);
-  			if(btLoopFinOn){
-  				btLoopFinOn = false;
-  				((ImageButton)findViewById(R.id.loopfin)).setBackgroundResource(R.drawable.boutonfin);
-  			}
-  			seekBar_reglageLoop.setProgress(seekBar_debut.getProgress());
-  			if(frame.getVisibility() == FrameLayout.INVISIBLE)
-  			{
-  				Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animreglageloopin);
+    	if(editLoop){
+	  		ImageButton bouton = (ImageButton) findViewById(R.id.loopdebut);
+	  		FrameLayout frame = (FrameLayout) findViewById(R.id.FrameLayout05);
+	  		if(!btLoopDebutOn){
+	  			//reglage debut
+	  			btLoopDebutOn = true;
+	  			bouton.setBackgroundResource(R.drawable.boutondebutclick);
+	  			if(btLoopFinOn){
+	  				btLoopFinOn = false;
+	  				((ImageButton)findViewById(R.id.loopfin)).setBackgroundResource(R.drawable.boutonfin);
+	  			}
+	  			seekBar_reglageLoop.setProgress(seekBar_debut.getProgress());
+	  			if(frame.getVisibility() == FrameLayout.INVISIBLE)
+	  			{
+	  				Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animreglageloopin);
+		            frame.startAnimation(a);
+		            frame.setVisibility(FrameLayout.VISIBLE);
+	  			}              
+	  		}else{
+	  			btLoopDebutOn = false;
+	  			bouton.setBackgroundResource(R.drawable.boutondebut);
+	  			Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animreglageloopout);
 	            frame.startAnimation(a);
-	            frame.setVisibility(FrameLayout.VISIBLE);
-  			}              
-  		}else{
-  			btLoopDebutOn = false;
-  			bouton.setBackgroundResource(R.drawable.boutondebut);
-  			Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animreglageloopout);
-            frame.startAnimation(a);
-  			frame.setVisibility(FrameLayout.INVISIBLE);
-  		} 		
+	  			frame.setVisibility(FrameLayout.INVISIBLE);
+	  		} 
+    	}else{  		   		
+    		if(mPlayer.getCurrentPosition()<seekBar_fin.getProgress()){
+    			seekBar_debut.setProgress(mPlayer.getCurrentPosition());
+    		}else{
+    			seekBar_debut.setProgress(seekBar_fin.getProgress()); 
+    		}
+    	}
   	} 
     
     /* ********************** click bouton reglage de la fin de la boucle *********** */
     public void loopFin(View v) {
     	
-    	ImageButton bouton = (ImageButton) findViewById(R.id.loopfin);
-    	FrameLayout frame = (FrameLayout) findViewById(R.id.FrameLayout05);
-  		if(!btLoopFinOn){
-  			btLoopFinOn = true;
-  			bouton.setBackgroundResource(R.drawable.boutonfinclick);
-  			if(btLoopDebutOn){
-  				btLoopDebutOn = false;
-  				((ImageButton)findViewById(R.id.loopdebut)).setBackgroundResource(R.drawable.boutondebut);
-  			}
-  			seekBar_reglageLoop.setProgress(seekBar_fin.getProgress());
-  			if(frame.getVisibility() == FrameLayout.INVISIBLE){
-  				Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animreglageloopin);
+    	if(editLoop){
+	    	ImageButton bouton = (ImageButton) findViewById(R.id.loopfin);
+	    	FrameLayout frame = (FrameLayout) findViewById(R.id.FrameLayout05);
+	  		if(!btLoopFinOn){
+	  			btLoopFinOn = true;
+	  			bouton.setBackgroundResource(R.drawable.boutonfinclick);
+	  			if(btLoopDebutOn){
+	  				btLoopDebutOn = false;
+	  				((ImageButton)findViewById(R.id.loopdebut)).setBackgroundResource(R.drawable.boutondebut);
+	  			}
+	  			seekBar_reglageLoop.setProgress(seekBar_fin.getProgress());
+	  			if(frame.getVisibility() == FrameLayout.INVISIBLE){
+	  				Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animreglageloopin);
+		            frame.startAnimation(a);
+	                frame.setVisibility(FrameLayout.VISIBLE);
+	  			}
+	  		}else{
+	  			btLoopFinOn = false;
+	  			bouton.setBackgroundResource(R.drawable.boutonfin);
+	  			Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animreglageloopout);
 	            frame.startAnimation(a);
-                frame.setVisibility(FrameLayout.VISIBLE);
-  			}
-  		}else{
-  			btLoopFinOn = false;
-  			bouton.setBackgroundResource(R.drawable.boutonfin);
-  			Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animreglageloopout);
-            frame.startAnimation(a);
-  			frame.setVisibility(FrameLayout.INVISIBLE);
-  		}
+	  			frame.setVisibility(FrameLayout.INVISIBLE);
+	  		}
+    	}else{
+    		
+    		if(mPlayer.getCurrentPosition()>seekBar_debut.getProgress()){
+    			seekBar_fin.setProgress(mPlayer.getCurrentPosition());
+    		}else{
+    			seekBar_fin.setProgress(seekBar_debut.getProgress()); 
+    		}    		
+    	}
   	}
     
     /* ******************* click bouton stop musique **************** */
