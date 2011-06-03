@@ -11,7 +11,11 @@
 	<ImageButton android:background="@drawable/buttondossier" android:id="@+id/btnDossier" android:onClick="openDossierMusic" android:layout_height="wrap_content" android:layout_width="wrap_content"></ImageButton>	
 </RelativeLayout>
 
-<TextView android:layout_width="fill_parent" android:id="@+id/fonctionnalites" android:layout_below="@+id/RelativeLayout7" android:gravity="center" android:layout_centerHorizontal="true" android:shadowColor="#000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1.5" android:textColor="#B8BAB9" android:text="fonctionnalites" android:background="@drawable/buttonfonctionnalites" android:layout_height="45dp"></TextView>
+<TextView android:layout_width="fill_parent" android:id="@+id/fonctionnalites" android:layout_below="@+id/RelativeLayout7" android:gravity="center" android:shadowColor="#000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="1.5" android:textColor="#B8BAB9" android:text="fonctionnalites" android:background="@drawable/buttonfonctionnalites" android:layout_height="45dp" android:layout_marginRight="40dp"></TextView>
+
+<FrameLayout android:id="@+id/framehelp" android:layout_below="@+id/RelativeLayout7" android:background="@drawable/buttonfonctionnalites" android:layout_alignParentRight="true" android:layout_height="45dp" android:layout_width="40dp">
+	<ImageButton android:id="@+id/help" android:background="@drawable/buttonhelp" android:onClick="help" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="center"></ImageButton>
+</FrameLayout>
 
 <RelativeLayout android:layout_width="fill_parent" android:id="@+id/RelativeLayout04" android:layout_height="wrap_content" android:background="@drawable/fond3" android:visibility="invisible">		
 		<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/RelativeLayout05" android:gravity="center" android:layout_marginBottom="13dp" android:layout_marginTop="10dp">	

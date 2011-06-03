@@ -14,7 +14,9 @@ import fr.unice.aap.musics.AllSongsListActivity;
 import fr.unice.aap.musics.MusicListActivity;
 import fr.unice.loop.*;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -23,6 +25,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -827,5 +830,30 @@ public class AAP extends Activity {
 		}
 		}
 		return hours+":"+minutes+":"+seconds;
+    }
+    
+    /* ********************* affichage du menu d'aide ********************** */
+    public void help(View v){
+    	//On instancie notre layout en tant que View
+        LayoutInflater factory = LayoutInflater.from(this);
+        final View alertDialogView = factory.inflate(R.layout.layouthelp, null);
+ 
+        //Création de l'AlertDialog
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+ 
+        //On affecte la vue personnalisé que l'on a crée à notre AlertDialog
+        alert.setView(alertDialogView);
+ 
+        //On donne un titre à l'AlertDialog
+        alert.setTitle("aide");
+       
+        alert.setIcon(android.R.drawable.ic_dialog_info);
+ 
+        //On affecte un bouton "OK" à notre AlertDialog et on lui affecte un évènement
+        alert.setPositiveButton("Fermer", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {       
+          } });     
+ 
+        alert.show();
     }
 }
