@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="fill_parent" android:layout_height="fill_parent">
+	<LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent" android:orientation="vertical" android:paddingLeft="10dp" android:paddingRight="10dp">
+	<LinearLayout android:id="@+id/LinearLayout01" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_marginBottom="5dp">
+		<ImageView android:id="@+id/ImageView01" android:layout_height="wrap_content" android:background="@drawable/loop" android:layout_width="wrap_content" android:layout_gravity="center_vertical"></ImageView>
+		<TextView android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="activation/desactivation de la boucle" android:layout_marginLeft="5dp" android:layout_gravity="center_vertical" android:textColor="#5EB6DD"></TextView>
+	</LinearLayout>
+	<LinearLayout android:id="@+id/LinearLayout01" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_marginBottom="5dp">
+		<ImageView android:id="@+id/ImageView01" android:layout_height="wrap_content" android:layout_width="wrap_content" android:background="@drawable/boutondebut" android:layout_gravity="center_vertical"></ImageView>
+		<TextView android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5dp" android:layout_gravity="center_vertical" android:text="reglage de la valeur de debut de la boucle : si l'edition n'est pas selectionnee au clic elle prend la valeur de la position de lecture de la musique" android:textColor="#5EB6DD"></TextView>
+	</LinearLayout>
+	<LinearLayout android:id="@+id/LinearLayout01" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_marginBottom="5dp">
+		<ImageView android:id="@+id/ImageView01" android:layout_height="wrap_content" android:layout_width="wrap_content" android:background="@drawable/boutonfin" android:layout_gravity="center_vertical"></ImageView>
+		<TextView android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5dp" android:layout_gravity="center_vertical" android:text="reglage de la valeur de fin de la boucle : le fonctionnement est le meme que pour le début de la boucle" android:textColor="#5EB6DD"></TextView>
+	</LinearLayout>
+	<LinearLayout android:id="@+id/LinearLayout01" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_marginBottom="5dp">
+		<ImageView android:id="@+id/ImageView01" android:layout_height="wrap_content" android:layout_width="wrap_content" android:background="@drawable/edit" android:layout_gravity="center_vertical"></ImageView>
+		<TextView android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5dp" android:layout_gravity="center_vertical" android:text="edition des valeurs de debut et de fin de la boucle grace a une barre de progression" android:textColor="#5EB6DD"></TextView>
+	</LinearLayout>
+	<LinearLayout android:id="@+id/LinearLayout01" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_marginBottom="5dp">
+		<ImageView android:id="@+id/ImageView01" android:layout_height="wrap_content" android:layout_width="wrap_content" android:background="@drawable/buttonenregistrer" android:layout_gravity="center_vertical"></ImageView>
+		<TextView android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5dp" android:layout_gravity="center_vertical" android:text="sauvegarde des valeurs de debut et de fin de boucle" android:textColor="#5EB6DD"></TextView>
+	</LinearLayout>
+	<LinearLayout android:id="@+id/LinearLayout01" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_marginBottom="5dp">
+		<ImageView android:id="@+id/ImageView01" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="center_vertical" android:background="@drawable/buttonchargersauv"></ImageView>
+		<TextView android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5dp" android:layout_gravity="center_vertical" android:text="chargement d'une sauvegarde de boucle" android:textColor="#5EB6DD"></TextView>
+	</LinearLayout>
+	<LinearLayout android:id="@+id/LinearLayout01" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_marginBottom="5dp">
+		<ImageView android:id="@+id/ImageView01" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="center_vertical" android:background="@drawable/buttontonalite"></ImageView>
+		<TextView android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5dp" android:layout_gravity="center_vertical" android:textColor="#5EB6DD" android:text="ouverture de l'egaliseur"></TextView>
+	</LinearLayout>
+	<LinearLayout android:id="@+id/LinearLayout01" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_marginBottom="5dp">
+		<ImageView android:id="@+id/ImageView01" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="center_vertical" android:background="@drawable/buttonmicro"></ImageView>
+		<TextView android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5dp" android:layout_gravity="center_vertical" android:textColor="#5EB6DD" android:text="recherche des paroles de la chanson en cours"></TextView>
+	</LinearLayout>
+	<LinearLayout android:id="@+id/LinearLayout01" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_marginBottom="5dp">
+		<ImageView android:id="@+id/ImageView01" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="center_vertical" android:background="@drawable/rec"></ImageView>
+		<TextView android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5dp" android:layout_gravity="center_vertical" android:textColor="#5EB6DD" android:text="demarrage/arret de l'enregistrement sonore"></TextView>
+	</LinearLayout>
+	<LinearLayout android:id="@+id/LinearLayout01" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_marginBottom="5dp">
+		<ImageView android:id="@+id/ImageView01" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="center_vertical" android:background="@drawable/settings"></ImageView>
+		<TextView android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5dp" android:layout_gravity="center_vertical" android:textColor="#5EB6DD" android:text="parametrage de l'application"></TextView>
+	</LinearLayout>
+</LinearLayout>
+</ScrollView>
