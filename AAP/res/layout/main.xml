@@ -16,7 +16,8 @@
 	<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/RelativeLayout06" android:layout_below="@+id/RelativeLayout05" android:gravity="center" android:paddingBottom="10dp">	
 		<ImageButton android:id="@+id/tonalite" android:background="@drawable/buttontonalite" android:onClick="openEqualizer" android:layout_marginRight="25dp" android:layout_height="wrap_content" android:layout_width="wrap_content"></ImageButton>	
 		<ImageButton android:layout_toRightOf="@id/tonalite" android:id="@+id/paroles" android:background="@drawable/buttonmicro" android:layout_marginRight="25dp" android:layout_height="wrap_content" android:layout_width="wrap_content" android:onClick="findLyrics" ></ImageButton>								
-		<ImageButton android:id="@+id/chargerSauv" android:background="@drawable/buttonchargersauv" android:onClick="chargerSauv" android:layout_gravity="right" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_toRightOf="@id/paroles"></ImageButton>				
+		<ImageButton android:id="@+id/chargerSauv" android:background="@drawable/buttonchargersauv" android:onClick="chargerSauv" android:layout_gravity="center" android:layout_marginRight="25dp" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_toRightOf="@id/paroles"></ImageButton>
+		<ImageButton android:id="@+id/config" android:background="@drawable/settings" android:layout_gravity="center" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_toRightOf="@id/chargerSauv"></ImageButton>				
 	</RelativeLayout>
 </RelativeLayout>			 
                 
