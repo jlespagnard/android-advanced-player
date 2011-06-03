@@ -12,6 +12,7 @@ import org.w3c.dom.Document;
 
 import fr.unice.aap.musics.AllSongsListActivity;
 import fr.unice.aap.musics.MusicListActivity;
+import fr.unice.aap.recorder.AudioRecorder;
 import fr.unice.loop.*;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -63,9 +64,6 @@ public class AAP extends Activity {
 	public static AllSongsListActivity AllSongList = null;		
 	private Intent intentTonalite = new Intent();
 	public static EqualizerActivity equalizerActivity;
-	public static String currentArtist = null;
-	public static String currentSong = null;
-	public String urlLyrics = null;
 	/* objet contenant la musique */
 	public static MediaPlayer mPlayer;
 	/* differents controles */
@@ -75,9 +73,15 @@ public class AAP extends Activity {
 	public boolean btLoopDebutOn = false;
 	public boolean btLoopFinOn = false;
 	public boolean editLoop = false;
-	public boolean record = false;
+	public boolean isRecording = false;
 	/* permet de gerer la thread qui synchronise la musique avec la seekBar */
 	private Handler mHandler = new Handler();
+	/* Variables utilisées pour les paroles */
+	public static String currentArtist = null;
+	public static String currentSong = null;
+	public String urlLyrics = null;
+	//Objet AudioRecorder pour enregistrer le son
+	public AudioRecorder audioRecorder = null;
 	
 	
     /* *********************** Called when the activity is first created. *************** */
@@ -320,7 +324,7 @@ public class AAP extends Activity {
     }
     
     public void fermerParoles(){
-    	ScrollView fenetreParoles = (ScrollView) findViewById(R.id.FrameLayout07);
+    	ScrollView fenetreParoles = (ScrollView) findViewById(R.id.LyricsView);
 		if(fenetreParoles.getVisibility() == ScrollView.VISIBLE){
 			//animation pour la fermeture de la fenetre des paroles
 	    	Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animalphaout);       
@@ -425,7 +429,7 @@ public class AAP extends Activity {
 	}
     
 	/* **************** click bouton enregistrer sauvegarde loop *************** */
-	public void enregistrer(View v){
+	public void enregistrerLoop(View v){
 		Log.i("INFO","debut: "+seekBar_debut.getProgress());
 		Log.i("INFO","fin: "+seekBar_fin.getProgress());
 		TextView t = (TextView)activity.findViewById(R.id.titre);
@@ -470,16 +474,22 @@ public class AAP extends Activity {
   
     /* ********************* enregistrement sonore *************** */
     public void recordSon(View v){
-    	ImageButton buttonRecord = (ImageButton) findViewById(R.id.rec);
-    	if (record) {
-    		buttonRecord.setBackgroundResource(R.drawable.rec);  
-    		record = false;
-    		//arret enregistrement sonore
-        }else {
-        	buttonRecord.setBackgroundResource(R.drawable.recclick);  
-        	record = true;
-        	//demarrage enregistrement sonore
-        }
+    	try{
+	    	ImageButton buttonRecord = (ImageButton) findViewById(R.id.rec);
+	    	if (isRecording) {
+	    		buttonRecord.setBackgroundResource(R.drawable.rec);  
+	    		isRecording = false;
+	    		if(audioRecorder!=null)
+	    			audioRecorder.stop();
+	        }else {
+	        	buttonRecord.setBackgroundResource(R.drawable.recclick);  
+	        	isRecording = true;
+	        	audioRecorder = new AudioRecorder("Music/weshhh");
+	        	audioRecorder.start();
+	        }
+    	} catch(Exception e){
+    		e.printStackTrace();
+    	}
     }
     
     
@@ -625,7 +635,7 @@ public class AAP extends Activity {
     	animFonctionnalites(true);
     	//animation pour l'ouverture de la fenetre des paroles
     	Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animalphain);       
-    	ScrollView fenetreParoles = (ScrollView) findViewById(R.id.FrameLayout07);
+    	ScrollView fenetreParoles = (ScrollView) findViewById(R.id.LyricsView);
     	fenetreParoles.startAnimation(a);
     	fenetreParoles.setVisibility(ScrollView.VISIBLE);
     	
