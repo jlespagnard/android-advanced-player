@@ -40,6 +40,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
@@ -82,6 +83,7 @@ public class AAP extends Activity {
 	public String urlLyrics = null;
 	//Objet AudioRecorder pour enregistrer le son
 	public AudioRecorder audioRecorder = null;
+	public String recordTitle = null;
 	
 	
     /* *********************** Called when the activity is first created. *************** */
@@ -472,27 +474,6 @@ public class AAP extends Activity {
   		}
   	}      
   
-    /* ********************* enregistrement sonore *************** */
-    public void recordSon(View v){
-    	try{
-	    	ImageButton buttonRecord = (ImageButton) findViewById(R.id.rec);
-	    	if (isRecording) {
-	    		buttonRecord.setBackgroundResource(R.drawable.rec);  
-	    		isRecording = false;
-	    		if(audioRecorder!=null)
-	    			audioRecorder.stop();
-	        }else {
-	        	buttonRecord.setBackgroundResource(R.drawable.recclick);  
-	        	isRecording = true;
-	        	audioRecorder = new AudioRecorder("Music/weshhh");
-	        	audioRecorder.start();
-	        }
-    	} catch(Exception e){
-    		e.printStackTrace();
-    	}
-    }
-    
-    
     /* ******************* edition de la boucle ************************************* */
     public void editLoop(View v){
     	ImageButton bouton = (ImageButton) findViewById(R.id.editLoop);
@@ -736,6 +717,48 @@ public class AAP extends Activity {
     	fermerParoles();
     }
     
+    public void openRecordLayout(View v){
+    	// On enlève le menu 
+    	animFonctionnalites(true);
+    	//animation pour l'ouverture de la fenetre des paroles
+    	Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animalphain);       
+    	TableLayout recordLayout =  (TableLayout)findViewById(R.id.RecordLayout);
+    	recordLayout.setVisibility(FrameLayout.VISIBLE);
+    	recordLayout.startAnimation(a);
+    }
+    
+    
+    /* ********************* enregistrement sonore *************** */
+    public void recordSound(View v){
+    	try{
+	    	ImageButton buttonRecord = (ImageButton) findViewById(R.id.RecordLayoutRecButton);
+	    	recordTitle = ((EditText) findViewById(R.id.RecordTitle)).getText().toString();
+	    	if (isRecording) {
+	    		buttonRecord.setBackgroundResource(R.drawable.rec);  
+	    		isRecording = false;
+	    		if(audioRecorder!=null)
+	    			audioRecorder.stop();
+	        }else {
+	        	buttonRecord.setBackgroundResource(R.drawable.recclick);  
+	        	isRecording = true;
+	        	audioRecorder = new AudioRecorder(recordTitle);
+	        	audioRecorder.start();
+	        }
+    	} catch(Exception e){
+    		e.printStackTrace();
+    	}
+    }
+    
+    public void closeRecordLayout(View v){
+    	TableLayout recordLayout = (TableLayout) findViewById(R.id.RecordLayout);
+		if(recordLayout.getVisibility() == ScrollView.VISIBLE){
+			//animation pour la fermeture de la fenetre des paroles
+	    	Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animalphaout);       
+	    	recordLayout.startAnimation(a);
+	    	recordLayout.setVisibility(FrameLayout.INVISIBLE);
+		}
+    }
+    
     /* ************ thread qui synchronyse la musique et la seekbar et controle la boucle ***** */
     private Runnable progressUpdater = new Runnable() {
         @Override
@@ -749,7 +772,6 @@ public class AAP extends Activity {
                 			mPlayer.seekTo(seekBar_debut.getProgress());
                 			}
                 	}                	               	
-                	
 					mHandler.postDelayed(this, 1000);
                 }
         }
