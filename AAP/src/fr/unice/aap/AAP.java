@@ -722,11 +722,10 @@ public class AAP extends Activity {
     	animFonctionnalites(true);
     	//animation pour l'ouverture de la fenetre des paroles
     	Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animalphain);       
-    	TableLayout recordLayout =  (TableLayout)findViewById(R.id.RecordLayout);
+    	LinearLayout recordLayout =  (LinearLayout)findViewById(R.id.RecordLayout);
     	recordLayout.setVisibility(FrameLayout.VISIBLE);
     	recordLayout.startAnimation(a);
     }
-    
     
     /* ********************* enregistrement sonore *************** */
     public void recordSound(View v){
@@ -741,7 +740,7 @@ public class AAP extends Activity {
 	        }else {
 	        	buttonRecord.setBackgroundResource(R.drawable.recclick);  
 	        	isRecording = true;
-	        	audioRecorder = new AudioRecorder(recordTitle);
+	        	audioRecorder = new AudioRecorder("Music/" + recordTitle);
 	        	audioRecorder.start();
 	        }
     	} catch(Exception e){
@@ -750,7 +749,7 @@ public class AAP extends Activity {
     }
     
     public void closeRecordLayout(View v){
-    	TableLayout recordLayout = (TableLayout) findViewById(R.id.RecordLayout);
+    	LinearLayout recordLayout = (LinearLayout) findViewById(R.id.RecordLayout);
 		if(recordLayout.getVisibility() == ScrollView.VISIBLE){
 			//animation pour la fermeture de la fenetre des paroles
 	    	Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animalphaout);       

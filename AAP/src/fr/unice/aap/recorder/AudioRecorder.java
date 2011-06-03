@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import android.media.MediaRecorder;
 import android.os.Environment;
+import android.util.Log;
 
 /*Classe d'enregistrement du son*/
 public class AudioRecorder {
@@ -25,7 +26,15 @@ public class AudioRecorder {
     if (!path.contains(".")) {
       path += ".3gp";
     }
-    return Environment.getExternalStorageDirectory().getAbsolutePath() + path;
+    path = Environment.getExternalStorageDirectory().getAbsolutePath() + path ;
+    int clone = 1;
+    File file = new File(path);
+    while(file.exists()){
+    	file = new File(path.replace(".3gp", "(" + clone + ")" + ".3gp"));
+    	clone++;
+    }
+    
+    return file.getAbsolutePath();
   }
 
   /**
