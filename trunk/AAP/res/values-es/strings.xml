@@ -6,6 +6,7 @@
 	<string name="artist">Artistas</string>
 	<string name="album">Albumas</string>
 	<string name="genre">Genres</string>
+	<color name="whiteColor">#FFFFFF</color>
 	<string-array name="menu_items">
 		<item>@string/all_songs</item>
 		<item>@string/artist</item>

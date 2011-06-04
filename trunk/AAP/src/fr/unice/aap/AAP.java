@@ -1,7 +1,10 @@
 package fr.unice.aap;
 
-
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -19,10 +22,13 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -64,6 +70,7 @@ public class AAP extends Activity {
 	private Intent musicList;
 	public static AllSongsListActivity AllSongList = null;		
 	private Intent intentTonalite = new Intent();
+	private Intent intentFileExplorer;
 	public static EqualizerActivity equalizerActivity;
 	/* objet contenant la musique */
 	public static MediaPlayer mPlayer;
@@ -84,17 +91,26 @@ public class AAP extends Activity {
 	//Objet AudioRecorder pour enregistrer le son
 	public AudioRecorder audioRecorder = null;
 	public String recordTitle = null;
-	
+	private static List<String> listeRepertoireMusique = null;
+	public static Context appContext;
+	private static TextView txtListeRepertoireMusique;
 	
     /* *********************** Called when the activity is first created. *************** */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        initVars();
         initEven();    
     }
     
-    /* ************************ modifier la musique ************************ */
+    private void initVars() {
+    	appContext = this;
+    	
+    	retrievePreferences();
+	}
+
+	/* ************************ modifier la musique ************************ */
     public static void setSong(Context p_appContext, int p_rawId) {
 
     	mPlayer = MediaPlayer.create(p_appContext,p_rawId);
@@ -149,7 +165,8 @@ public class AAP extends Activity {
     private void initEven()
     {   
     	activity = this;   	
-    	musicList = new Intent(getApplicationContext(),MusicListActivity.class);	
+    	musicList = new Intent(getApplicationContext(),MusicListActivity.class);
+    	intentFileExplorer = new Intent(getApplicationContext(),FileExplorerActivity.class);
     	
     	//----------------- evenements sur les boutons -----------------------------   	
     	
@@ -884,4 +901,94 @@ public class AAP extends Activity {
  
         alert.show();
     }
+    
+    /* ********************* affichage du menu des paramètres ********************** */
+    public void config(View v){
+    	//On instancie notre layout en tant que View
+        LayoutInflater factory = LayoutInflater.from(this);
+        final View alertDialogView = factory.inflate(R.layout.layoutparams, null);
+ 
+        //Création de l'AlertDialog
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+ 
+        //On affecte la vue personnalisé que l'on a crée à notre AlertDialog
+        alert.setView(alertDialogView);
+ 
+        //On donne un titre à l'AlertDialog
+        alert.setTitle("Configurations");
+        
+        txtListeRepertoireMusique = (TextView)alertDialogView.findViewById(R.id.ListMusicPaths);
+        refreshViewListeRepertoireMusique();
+        
+        alert.setIcon(android.R.drawable.ic_dialog_dialer);
+ 
+        //On affecte un bouton "OK" à notre AlertDialog et on lui affecte un évènement
+        alert.setPositiveButton("Fermer", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+ 
+        alert.show();
+    }
+    
+    public void ajouterDossierMusique(View v) {
+    	animFonctionnalites(true);
+    	startActivity(intentFileExplorer);
+    }
+    
+    public static void retrievePreferences() {
+    	SharedPreferences appPref = PreferenceManager.getDefaultSharedPreferences(appContext);
+		String temp = appPref.getString("music_files_paths", null);
+		if(temp != null) {
+			listeRepertoireMusique = Arrays.asList(temp.split(";"));
+		}
+
+		if(listeRepertoireMusique == null || listeRepertoireMusique.isEmpty()) {
+			listeRepertoireMusique.add(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getPath());
+		} else {
+			List<String> dirMusic = new LinkedList<String>();
+			File file;
+			for(String path : listeRepertoireMusique) {
+				file = new File(path);
+				if(file.exists() && file.isDirectory()) {
+					dirMusic.add(path);
+				}
+			}
+			if(dirMusic.size() != listeRepertoireMusique.size()) {
+				listeRepertoireMusique = dirMusic;
+				savePreferences();
+			}
+		}
+    }
+
+	public static void savePreferences() {
+		SharedPreferences.Editor appPrefEditor = PreferenceManager.getDefaultSharedPreferences(appContext).edit();
+    	StringBuffer result = new StringBuffer();
+        if (listeRepertoireMusique != null && !listeRepertoireMusique.isEmpty()) {
+            result.append(listeRepertoireMusique.get(0));
+            for (int i=1; i<listeRepertoireMusique.size(); i++) {
+                result.append(";");
+                result.append(listeRepertoireMusique.get(i));
+            }
+        }
+    	appPrefEditor.putString("music_files_paths", result.toString());
+		appPrefEditor.commit();
+	}
+	
+	public static List<String> getListeRepertoireMusique() {
+		return listeRepertoireMusique;
+	}
+	
+	public static void refreshViewListeRepertoireMusique() {
+		retrievePreferences();
+        StringBuffer paths = new StringBuffer();
+        if (listeRepertoireMusique != null && !listeRepertoireMusique.isEmpty()) {
+        	paths.append(listeRepertoireMusique.get(0));
+            for (int i=1; i<listeRepertoireMusique.size(); i++) {
+            	paths.append("\n");
+            	paths.append(listeRepertoireMusique.get(i));
+            }
+        }
+        txtListeRepertoireMusique.setText(paths.toString());
+	}
 }

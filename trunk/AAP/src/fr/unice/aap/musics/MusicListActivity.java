@@ -1,22 +1,20 @@
 package fr.unice.aap.musics;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import fr.unice.aap.AAP;
 import fr.unice.aap.R;
 
 import android.app.ListActivity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
-import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -37,24 +35,12 @@ public class MusicListActivity extends ListActivity {
 	private static MediaMetadataRetriever mediaMetadataRetriever = null;
 	private static List<File> musicFiles = null;
 	private static Map<Integer,List<String>> mediaMetadatas = null;
-	private static Context parentContext = null;
-	private static SharedPreferences.Editor appPrefEditor;
-	private static SharedPreferences appPref;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		parentContext = this.getApplicationContext();
-		
 		setContentView(R.layout.musics_list);
-		
-		// Edition des preferences : il faut la mettre a la bonne place dans AAP
-		appPrefEditor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-		appPrefEditor.putString(MUSIC_FILES_PATHS, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getPath());
-		appPrefEditor.commit();
-		
-		appPref = PreferenceManager.getDefaultSharedPreferences(this);
 				
 		initMusicFiles();
 
@@ -87,10 +73,6 @@ public class MusicListActivity extends ListActivity {
 		}
 	}
 	
-	public static Context getParentContext() {
-		return parentContext;
-	}
-	
 	private void setMenuListItem() {
 		List<Map<String,String>> data = new LinkedList<Map<String,String>>();
 		
@@ -121,27 +103,24 @@ public class MusicListActivity extends ListActivity {
 	}
 	
 	private static void initMusicFiles() {
-		String prefMusicFilesPaths = appPref.getString(MUSIC_FILES_PATHS, null);
-		if(prefMusicFilesPaths != null) {
-			String[] paths = prefMusicFilesPaths.split(";");
-			for(String path : paths) {
-				musicFiles = new LinkedList<File>();
-				File musicFile = new File(path);
-				if(musicFile != null && musicFile.exists()) {
-					if(musicFile.isDirectory()) {
-						AudioFileFilter filter = new AudioFileFilter();
-						
-						for(File music : musicFile.listFiles()) {
-							if(music.isFile() && filter.accept(music)) {
-								musicFiles.add(music);
-							}
-						}
-					}
+		for(String path : AAP.getListeRepertoireMusique()) {
+			musicFiles = new LinkedList<File>();
+			File dirMusic = new File(path);
+			AudioFileFilter filter = new AudioFileFilter();
+			parcourPathAndAddFiles(dirMusic, musicFiles, filter);
+		}
+	}
+	
+	private static void parcourPathAndAddFiles(File dir, List<File> files, FileFilter filter) {
+		if(dir.listFiles() != null) {
+			for(File file : dir.listFiles()) {
+				if(file.isFile() && filter.accept(file)) {
+					files.add(file);
+				}
+				else if(file.isDirectory()) {
+					parcourPathAndAddFiles(file, files, filter);
 				}
 			}
-		}
-		else {
-			System.out.println("musicFiles is null or doesn't exist !");
 		}
 	}
 	

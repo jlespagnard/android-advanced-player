@@ -19,7 +19,7 @@
 		<ImageButton android:id="@+id/tonalite" android:layout_toRightOf="@id/chargerSauv" android:background="@drawable/buttontonalite" android:onClick="openEqualizer" android:layout_marginRight="25dp" android:layout_height="wrap_content" android:layout_width="wrap_content"></ImageButton>	
 		<ImageButton android:layout_toRightOf="@id/tonalite" android:id="@+id/paroles" android:background="@drawable/buttonmicro" android:layout_marginRight="25dp" android:layout_height="wrap_content" android:layout_width="wrap_content" android:onClick="findLyrics" ></ImageButton>	
 		<ImageButton android:layout_toRightOf="@id/paroles" android:id="@+id/rec" android:background="@drawable/rec" android:layout_marginRight="25dp" android:layout_height="wrap_content" android:layout_width="wrap_content" android:onClick="openRecordLayout"></ImageButton>				
-		<ImageButton android:id="@+id/config" android:background="@drawable/settings" android:layout_gravity="center" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_toRightOf="@id/rec"></ImageButton>				
+		<ImageButton android:id="@+id/config" android:background="@drawable/settings" android:layout_gravity="center" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_toRightOf="@id/rec" android:onClick="config"></ImageButton>				
 	</RelativeLayout>
 </RelativeLayout>		 
                 
