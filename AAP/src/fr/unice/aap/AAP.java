@@ -97,13 +97,6 @@ public class AAP extends Activity {
     /* ************************ modifier la musique ************************ */
     public static void setSong(Context p_appContext, int p_rawId) {
 
-//    	if(mPlayer != null) {
-//	    	mPlayer.stop();
-//	    	mPlayer.seekTo(0);
-//	    	mPlayer.release();
-//	    	activity.play();
-//    	}
-
     	mPlayer = MediaPlayer.create(p_appContext,p_rawId);
     	activity.initSeekBarMusic();
     }
@@ -147,7 +140,7 @@ public class AAP extends Activity {
         data[5] = currentSong; //titre de la chanson en cours
         data[6] = seekBar_debut.getProgress();
         data[7] = seekBar_fin.getProgress();
-        data[8] = ((ScrollView) findViewById(R.id.FrameLayout07)).getVisibility(); //parole ouvert
+        data[8] = ((ScrollView) findViewById(R.id.LyricsView)).getVisibility(); //parole ouvert
         data[9] = ((TableLayout) findViewById(R.id.FrameLayout08)).getVisibility(); //paroles web ouvert
         return data;
     }
@@ -235,7 +228,7 @@ public class AAP extends Activity {
             			((TextView)findViewById(R.id.positiondebut)).setText(heureToString(progress));
             		}else{
             			seekBar.setProgress(seekBar_fin.getProgress()); 
-            			((TextView)findViewById(R.id.positiondebut)).setText(seekBar_fin.getProgress());
+            			((TextView)findViewById(R.id.positiondebut)).setText(heureToString(seekBar_fin.getProgress()));
             		}
             	}else if(btLoopFinOn){
             		if(progress>seekBar_debut.getProgress()){
@@ -254,6 +247,7 @@ public class AAP extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				 fermerParoles();
+				 fermerRecord();
 				animFonctionnalites(false);
 			}
 		});
@@ -335,9 +329,18 @@ public class AAP extends Activity {
 		}
     }
     
+    public void fermerRecord(){  	      
+    	LinearLayout recordLayout =  (LinearLayout)findViewById(R.id.RecordLayout);  
+    	if(recordLayout.getVisibility() == LinearLayout.VISIBLE){
+	    	Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animalphaout); 
+	    	recordLayout.startAnimation(a);
+	    	recordLayout.setVisibility(FrameLayout.INVISIBLE);
+    	}
+    }
+    
     /* ************** ouverture/fermeture de la fenetre fonctionnalites ************** */
     public void animFonctionnalites(Boolean close){
-    	RelativeLayout frame = (RelativeLayout) findViewById(R.id.RelativeLayout04);
+    	RelativeLayout frame = (RelativeLayout) findViewById(R.id.layoutFonctionnalites);
     	if(frame.getVisibility() == RelativeLayout.INVISIBLE){	
     		if(!close) {
 	            Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animframein);
@@ -485,7 +488,7 @@ public class AAP extends Activity {
     		ImageButton boutonfin = (ImageButton) findViewById(R.id.loopfin);
   			boutondebut.setBackgroundResource(R.drawable.boutondebut);
   			boutonfin.setBackgroundResource(R.drawable.boutonfin);
-  			FrameLayout frame = (FrameLayout) findViewById(R.id.FrameLayout05);
+  			FrameLayout frame = (FrameLayout) findViewById(R.id.layoutReglageBoucle);
   			if(frame.getVisibility() == FrameLayout.VISIBLE){
 	  			Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animreglageloopout);
 	            frame.startAnimation(a);
@@ -502,7 +505,7 @@ public class AAP extends Activity {
     public void loopDebut(View v) {
     	if(editLoop){
 	  		ImageButton bouton = (ImageButton) findViewById(R.id.loopdebut);
-	  		FrameLayout frame = (FrameLayout) findViewById(R.id.FrameLayout05);
+	  		FrameLayout frame = (FrameLayout) findViewById(R.id.layoutReglageBoucle);
 	  		if(!btLoopDebutOn){
 	  			//reglage debut
 	  			btLoopDebutOn = true;
@@ -539,7 +542,7 @@ public class AAP extends Activity {
     	
     	if(editLoop){
 	    	ImageButton bouton = (ImageButton) findViewById(R.id.loopfin);
-	    	FrameLayout frame = (FrameLayout) findViewById(R.id.FrameLayout05);
+	    	FrameLayout frame = (FrameLayout) findViewById(R.id.layoutReglageBoucle);
 	  		if(!btLoopFinOn){
 	  			btLoopFinOn = true;
 	  			bouton.setBackgroundResource(R.drawable.boutonfinclick);
@@ -749,13 +752,7 @@ public class AAP extends Activity {
     }
     
     public void closeRecordLayout(View v){
-    	LinearLayout recordLayout = (LinearLayout) findViewById(R.id.RecordLayout);
-		if(recordLayout.getVisibility() == ScrollView.VISIBLE){
-			//animation pour la fermeture de la fenetre des paroles
-	    	Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animalphaout);       
-	    	recordLayout.startAnimation(a);
-	    	recordLayout.setVisibility(FrameLayout.INVISIBLE);
-		}
+    	fermerRecord();
     }
     
     /* ************ thread qui synchronyse la musique et la seekbar et controle la boucle ***** */
