@@ -25,8 +25,21 @@ public class GenresListActivity extends ListActivity {
 			MusicListActivity.refreshListSongs(MediaMetadataRetriever.METADATA_KEY_GENRE, itemSelected);
 			
 			Intent intent = new Intent(this, AllSongsListActivity.class);
-			startActivity(intent);
+			startActivityForResult(intent, 1);
+		}
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		this.setResult(resultCode);
+		if(resultCode == 1) {
 			this.finish();
 		}
+	}
+	
+	@Override
+	public void onBackPressed() {
+		this.setResult(0);
+		this.finish();
 	}
 }
