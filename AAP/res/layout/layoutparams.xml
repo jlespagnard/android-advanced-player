@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="fill_parent" android:layout_height="fill_parent">
+	<LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent" android:orientation="vertical" android:paddingLeft="10dp" android:paddingRight="10dp">
+		<LinearLayout android:id="@+id/layoutParams01" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_marginBottom="5dp">
+			<TextView android:id="@+id/ParamsText01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Répertoires de stockage des musiques" android:textColor="#5EB6DD"></TextView>
+		</LinearLayout>
+		<LinearLayout android:id="@+id/layoutParams02" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_marginBottom="5dp" android:background="@color/whiteColor">
+			<TextView android:id="@+id/ListMusicPaths" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textColor="#5EB6DD" android:editable="false" android:singleLine="false" android:lines="10" android:scrollbars="vertical"></TextView>
+		</LinearLayout>
+		<LinearLayout android:id="@+id/layoutParams03" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_marginBottom="5dp">
+			<Button android:onClick="ajouterDossierMusique" android:text="Ajouter un répertoire" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginTop="10dip" android:gravity="right"></Button>
+		</LinearLayout>
+	</LinearLayout>
+</ScrollView>

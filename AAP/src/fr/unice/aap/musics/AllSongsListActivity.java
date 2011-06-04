@@ -141,7 +141,7 @@ public class AllSongsListActivity extends ListActivity {
 			Uri uri = Uri.parse(((Map<String,String>)getListView().getItemAtPosition(position)).get(MusicListActivity.URI));
 			String artiste = ((Map<String,String>)getListView().getItemAtPosition(position)).get(MusicListActivity.ARTIST);
 			String chanson = ((Map<String,String>)getListView().getItemAtPosition(position)).get(MusicListActivity.TITLE);
-			AAP.setSong(MusicListActivity.getParentContext(),uri, artiste, chanson);
+			AAP.setSong(getApplicationContext(),uri, artiste, chanson);
 		}
 		this.finish();	
 	}
@@ -156,7 +156,7 @@ public class AllSongsListActivity extends ListActivity {
 			Uri uri = Uri.parse(((Map<String,String>)getListView().getItemAtPosition(AllSongsListActivity.position)).get(MusicListActivity.URI));
 			String artiste = ((Map<String,String>)getListView().getItemAtPosition(AllSongsListActivity.position)).get(MusicListActivity.ARTIST);
 			String chanson = ((Map<String,String>)getListView().getItemAtPosition(AllSongsListActivity.position)).get(MusicListActivity.TITLE);
-			AAP.setSong(MusicListActivity.getParentContext(),uri, artiste, chanson);
+			AAP.setSong(getApplicationContext(),uri, artiste, chanson);
 		}
 	}
 	
@@ -169,6 +169,6 @@ public class AllSongsListActivity extends ListActivity {
 		Uri uri = Uri.parse(((Map<String,String>)getListView().getItemAtPosition(AllSongsListActivity.position)).get(MusicListActivity.URI));
 		String artiste = ((Map<String,String>)getListView().getItemAtPosition(AllSongsListActivity.position)).get(MusicListActivity.ARTIST);
 		String chanson = ((Map<String,String>)getListView().getItemAtPosition(AllSongsListActivity.position)).get(MusicListActivity.TITLE);
-		AAP.setSong(MusicListActivity.getParentContext(),uri, artiste, chanson);
+		AAP.setSong(getApplicationContext(),uri, artiste, chanson);
 	}
 }
