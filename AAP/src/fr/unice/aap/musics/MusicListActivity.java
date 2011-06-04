@@ -67,10 +67,23 @@ public class MusicListActivity extends ListActivity {
 			}
 			
 			if(intent != null) {
-				startActivity(intent);
-				this.finish();
+				startActivityForResult(intent, 1);
 			}
 		}
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		this.setResult(resultCode);
+		if(resultCode == 1) {
+			this.finish();
+		}
+	}
+	
+	@Override
+	public void onBackPressed() {
+		this.setResult(0);
+		this.finish();
 	}
 	
 	private void setMenuListItem() {
@@ -103,8 +116,8 @@ public class MusicListActivity extends ListActivity {
 	}
 	
 	private static void initMusicFiles() {
+		musicFiles = new LinkedList<File>();
 		for(String path : AAP.getListeRepertoireMusique()) {
-			musicFiles = new LinkedList<File>();
 			File dirMusic = new File(path);
 			AudioFileFilter filter = new AudioFileFilter();
 			parcourPathAndAddFiles(dirMusic, musicFiles, filter);

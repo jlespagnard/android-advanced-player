@@ -143,7 +143,14 @@ public class AllSongsListActivity extends ListActivity {
 			String chanson = ((Map<String,String>)getListView().getItemAtPosition(position)).get(MusicListActivity.TITLE);
 			AAP.setSong(getApplicationContext(),uri, artiste, chanson);
 		}
-		this.finish();	
+		this.setResult(1);
+		this.finish();
+	}
+	
+	@Override
+	public void onBackPressed() {
+		this.setResult(0);
+		this.finish();
 	}
 
 	public void nextSong(){

@@ -50,6 +50,9 @@ public class AudioFileFilter implements FileFilter {
 		if(pathname == null || pathname.getName() == null || pathname.getName().isEmpty())
 			return false;
 		
+		if(!pathname.getName().contains("."))
+			return false;
+		
 		String ext = pathname.getName().substring(pathname.getName().lastIndexOf("."), pathname.getName().length());
 
 		return (SupportedFileTypes.getSupportedFileType(ext) != null);
