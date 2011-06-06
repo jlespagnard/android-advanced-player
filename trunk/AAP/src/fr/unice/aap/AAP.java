@@ -101,7 +101,8 @@ public class AAP extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         initVars();
-        initEven();    
+        initEven(); 
+        ExtractLoopConf.verifXML();
     }
     
     private void initVars() {
