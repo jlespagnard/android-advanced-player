@@ -943,8 +943,12 @@ public class AAP extends Activity {
 			listeRepertoireMusique = Arrays.asList(temp.split(";"));
 		}
 
+		String state = Environment.getExternalStorageState();
 		if(listeRepertoireMusique == null || listeRepertoireMusique.isEmpty()) {
-			listeRepertoireMusique.add(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getPath());
+			listeRepertoireMusique = new LinkedList<String>();
+			if(Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+				listeRepertoireMusique.add(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getPath());
+			}
 		} else {
 			List<String> dirMusic = new LinkedList<String>();
 			File file;

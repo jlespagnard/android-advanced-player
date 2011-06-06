@@ -57,7 +57,13 @@ public class AllSongsListActivity extends ListActivity {
 			
 			String title = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
 			if(title == null || title.isEmpty()) {
-				title = MusicListActivity.UNKNOWN;
+				int idnex = music.getName().lastIndexOf(".");
+				if(idnex > 0) {
+					title = music.getName().substring(0, idnex);
+				}
+				else {
+					title = music.getName();
+				}
 			}
 			
 			String album = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM);
