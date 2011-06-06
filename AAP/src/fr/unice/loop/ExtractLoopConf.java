@@ -10,12 +10,11 @@ import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -24,9 +23,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
+import android.os.Environment;
 import android.util.Log;
 
 public class ExtractLoopConf {
@@ -40,6 +38,19 @@ public class ExtractLoopConf {
             fabrique.setIgnoringElementContentWhitespace(true);
             DocumentBuilder constructeur = fabrique.newDocumentBuilder();
             //début parsage
+            /*File fichiers[] = Environment.getExternalStorageDirectory().listFiles();
+            for(int i=0;i<fichiers.length;i++)
+            {
+            	if(fichiers[i].isFile())
+            	{
+            		Log.i("INFO","File => "+fichiers[i].getName());
+            		if(fichiers[i].getName().equals("loopConfig.xml"))
+            		{
+            			Log.i("INFO", "XML present");
+            		}
+            	}
+            }*/
+            
             File xml = new File("/sdcard/loopConfig.xml");
             Document document = constructeur.parse(xml);
             NodeList nL = document.getElementsByTagName("root");
@@ -106,6 +117,7 @@ public class ExtractLoopConf {
             DocumentBuilderFactory fabrique = DocumentBuilderFactory.newInstance();
             fabrique.setIgnoringElementContentWhitespace(true);
             DocumentBuilder constructeur = fabrique.newDocumentBuilder();
+            
             File xml = new File("/sdcard/loopConfig.xml");
             Document document = constructeur.parse(xml);
             NodeList list = document.getElementsByTagName("chanson");
@@ -160,6 +172,45 @@ public class ExtractLoopConf {
             return lstLoop;
         }
         
+	}
+	public static void verifXML()
+	{
+		File fichiers[] = Environment.getExternalStorageDirectory().listFiles();
+        Boolean xmlExist = false;
+        for(int i=0;i<fichiers.length;i++)
+        {
+        	if(fichiers[i].isFile())
+        	{
+        		if(fichiers[i].getName().equals("loopConfig.xml"))
+        		{
+        			Log.i("INFO", "XML present");
+        			xmlExist = true;
+        		}
+        	}
+        }
+        if(!xmlExist)
+        {
+			DocumentBuilder builder;
+			try {
+				builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			
+	        Document doc = builder.newDocument();
+	        Element root = doc.createElement("root");
+	        doc.appendChild(root);
+	        
+	        TransformerFactory xformFactory = TransformerFactory.newInstance();
+	       Transformer idTransform = xformFactory.newTransformer();
+	       Source input = new DOMSource(doc);
+	       Result output = new StreamResult(new File("/sdcard/loopConfig.xml"));
+	       idTransform.transform(input, output);
+			} catch (ParserConfigurationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
 	}
 	
 }
