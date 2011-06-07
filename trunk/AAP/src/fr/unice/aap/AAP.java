@@ -453,18 +453,44 @@ public class AAP extends Activity {
     
 	/* **************** click bouton enregistrer sauvegarde loop *************** */
 	public void enregistrerLoop(View v){
-		Log.i("INFO","debut: "+seekBar_debut.getProgress());
-		Log.i("INFO","fin: "+seekBar_fin.getProgress());
-		TextView t = (TextView)activity.findViewById(R.id.titre);
-		Log.i("INFO","chanson: "+t.getText().toString());
-		ExtractLoopConf.addLoop(new Loop("test",seekBar_debut.getProgress(),seekBar_fin.getProgress(),t.getText().toString()));
 		
-		//ouvrir fenetre info
-		TextView fenetre = (TextView)findViewById(R.id.infoEnregistrement);
-		fenetre.setVisibility(TextView.VISIBLE);
-		Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animalphainfo);
-		fenetre.startAnimation(a);			
-		fenetre.setVisibility(TextView.INVISIBLE);
+		//On instancie notre layout en tant que View
+        LayoutInflater factory = LayoutInflater.from(this);
+        final View alertDialogView = factory.inflate(R.layout.menu_enregistrement_loop, null);
+ 
+        //Création de l'AlertDialog
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+ 
+        //On affecte la vue personnalisé que l'on a crée à notre AlertDialog
+        alert.setView(alertDialogView);
+ 
+        //On donne un titre à l'AlertDialog
+        alert.setTitle("Enregistrer");
+       
+        alert.setIcon(android.R.drawable.ic_dialog_info);
+ 
+        //On affecte un bouton "OK" à notre AlertDialog et on lui affecte un évènement
+        alert.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) { 
+            	
+            	//action si valider
+            	Log.i("INFO","debut: "+seekBar_debut.getProgress());
+        		Log.i("INFO","fin: "+seekBar_fin.getProgress());
+        		TextView t = (TextView)activity.findViewById(R.id.titre);
+        		Log.i("INFO","chanson: "+t.getText().toString());
+        		ExtractLoopConf.addLoop(new Loop("test",seekBar_debut.getProgress(),seekBar_fin.getProgress(),t.getText().toString()));
+        		
+            	
+          } });
+        alert.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) { 
+            	
+            	//action si annuler
+            	
+            } });
+        
+        alert.show();
+		
 	}
 	
 	/* ********************* click bouton ouvrir repertoire Music de la sccard ********* */
