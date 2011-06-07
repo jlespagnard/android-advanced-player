@@ -66,6 +66,13 @@
 	<Button android:onClick="closeRecordLayout" android:background="@drawable/quit" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginTop="10dip"></Button>
 </LinearLayout>	
 
+<LinearLayout android:id="@+id/LayoutEnregistrementLoop" android:orientation="vertical" android:background="@drawable/fond4" android:layout_below="@+id/fonctionnalites"  android:layout_centerHorizontal="true" android:layout_above="@+id/layoutBarreMusique" android:layout_centerInParent="true" android:gravity="center" android:layout_height="fill_parent" android:layout_width="fill_parent" android:visibility="invisible">
+	<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/titreEnregistrementLoop" android:text="Nom" android:layout_gravity="center" android:textColor="#FFFFFF" android:minHeight="40dp"></TextView>
+	<EditText android:layout_width="fill_parent" android:text="MyBoucle" android:layout_height="wrap_content" android:id="@+id/nomEnregistrementLoop" android:layout_marginLeft="10dp" android:layout_marginRight="10dp"></EditText>
+	<Button android:id="@+id/validerEnregistrementBoucle" android:onClick="validerEnregistrementLoop" android:layout_width="wrap_content" android:text="Valider" android:layout_height="40dp"></Button>
+	<Button android:id="@+id/annulerEnregistrementBoucle" android:onClick="annulerEnregistrementLoop" android:layout_width="wrap_content" android:text="Annuler" android:layout_height="40dp"></Button>
+</LinearLayout>
+
 <FrameLayout android:id="@+id/layoutLecteurMusique" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_alignParentBottom="true" android:background="@drawable/fond6" android:minHeight="50dip">
 	<RelativeLayout android:layout_width="wrap_content" android:layout_height="fill_parent" android:id="@+id/RelativeLayout03" android:layout_gravity="center" android:layout_marginRight="20dp">					
 		<ImageButton android:id="@+id/stop" android:background="@drawable/buttonstop" android:onClick="stop" android:layout_centerVertical="true" android:layout_marginRight="20dp" android:layout_height="wrap_content" android:layout_width="wrap_content"></ImageButton>

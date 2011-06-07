@@ -454,44 +454,66 @@ public class AAP extends Activity {
 	/* **************** click bouton enregistrer sauvegarde loop *************** */
 	public void enregistrerLoop(View v){
 		
-		//On instancie notre layout en tant que View
-        LayoutInflater factory = LayoutInflater.from(this);
-        final View alertDialogView = factory.inflate(R.layout.menu_enregistrement_loop, null);
- 
-        //Création de l'AlertDialog
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
- 
-        //On affecte la vue personnalisé que l'on a crée à notre AlertDialog
-        alert.setView(alertDialogView);
- 
-        //On donne un titre à l'AlertDialog
-        alert.setTitle("Enregistrer");
-       
-        alert.setIcon(android.R.drawable.ic_dialog_info);
- 
-        //On affecte un bouton "OK" à notre AlertDialog et on lui affecte un évènement
-        alert.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) { 
-            	
-            	//action si valider
-            	Log.i("INFO","debut: "+seekBar_debut.getProgress());
-        		Log.i("INFO","fin: "+seekBar_fin.getProgress());
-        		TextView t = (TextView)activity.findViewById(R.id.titre);
-        		Log.i("INFO","chanson: "+t.getText().toString());
-        		ExtractLoopConf.addLoop(new Loop("test",seekBar_debut.getProgress(),seekBar_fin.getProgress(),t.getText().toString()));
-        		
-            	
-          } });
-        alert.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) { 
-            	
-            	//action si annuler
-            	
-            } });
-        
-        alert.show();
+		// On enlève le menu 
+    	animFonctionnalites(true);
+    	//animation pour l'ouverture de la fenetre des paroles
+    	Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animalphain);       
+    	LinearLayout enregistrementBoucleLayout =  (LinearLayout)findViewById(R.id.LayoutEnregistrementLoop);
+    	enregistrementBoucleLayout.setVisibility(FrameLayout.VISIBLE);
+    	enregistrementBoucleLayout.startAnimation(a);
+		
+		//a supprimer
+//		//On instancie notre layout en tant que View
+//        LayoutInflater factory = LayoutInflater.from(this);
+//        final View alertDialogView = factory.inflate(R.layout.menu_enregistrement_loop, null);
+//        
+//        //Création de l'AlertDialog
+//        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+// 
+//        //On affecte la vue personnalisé que l'on a crée à notre AlertDialog
+//        alert.setView(alertDialogView);
+// 
+//        //On donne un titre à l'AlertDialog
+//        alert.setTitle("Enregistrer");
+//       
+//        alert.setIcon(android.R.drawable.ic_dialog_info);
+// 
+//        //On affecte un bouton "OK" à notre AlertDialog et on lui affecte un évènement
+//        alert.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int which) { 
+//            	
+//            	//action si valider
+//            	Log.i("INFO","debut: "+seekBar_debut.getProgress());
+//        		Log.i("INFO","fin: "+seekBar_fin.getProgress());
+//        		TextView t = (TextView)activity.findViewById(R.id.titre);
+//        		Log.i("INFO","chanson: "+t.getText().toString());
+//        		ExtractLoopConf.addLoop(new Loop("test",seekBar_debut.getProgress(),seekBar_fin.getProgress(),t.getText().toString()));
+//        		
+//            	
+//          } });
+//        alert.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int which) { 
+//            	
+//            	//action si annuler
+//            	
+//            } });
+//        
+//        alert.show();
+//		
+	}
+	
+	public void validerEnregistrementLoop(View v){
 		
 	}
+	
+	public void annulerEnregistrementLoop(View v){
+		//animation pour l'ouverture de la fenetre des paroles
+    	Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animalphaout);       
+    	LinearLayout enregistrementBoucleLayout =  (LinearLayout)findViewById(R.id.LayoutEnregistrementLoop);
+    	enregistrementBoucleLayout.setVisibility(FrameLayout.INVISIBLE);
+    	enregistrementBoucleLayout.startAnimation(a);
+	}
+	
 	
 	/* ********************* click bouton ouvrir repertoire Music de la sccard ********* */
     public void openDossierMusic(View v)
