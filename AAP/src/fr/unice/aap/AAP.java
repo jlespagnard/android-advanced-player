@@ -5,15 +5,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
 
-
-import fr.unice.aap.loop.*;
+import fr.unice.loop.*;
 import fr.unice.aap.musics.AllSongsListActivity;
 import fr.unice.aap.musics.MusicListActivity;
 import fr.unice.aap.recorder.AudioRecorder;
@@ -29,8 +27,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.text.Editable;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -56,48 +52,147 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * <p>
+ * Activité liée à la fenêtre principale de notre application. Elle contient toutes les actions déclenchées par les éléments de l'interface
+ * </p>
+ * 
+ * @author Julien LESPAGNARD
+ * @author Anthony BONIN
+ * @author Michel CARTIER
+ * @author Élodie MAZUEL
+ */
 public class AAP extends Activity {
 	
-	/* ************************** attributs ******************* */
+	// Attributs  
 	
-	/* notre fenetre principale */
+	/**
+	 * L'activité de la fenêtre principale
+	 */
 	private static AAP activity = null;
-	/* view de l'interface */
+	
+	//View de l'interface
+	
+	/**
+	 * Bouton play/pause
+	 */
 	private ImageButton buttonPlayStop;
+	/**
+	 * Bouton activer/desactiver boucle
+	 */
 	private ImageButton buttonLoop;
+	/**
+	 * Barre de progression de la musique
+	 */
 	private SeekBar seekBar_Music;
+	/**
+	 * Barre de progression de la valeur de début de la boucle
+	 */
 	private SeekBar seekBar_debut;
+	/**
+	 * Barre de progression de la valeur de fin de la boucle
+	 */
 	private SeekBar seekBar_fin;
+	/**
+	 * Barre de progression qui permet de régler les valeurs de debut et de fin de la boucle
+	 */
 	private SeekBar seekBar_reglageLoop;
+	/**
+	 * Accès à liste des musiques de la sdcard
+	 */
 	private Intent musicList;
+	/**
+	 * Elément permettant d'accéder à la liste des musiques pour pouvoir passer aux musiques suivantes et précédentes
+	 */
 	public static AllSongsListActivity AllSongList = null;		
+	/**
+	 * Accès à l'égaliseur
+	 */
 	private Intent intentTonalite = new Intent();
+	/**
+	 * Accès à l'explorateur de fichiers de la sdcard
+	 */
 	private Intent intentFileExplorer;
+	/**
+	 * Activité equaliseur
+	 */
 	public static EqualizerActivity equalizerActivity;
-	/* objet contenant la musique */
+	/**
+	 * Objet contenant la musique
+	 */
 	public static MediaPlayer mPlayer;
-	/* differents controles */
+	
+	// differents controles
+	
+	/**
+	 * Musique en mode play ou pause
+	 */
 	private static Boolean isPlay = false;
+	/**
+	 * Mode boucle enclenchée
+	 */
 	private Boolean isLoop = false;
+	/**
+	 * La barre de progression de la musique est en train d'être bougée par l'utilisateur
+	 */
 	private Boolean onTouchSeekBarMusic = false;
+	/**
+	 * Réglage manuel de la valeur de début de la boucle activée
+	 */
 	public boolean btLoopDebutOn = false;
+	/**
+	 * Réglage manuel de la valeur de fin de la boucle activée
+	 */
 	public boolean btLoopFinOn = false;
+	/**
+	 * Mode réglage manuel de la boucle activée
+	 */
 	public boolean editLoop = false;
+	/**
+	 * En cours d'enregistrement sonore
+	 */
 	public boolean isRecording = false;
-	/* permet de gerer la thread qui synchronise la musique avec la seekBar */
+	/**
+	 *  Permet de gérer la thread qui synchronise la musique avec la barre de progression de la musique
+	 */
 	private Handler mHandler = new Handler();
-	/* Variables utilisées pour les paroles */
+	
+	// Variables utilisées pour les paroles
+	
+	/**
+	 * Nom de l'artiste de la musique en cours d'écoute
+	 */
 	public static String currentArtist = null;
+	/**
+	 * Titre de la chanson de la musique en cours d'écoute
+	 */
 	public static String currentSong = null;
+	/**
+	 * Url permettant d'accéder aux paroles
+	 */
 	public String urlLyrics = null;
-	//Objet AudioRecorder pour enregistrer le son
+	/**
+	 * Objet AudioRecorder pour enregistrer le son
+	 */
 	public AudioRecorder audioRecorder = null;
+	/**
+	 * Titre donné à l'enregistrement sonore
+	 */
 	public String recordTitle = null;
+	/**
+	 * Liste des répertoires contenant les musiques
+	 */
 	private static List<String> listeRepertoireMusique = null;
+	/**
+	 * Contexte de l'application
+	 */
 	public static Context appContext;
+	/**
+	 * Zone de texte de l'application contenant la liste des répertoires contenant les musiques
+	 */
 	private static TextView txtListeRepertoireMusique;
 	
-    /* *********************** Called when the activity is first created. *************** */
+    //appellé quand l'application se crée
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,25 +201,33 @@ public class AAP extends Activity {
         initEven(); 
         ExtractLoopConf.verifXML();
     }
-    
+
     private void initVars() {
-    	appContext = this;
-    	
+    	appContext = this;   	
     	retrievePreferences();
 	}
 
-	/* ************************ modifier la musique ************************ */
+	/**
+	 * Modification de la musique à écouter
+	 * @param p_appContext	Contexte de l'application
+	 * @param p_rawId		Id de la musique
+	 */
     public static void setSong(Context p_appContext, int p_rawId) {
 
     	mPlayer = MediaPlayer.create(p_appContext,p_rawId);
     	activity.initSeekBarMusic();
     }
     
+    /**
+     * Modification de la musique à écouter
+     * @param p_appContext	Contexte de l'application
+     * @param p_uri			Url de la musique
+     * @param artiste		Nom de l'artiste
+     * @param chanson		Titre de la chanson
+     */
     public static void setSong(Context p_appContext, Uri p_uri, String artiste, String chanson) {
-    	Boolean pl = false;
     	if(mPlayer != null) {
     		if(isPlay){
-    			pl = true;
     			activity.pause();  
     		}
             mPlayer.stop();
@@ -137,13 +240,13 @@ public class AAP extends Activity {
     	
     	mPlayer = MediaPlayer.create(p_appContext,p_uri); 
     	activity.initSeekBarMusic();
-    	if(pl)
-    		activity.play();
+    	//Mise en route direct de la musique
+    	activity.play();
     	
     	((TextView)activity.findViewById(R.id.titre)).setText(chanson + System.getProperty("line.separator") + artiste);
     }
-    
-    /* ************ sauvegarde etat de l'appli avant changement orientation *********** */
+   
+    // Sauvegarde de l'état de l'application avant le changement de configuration (orientation)
     @Override
     public Object onRetainNonConfigurationInstance() {
     	if(mPlayer.getCurrentPosition() == 0){
@@ -157,21 +260,23 @@ public class AAP extends Activity {
         data[3] = AllSongList; //liste des musiques (pour suivante et precedente)
         data[4] = currentArtist; //artiste en cours
         data[5] = currentSong; //titre de la chanson en cours
-        data[6] = seekBar_debut.getProgress();
-        data[7] = seekBar_fin.getProgress();
+        data[6] = seekBar_debut.getProgress(); //valeur debut de la boucle
+        data[7] = seekBar_fin.getProgress(); //valeur fin de la boucle
         data[8] = ((ScrollView) findViewById(R.id.LyricsView)).getVisibility(); //parole ouvert
         data[9] = ((TableLayout) findViewById(R.id.FrameLayout08)).getVisibility(); //paroles web ouvert
         return data;
     }
     
-    /* **************** initialisation des elements de l'application **************** */
+    /** 
+     * Initialisation des éléments de l'application 
+     */
     private void initEven()
     {   
     	activity = this;   	
     	musicList = new Intent(getApplicationContext(),MusicListActivity.class);
     	intentFileExplorer = new Intent(getApplicationContext(),FileExplorerActivity.class);
     	
-    	//----------------- evenements sur les boutons -----------------------------   	
+    	//---------------- Evènements sur les boutons -----------------------------   	
     	
     	//bouton de la boucle
     	buttonLoop = (ImageButton) findViewById(R.id.loop);
@@ -262,7 +367,7 @@ public class AAP extends Activity {
             }
         });             
 		
-        //ouverture des fonctionnalites
+        //Ouverture de la fenêtre des fonctionnalités
         ((TextView)findViewById(R.id.fonctionnalites)).setOnClickListener(new View.OnClickListener() {			
 			@Override
 			public void onClick(View arg0) {
@@ -271,20 +376,22 @@ public class AAP extends Activity {
 				animFonctionnalites(false);
 			}
 		});
-        
-        
-        //recuperation de la sauvegarde en cas de changement de configuration
-        // paysage / paysage
+               
+        //Récupération de la sauvegarde en cas de changement de configuration
         final Object[] data = (Object[]) getLastNonConfigurationInstance();
         if (data == null) {
         	setSong(this, R.raw.testsong);
-            //ouvrir directement la liste des musiques        
+            //Ouvrir directement la liste des musiques        
     		startActivity(musicList);
         }else{
         	restauration(data);
         }
     }
     
+    /**
+     * Restauration de l'état de l'application après le changement de configuration
+     * @param data	Objet contenant les éléments sauvegardés
+     */
     public void restauration(Object[] data){
     	//restauration
     	mPlayer = (MediaPlayer) data[0];
@@ -339,6 +446,9 @@ public class AAP extends Activity {
     	}
     }
     
+    /**
+     * Fermer la fenêtre contenant les paroles
+     */
     public void fermerParoles(){
     	ScrollView fenetreParoles = (ScrollView) findViewById(R.id.LyricsView);
 		if(fenetreParoles.getVisibility() == ScrollView.VISIBLE){
@@ -349,6 +459,9 @@ public class AAP extends Activity {
 		}
     }
     
+    /**
+     * Fermer la fenêtre contenant l'enregistrement sonore
+     */
     public void fermerRecord(){  	      
     	LinearLayout recordLayout =  (LinearLayout)findViewById(R.id.RecordLayout);  
     	if(recordLayout.getVisibility() == LinearLayout.VISIBLE){
@@ -358,7 +471,10 @@ public class AAP extends Activity {
     	}
     }
     
-    /* ************** ouverture/fermeture de la fenetre fonctionnalites ************** */
+    /**
+     * Ouverture/fermeture de la fenêtre des fonctionnalités
+     * @param close		Imposer la fermeture 
+     */
     public void animFonctionnalites(Boolean close){
     	RelativeLayout frame = (RelativeLayout) findViewById(R.id.layoutFonctionnalites);
     	if(frame.getVisibility() == RelativeLayout.INVISIBLE){	
@@ -375,12 +491,17 @@ public class AAP extends Activity {
     	}
     }
     
-    /* ******************** cacher fenetre de fonctionnalites */
+    /**
+     * Clic sur le bouton retour (mode paysage) : fermer fenêtre des fonctionnalités
+     * @param v		View qui appelle la méthode
+     */
     public void retour(View v){
     	animFonctionnalites(true);
     }
     
-    /* ********************** play musique **************** */
+    /**
+     * Play de la musique
+     */
     public void play(){
     	buttonPlayStop.setBackgroundResource(R.drawable.pause);
 		try{
@@ -398,20 +519,28 @@ public class AAP extends Activity {
 		isPlay = true;
     }
     
-    /* *********************** pause musique ****************** */
+    /**
+     * Pause musique
+     */
     public void pause(){
     	buttonPlayStop.setBackgroundResource(R.drawable.play);
 		mPlayer.pause();
 		isPlay = false;
     }
     
-    /* ************************ chargement d'une sauvegarde ******************* */
+    /**
+     * Clic ouverture du menu contenant la liste des boucles enregistrées pour la musique en cours
+     * @param v		View qui appelle la méthode
+     */
     public void chargerSauv(View v){
     	//ouverture d'un menu contextuel avec la liste des sauv disponibles pour cette chanson
     	registerForContextMenu(v);
     	v.showContextMenu();
     }
     
+    /**
+     * Menu contenant la liste des boucles enregistrées pour la musique en cours
+     */
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		menu.setHeaderTitle("Chargement");
@@ -426,6 +555,9 @@ public class AAP extends Activity {
 		}
 	}
 	
+    /**
+     * Evènement sur le clic d'un item du menu des boucles enregistrées
+     */
 	public boolean onContextItemSelected(MenuItem item) {
 		if(item.getTitle().equals("annuler"))
 		{
@@ -453,20 +585,23 @@ public class AAP extends Activity {
 		}
 	}
     
-	/* **************** click bouton enregistrer sauvegarde loop *************** */
+	/**
+	 * Clic enregistrer les paramètres de la boucle
+     * @param v		View qui appelle la méthode
+	 */
 	public void enregistrerLoop(View v){
-		
-
-
     	animFonctionnalites(true);
     	//animation pour l'ouverture de la fenetre des paroles
     	Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animalphain);       
     	LinearLayout enregistrementBoucleLayout =  (LinearLayout)findViewById(R.id.LayoutEnregistrementLoop);
     	enregistrementBoucleLayout.setVisibility(FrameLayout.VISIBLE);
     	enregistrementBoucleLayout.startAnimation(a);
-
 	}
 	
+	/**
+	 * Valider enregistrement des valeurs de la boucle
+	 * @param v 	View qui appelle la méthode
+	 */
 	public void validerEnregistrementLoop(View v){
 		String titreloop = ((EditText) findViewById(R.id.nomEnregistrementLoop)).getText().toString();
 		if(ExtractLoopConf.getLoop(titreloop, currentSong)==null)
@@ -487,6 +622,10 @@ public class AAP extends Activity {
     	enregistrementBoucleLayout.startAnimation(a);
 	}
 	
+	/**
+	 * Annuler l'enregistrement des valeurs de la boucle : fermer la fenêtre d'enregistrement
+	 * @param v		View qui appelle la méthode
+	 */
 	public void annulerEnregistrementLoop(View v){
 		//animation pour l'ouverture de la fenetre des paroles
     	Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animalphaout);       
@@ -495,8 +634,10 @@ public class AAP extends Activity {
     	enregistrementBoucleLayout.startAnimation(a);
 	}
 	
-	
-	/* ********************* click bouton ouvrir repertoire Music de la sccard ********* */
+	/**
+	 * Clic ouverture liste des musiques
+	 * @param v		View qui appelle la méthode
+	 */
     public void openDossierMusic(View v)
 	{   
     	animFonctionnalites(true);
@@ -504,7 +645,10 @@ public class AAP extends Activity {
 		startActivity(musicList);
 	}
     
-    /* ************************* musique suivante ***************** */
+    /**
+     * Clic musique suivante
+     * @param v		View qui appelle la méthode
+     */
     public void musiqueSuivante(View v) {  	
   		if(AllSongList != null){
   			animFonctionnalites(true);
@@ -514,7 +658,10 @@ public class AAP extends Activity {
   		}
   	}           
     
-    /* ********************** musique precedente ******************* */
+    /**
+     * Clic musique précédente
+     * @param v		View qui appelle la méthode
+     */
     public void musiquePrecedente(View v) {   	
   		if(AllSongList != null){
   			animFonctionnalites(true);
@@ -523,8 +670,11 @@ public class AAP extends Activity {
   			AllSongList.previousSong();
   		}
   	}      
-  
-    /* ******************* edition de la boucle ************************************* */
+
+    /**
+     * Activer/désactiver le mode réglage manuel de la boucle
+     * @param v		View qui appelle la méthode
+     */
     public void editLoop(View v){
     	ImageButton bouton = (ImageButton) findViewById(R.id.editLoop);
     	if (editLoop) {
@@ -548,7 +698,10 @@ public class AAP extends Activity {
         }
     }
     
-    /* ********************** click bouton reglage du debut de la boucle *********** */
+    /**
+     * Clic réglade début de la boucle
+     * @param v		View qui appelle la méthode
+     */
     public void loopDebut(View v) {
     	if(editLoop){
 	  		ImageButton bouton = (ImageButton) findViewById(R.id.loopdebut);
@@ -584,7 +737,10 @@ public class AAP extends Activity {
     	}
   	} 
     
-    /* ********************** click bouton reglage de la fin de la boucle *********** */
+    /**
+     * Clic réglade fin de la boucle
+     * @param v		View qui appelle la méthode
+     */
     public void loopFin(View v) {
     	
     	if(editLoop){
@@ -620,7 +776,10 @@ public class AAP extends Activity {
     	}
   	}
     
-    /* ******************* click bouton stop musique **************** */
+    /**
+     * Clic stop
+     * @param v		View qui appelle la méthode
+     */
     public void stop(View v) {
 		   pause();
 		   //premier click retour debut loop
@@ -637,15 +796,20 @@ public class AAP extends Activity {
 	    	((TextView)findViewById(R.id.position)).setText(heureToString(mPlayer.getCurrentPosition()));
 	}
     
-    
-    /* ******************** click bouton ouverture de l'equalizer ************* */
+    /**
+     * Clic ouverture egaliseur
+     * @param v		View qui appelle la méthode
+     */
     public void openEqualizer(View v){
     	animFonctionnalites(true);
     	intentTonalite.setClassName("fr.unice.aap", "fr.unice.aap.EqualizerActivity");
     	startActivity(intentTonalite);
     }
     
-    /* ****************** activation/desactivation de la boucle ************ */
+    /**
+     * Clic activer/désactiver mode boucle
+     * @param v		View qui appelle la méthode
+     */
     public void onOffLoop(View v){
     	if (isLoop) {
             buttonLoop.setBackgroundResource(R.drawable.loop);  
@@ -656,11 +820,17 @@ public class AAP extends Activity {
         }
     }
   	
-    /* ****************** affichage des paroles ****************** */
+    /**
+     * Clic ouverture fenêtre des paroles
+     * @param v		View qui appelle la méthode
+     */
     public void findLyrics(View v){
     	findLyrics();
     }
     
+    /**
+     * Ouverture de la fenêtre des paroles
+     */
     public void findLyrics(){
     	// On enlève le menu 
     	animFonctionnalites(true);
@@ -762,11 +932,18 @@ public class AAP extends Activity {
     	return s.replace(" ", "%20");
     }
     
-    //On met toutes les view concernées en invisible
+    /**
+     * Clic fermer la fenêtre des paroles
+     * @param v		View qui appelle la méthode
+     */
     public void closeLyricViews(View v){
     	fermerParoles();
     }
     
+    /**
+     * Clic ouverture fenêtre de l'enregistrement sonore
+     * @param v		View qui appelle la méthode
+     */
     public void openRecordLayout(View v){
     	// On enlève le menu 
     	animFonctionnalites(true);
@@ -777,7 +954,10 @@ public class AAP extends Activity {
     	recordLayout.startAnimation(a);
     }
     
-    /* ********************* enregistrement sonore *************** */
+    /**
+     * Mise en route de l'enregistrement sonore
+     * @param v		View qui appelle la méthode
+     */
     public void recordSound(View v){
     	try{
 	    	ImageButton buttonRecord = (ImageButton) findViewById(R.id.RecordLayoutRecButton);
@@ -798,11 +978,17 @@ public class AAP extends Activity {
     	}
     }
     
+    /**
+     * Clic fermer la fenêtre de l'enregistrement sonore
+     * @param v		View qui appelle la méthode
+     */
     public void closeRecordLayout(View v){
     	fermerRecord();
     }
-    
-    /* ************ thread qui synchronyse la musique et la seekbar et controle la boucle ***** */
+        
+    /**
+     * Thread qui synchronise la musique et la barre de musique + boucle
+     */
     private Runnable progressUpdater = new Runnable() {
         @Override
         public void run() {
@@ -820,7 +1006,9 @@ public class AAP extends Activity {
         }
     };
 
-    /* ******* initialisation des differentes seekbar et text de position, duree, .. musique *** */
+    /**
+     * Initialisation des barres de progression et textes de postion, durée, ... de la musique
+     */
     private void initSeekBarMusic()
     {
     	//seekbar_music
@@ -844,8 +1032,11 @@ public class AAP extends Activity {
     	//textView position fin
         ((TextView)findViewById(R.id.positionfin)).setText(heureToString(mPlayer.getDuration()));
     }
-    
-    /* ************* convertisseur milliseconde to string 00:00:00 ********** */
+        
+    /**
+     * Convertisseur millisecondes vers string : 00:00:00
+     * @param ms	Millisecondes
+     */
     private String heureToString(int ms)
     {
 		int reste = ms/1000;
@@ -866,14 +1057,20 @@ public class AAP extends Activity {
 		return texte;
     }
 
-    /* *** menu items correspondant a celui qu'on affiche quand on clique sur le bouton menu du telephone **** */
-    /* Creates the menu items */
+    /**
+     * Menu qui s'affiche lorsqu'on clique sur le bouton menu du téléphone
+     * Création du menu et des items
+     * @param menu	Menu qui sera affiché
+     */
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(0, 1, 0, "Quit").setIcon(R.drawable.quit);
         return true;
     }
 
-    /* Handles item selections */
+    /**
+     * Evènements sur le clic des items du menu
+     * @param item 	Item sélectionné sur le menu
+     */
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case 1:
@@ -883,31 +1080,13 @@ public class AAP extends Activity {
             default :
             	return false;
         }
-    }
-    /* *** fonction de conversion *** */
-    /* Conversion de milli-secondes en HH-MM-SS */
-    public String millisToDate(long millis)
-    {
-    	long timeMillis = millis;
-		long time = timeMillis / 1000;
-		String seconds = Integer.toString((int)(time % 60));
-		String minutes = Integer.toString((int)((time % 3600) / 60));
-		String hours = Integer.toString((int)(time / 3600));
-		for (int i = 0; i < 2; i++) {
-		if (seconds.length() < 2) {
-		seconds = "0" + seconds;
-		}
-		if (minutes.length() < 2) {
-		minutes = "0" + minutes;
-		}
-		if (hours.length() < 2) {
-		hours = "0" + hours;
-		}
-		}
-		return hours+":"+minutes+":"+seconds;
-    }
+    }    
     
     /* ********************* affichage du menu d'aide ********************** */
+    /**
+     * Clic ouverture du menu d'aide
+     * @param v		View qui appelle la méthode
+     */
     public void help(View v){
     	//On instancie notre layout en tant que View
         LayoutInflater factory = LayoutInflater.from(this);
@@ -932,7 +1111,10 @@ public class AAP extends Activity {
         alert.show();
     }
     
-    /* ********************* affichage du menu des paramètres ********************** */
+    /**
+     * Clic ouverture menu de paramétrage des répertoires contenant les musiques
+     * @param v		View qui appelle la méthode
+     */
     public void config(View v){
     	//On instancie notre layout en tant que View
         LayoutInflater factory = LayoutInflater.from(this);
@@ -952,7 +1134,7 @@ public class AAP extends Activity {
         
         alert.setIcon(android.R.drawable.ic_dialog_dialer);
  
-        //On affecte un bouton "OK" à notre AlertDialog et on lui affecte un évènement
+        //On affecte un bouton "Fermer" à notre AlertDialog et on lui affecte un évènement
         alert.setPositiveButton("Fermer", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
             }
