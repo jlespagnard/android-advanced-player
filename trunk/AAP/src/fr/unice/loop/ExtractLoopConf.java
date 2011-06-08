@@ -1,4 +1,4 @@
-package fr.unice.aap.loop;
+package fr.unice.loop;
 
 import java.io.File;
 import java.io.IOException;

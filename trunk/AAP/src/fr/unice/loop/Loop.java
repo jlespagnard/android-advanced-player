@@ -1,4 +1,4 @@
-package fr.unice.aap.loop;
+package fr.unice.loop;
 
 public class Loop {
 
