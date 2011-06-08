@@ -13,10 +13,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 
 
+import fr.unice.aap.loop.*;
 import fr.unice.aap.musics.AllSongsListActivity;
 import fr.unice.aap.musics.MusicListActivity;
 import fr.unice.aap.recorder.AudioRecorder;
-import fr.unice.loop.*;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.text.Editable;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -53,6 +54,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AAP extends Activity {
 	
@@ -415,14 +417,12 @@ public class AAP extends Activity {
 		menu.setHeaderTitle("Chargement");
 		menu.setHeaderIcon(R.drawable.uploadclick);
 		menu.add(0, 0, 0, "annuler");
-		TextView t = (TextView)activity.findViewById(R.id.titre);
-		ArrayList<Loop> lstLoop = ExtractLoopConf.getLoops(t.getText().toString());
+		ArrayList<Loop> lstLoop = ExtractLoopConf.getLoops(currentSong);
 		for(int k=0;k<lstLoop.size();k++)
 		{
-			String hhmmssDeb = millisToDate(lstLoop.get(k).getDebutLoop());
-			String hhmmssFin = millisToDate(lstLoop.get(k).getFinLoop());
-		
-			menu.add(0,k,0,hhmmssDeb+"-"+hhmmssFin);
+			//String hhmmssDeb = millisToDate(lstLoop.get(k).getDebutLoop());
+			//String hhmmssFin = millisToDate(lstLoop.get(k).getFinLoop());
+			menu.add(0,k,0,lstLoop.get(k).getNom());
 		}
 	}
 	
@@ -433,8 +433,7 @@ public class AAP extends Activity {
 		}
 		else
 		{
-			String[] tabLoop = item.getTitle().toString().split("-");
-			Log.i("INFO","tabLoop"+tabLoop[0]+"-"+tabLoop[1]);
+			/*String[] tabLoop = item.getTitle().toString().split("-");
 			String[] tabDeb = tabLoop[0].split(":");
 			String hDeb = tabDeb[0];
 			String mDeb = tabDeb[1];
@@ -443,10 +442,13 @@ public class AAP extends Activity {
 			String[] tabFin = tabLoop[1].split(":");
 			String hFin = tabFin[0];
 			String mFin = tabFin[1];
-			String sFin = tabFin[2];
+			String sFin = tabFin[2];*/
 			
-			seekBar_debut.setProgress(Integer.parseInt(String.valueOf(TimeUnit.HOURS.toMillis(Long.parseLong(hDeb))+TimeUnit.MINUTES.toMillis(Long.parseLong(mDeb))+TimeUnit.SECONDS.toMillis(Long.parseLong(sDeb)))));
-			seekBar_fin.setProgress(Integer.parseInt(String.valueOf(TimeUnit.HOURS.toMillis(Long.parseLong(hFin))+TimeUnit.MINUTES.toMillis(Long.parseLong(mFin))+TimeUnit.SECONDS.toMillis(Long.parseLong(sFin)))));
+			//seekBar_debut.setProgress(Integer.parseInt(String.valueOf(TimeUnit.HOURS.toMillis(Long.parseLong(hDeb))+TimeUnit.MINUTES.toMillis(Long.parseLong(mDeb))+TimeUnit.SECONDS.toMillis(Long.parseLong(sDeb)))));
+			//seekBar_fin.setProgress(Integer.parseInt(String.valueOf(TimeUnit.HOURS.toMillis(Long.parseLong(hFin))+TimeUnit.MINUTES.toMillis(Long.parseLong(mFin))+TimeUnit.SECONDS.toMillis(Long.parseLong(sFin)))));
+			Loop l = ExtractLoopConf.getLoop(item.getTitle().toString(),currentSong);
+			seekBar_debut.setProgress(l.getDebutLoop());
+			seekBar_fin.setProgress(l.getFinLoop());
 			return true;
 		}
 	}
@@ -454,56 +456,35 @@ public class AAP extends Activity {
 	/* **************** click bouton enregistrer sauvegarde loop *************** */
 	public void enregistrerLoop(View v){
 		
-		// On enlève le menu 
+
+
     	animFonctionnalites(true);
     	//animation pour l'ouverture de la fenetre des paroles
     	Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animalphain);       
     	LinearLayout enregistrementBoucleLayout =  (LinearLayout)findViewById(R.id.LayoutEnregistrementLoop);
     	enregistrementBoucleLayout.setVisibility(FrameLayout.VISIBLE);
     	enregistrementBoucleLayout.startAnimation(a);
-		
-		//a supprimer
-//		//On instancie notre layout en tant que View
-//        LayoutInflater factory = LayoutInflater.from(this);
-//        final View alertDialogView = factory.inflate(R.layout.menu_enregistrement_loop, null);
-//        
-//        //Création de l'AlertDialog
-//        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-// 
-//        //On affecte la vue personnalisé que l'on a crée à notre AlertDialog
-//        alert.setView(alertDialogView);
-// 
-//        //On donne un titre à l'AlertDialog
-//        alert.setTitle("Enregistrer");
-//       
-//        alert.setIcon(android.R.drawable.ic_dialog_info);
-// 
-//        //On affecte un bouton "OK" à notre AlertDialog et on lui affecte un évènement
-//        alert.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int which) { 
-//            	
-//            	//action si valider
-//            	Log.i("INFO","debut: "+seekBar_debut.getProgress());
-//        		Log.i("INFO","fin: "+seekBar_fin.getProgress());
-//        		TextView t = (TextView)activity.findViewById(R.id.titre);
-//        		Log.i("INFO","chanson: "+t.getText().toString());
-//        		ExtractLoopConf.addLoop(new Loop("test",seekBar_debut.getProgress(),seekBar_fin.getProgress(),t.getText().toString()));
-//        		
-//            	
-//          } });
-//        alert.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int which) { 
-//            	
-//            	//action si annuler
-//            	
-//            } });
-//        
-//        alert.show();
-//		
+
 	}
 	
 	public void validerEnregistrementLoop(View v){
-		
+		String titreloop = ((EditText) findViewById(R.id.nomEnregistrementLoop)).getText().toString();
+		if(ExtractLoopConf.getLoop(titreloop, currentSong)==null)
+		{
+			ExtractLoopConf.addLoop(new Loop(titreloop,seekBar_debut.getProgress(),seekBar_fin.getProgress(),currentSong));
+		}
+		else
+		{
+			Context context = getApplicationContext();
+			CharSequence text = "Une boucle avec le même nom existe deja";
+			int duration = Toast.LENGTH_LONG;
+			Toast toast = Toast.makeText(context, text, duration);
+			toast.show();
+		}
+		Animation a = AnimationUtils.loadAnimation(AAP.activity, R.anim.animalphaout);       
+    	LinearLayout enregistrementBoucleLayout =  (LinearLayout)findViewById(R.id.LayoutEnregistrementLoop);
+    	enregistrementBoucleLayout.setVisibility(FrameLayout.INVISIBLE);
+    	enregistrementBoucleLayout.startAnimation(a);
 	}
 	
 	public void annulerEnregistrementLoop(View v){
