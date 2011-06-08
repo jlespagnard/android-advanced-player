@@ -1,4 +1,4 @@
-package fr.unice.loop;
+package fr.unice.aap.loop;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,19 +38,6 @@ public class ExtractLoopConf {
             fabrique.setIgnoringElementContentWhitespace(true);
             DocumentBuilder constructeur = fabrique.newDocumentBuilder();
             //début parsage
-            /*File fichiers[] = Environment.getExternalStorageDirectory().listFiles();
-            for(int i=0;i<fichiers.length;i++)
-            {
-            	if(fichiers[i].isFile())
-            	{
-            		Log.i("INFO","File => "+fichiers[i].getName());
-            		if(fichiers[i].getName().equals("loopConfig.xml"))
-            		{
-            			Log.i("INFO", "XML present");
-            		}
-            	}
-            }*/
-            
             File xml = new File("/sdcard/loopConfig.xml");
             Document document = constructeur.parse(xml);
             NodeList nL = document.getElementsByTagName("root");
@@ -173,6 +160,20 @@ public class ExtractLoopConf {
         }
         
 	}
+	public static Loop getLoop(String nomLoop, String titre)
+	{
+		Loop l = new Loop();
+		ArrayList<Loop> lstLoop = getLoops(titre);
+		for(int i=0;i<lstLoop.size();i++)
+		{
+			if(lstLoop.get(i).getNom().equals(nomLoop))
+			{
+				l = lstLoop.get(i);
+				return l;
+			}
+		}
+		return null;
+	}
 	public static void verifXML()
 	{
 		File fichiers[] = Environment.getExternalStorageDirectory().listFiles();
@@ -183,7 +184,6 @@ public class ExtractLoopConf {
         	{
         		if(fichiers[i].getName().equals("loopConfig.xml"))
         		{
-        			Log.i("INFO", "XML present");
         			xmlExist = true;
         		}
         	}

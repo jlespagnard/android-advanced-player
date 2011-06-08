@@ -1,4 +1,4 @@
-package fr.unice.loop;
+package fr.unice.aap.loop;
 
 public class Loop {
 
@@ -15,6 +15,10 @@ public class Loop {
 		this.titreChanson = titreChanson;
 	}
 	
+	public Loop() {
+		
+	}
+
 	public String getTitreChanson() {
 		return titreChanson;
 	}
