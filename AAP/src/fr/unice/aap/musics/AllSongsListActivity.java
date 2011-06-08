@@ -17,6 +17,20 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+/**
+ * <p>
+ * Activité utilisée pour afficher la liste des fichiers audio présents dans les répertoires de stockage.<br />
+ * Elle récupère la liste des fichiers audios précédemment filtrée ou non avant de les afficher.
+ * </p>
+ * 
+ * @author Julien LESPAGNARD
+ * @author Anthony BONIN
+ * @author Michel CARTIER
+ * @author Élodie MAZUEL
+ * @see ListActivity
+ * @see MediaMetadataRetriever
+ * @see MusicListActivity
+ */
 public class AllSongsListActivity extends ListActivity {
 	
 	public static int position = 0;
@@ -159,6 +173,9 @@ public class AllSongsListActivity extends ListActivity {
 		this.finish();
 	}
 
+	/**
+	 * Passe au morceau suivant, s'il s'agit du dernier, revient au début.
+	 */
 	public void nextSong(){
 		if(getListView().getCount() > 1){
 			if(AllSongsListActivity.position < getListView().getCount()-1){
@@ -173,6 +190,9 @@ public class AllSongsListActivity extends ListActivity {
 		}
 	}
 	
+	/**
+	 * Passe au morceau suivant, s'il s'agit premier, va à la fin.
+	 */
 	public void previousSong(){
 		if(AllSongsListActivity.position > 0 && getListView().getCount() > 1){
 			AllSongsListActivity.position --;			

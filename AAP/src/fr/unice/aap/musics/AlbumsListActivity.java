@@ -9,6 +9,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
+/**
+ * <p>
+ * Activité utilisée pour afficher la liste des différents albums présents dans les répertoires de stockage.
+ * </p>
+ * 
+ * @author Julien LESPAGNARD
+ * @author Anthony BONIN
+ * @author Michel CARTIER
+ * @author Élodie MAZUEL
+ * @see ListActivity
+ * @see MediaMetadataRetriever
+ * @see MusicListActivity
+ */
 public class AlbumsListActivity extends ListActivity {	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

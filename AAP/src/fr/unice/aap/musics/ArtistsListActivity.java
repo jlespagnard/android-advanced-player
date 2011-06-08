@@ -9,6 +9,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
+/**
+ * <p>
+ * Activité utilisée pour afficher la liste des différents artistes présents dans les répertoires de stockage.
+ * </p>
+ * 
+ * @author Julien LESPAGNARD
+ * @author Anthony BONIN
+ * @author Michel CARTIER
+ * @author Élodie MAZUEL
+ * @see ListActivity
+ * @see MediaMetadataRetriever
+ * @see MusicListActivity
+ */
 public class ArtistsListActivity extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
