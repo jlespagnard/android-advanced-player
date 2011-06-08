@@ -3,7 +3,24 @@ package fr.unice.aap.musics;
 import java.io.File;
 import java.io.FileFilter;
 
+import android.app.ListActivity;
+import android.media.MediaMetadataRetriever;
+
+/**
+ * <p>
+ * Activité utilisée pour afficher la liste des différents albums présents dans le répertoire de stockage.
+ * </p>
+ * 
+ * @author Julien LESPAGNARD
+ * @author Anthony BONIN
+ * @author Michel CARTIER
+ * @author Élodie MAZUEL
+ * @see FileFilter
+ */
 public class AudioFileFilter implements FileFilter {
+	/**
+	 *	Énumération des différents types de fichiers audio supportés.
+	 */
 	private enum SupportedFileTypes {
 		GPP(),
 		MPEG4(),

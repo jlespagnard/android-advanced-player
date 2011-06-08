@@ -19,7 +19,26 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+/**
+ * <p>
+ * Activité regroupant les méthodes pour le tri des fichiers audios.<br />
+ * Elle est également chargée d'initialiser le menu de tri des fichiers audios et de l'afficher.
+ * </p>
+ * 
+ * @author Julien LESPAGNARD
+ * @author Anthony BONIN
+ * @author Michel CARTIER
+ * @author Élodie MAZUEL
+ * @see ListActivity
+ * @see MediaMetadataRetriever
+ * @see AlbumsListActivity
+ * @see AllSongsListActivity
+ * @see ArtistsListActivity
+ * @see AudioFileFilter
+ * @see GenresListActivity
+ */
 public class MusicListActivity extends ListActivity {
+	// Constantes utilisées comme key dans les listes
 	public static final String MUSIC_FILES_PATHS = "music_files_paths";
 	public static final String MENU_ITEM = "menu_item";
 	public static final String METADATA = "Metadata";
@@ -31,9 +50,11 @@ public class MusicListActivity extends ListActivity {
 	public static final String DEFAULT_DURATION = "00:00";
 	public static final String UNKNOWN = "(Unknown)";
 	public static final String URI = "Uri";
-	
+	// Pour récupérer les métadatas dans les fichiers audio
 	private static MediaMetadataRetriever mediaMetadataRetriever = null;
+	// Liste des musique
 	private static List<File> musicFiles = null;
+	// Liste contenant les différentes valeurs existantes pour une métadata donnée
 	private static Map<Integer,List<String>> mediaMetadatas = null;
 	
 	@Override
@@ -86,6 +107,9 @@ public class MusicListActivity extends ListActivity {
 		this.finish();
 	}
 	
+	/**
+	 * Construis le menu des options de tris proposés.
+	 */
 	private void setMenuListItem() {
 		List<Map<String,String>> data = new LinkedList<Map<String,String>>();
 		
@@ -108,6 +132,9 @@ public class MusicListActivity extends ListActivity {
 		setListAdapter(adapter);
 	}
 	
+	/**
+	 * @return	la variable utilisée pour récupérer les métadatas dans les fichiers audio
+	 */
 	public static MediaMetadataRetriever getMediaMetadataRetriever() {
 		if(mediaMetadataRetriever == null) {
 			mediaMetadataRetriever = new MediaMetadataRetriever();
@@ -115,6 +142,9 @@ public class MusicListActivity extends ListActivity {
 		return mediaMetadataRetriever;
 	}
 	
+	/**
+	 * Initialise la liste des fichiers audio supportés présents dans les répertoires de stockage configurés
+	 */
 	private static void initMusicFiles() {
 		musicFiles = new LinkedList<File>();
 		for(String path : AAP.getListeRepertoireMusique()) {
@@ -124,6 +154,13 @@ public class MusicListActivity extends ListActivity {
 		}
 	}
 	
+	/**
+	 * Parcours récursiement les répertoires de stockage pour récupérer les fichiers audio supportés.
+	 * 
+	 * @param dir		le répertoire à parcourir
+	 * @param files		la liste des fichiers audio supportés déjà récupérés
+	 * @param filter	le filtre utilisé pour la sélection des fichiers audio pris en charge 
+	 */
 	private static void parcourPathAndAddFiles(File dir, List<File> files, FileFilter filter) {
 		if(dir.listFiles() != null) {
 			for(File file : dir.listFiles()) {
@@ -137,10 +174,17 @@ public class MusicListActivity extends ListActivity {
 		}
 	}
 	
+	/**
+	 * @return	la liste des fichiers audios supportés récupérés dans les répertoire de stockage
+	 */
 	public static List<File> getMusicFiles() {
 		return musicFiles;
 	}
 	
+	/**
+	 * @param p_metadataKey	le type de métadata à récupérer
+	 * @return	la liste des différentes valeurs existantes pour la métadata <code>p_metadataKey</code>
+	 */
 	public static List<String> getDistinctMediadataFromKey(int p_metadataKey) {
 		if(mediaMetadatas == null) {
 			mediaMetadatas = new LinkedHashMap<Integer, List<String>>();
@@ -171,6 +215,12 @@ public class MusicListActivity extends ListActivity {
 		return mediaMetadatas.get(p_metadataKey);
 	}
 	
+	/**
+	 * Initialise la liste des valeurs de la métadata <code>p_metadataKey</code> à afficher au sein de l'activité <code>p_metadataActivity</code>
+	 * 
+	 * @param p_metadataActivity	l'activité qui affichera les valeurs du métadata <code>p_metadataKe</code>
+	 * @param p_metadataKey			le type de métadata à récupérer
+	 */
 	public static void createMetadataActivity(ListActivity p_metadataActivity, int p_metadataKey) {
 		p_metadataActivity.setContentView(R.layout.musics_list);
 		
@@ -193,6 +243,12 @@ public class MusicListActivity extends ListActivity {
 		p_metadataActivity.setListAdapter(adapter);
 	}
 	
+	/**
+	 * Rafraîchit la liste des musiques à afficher selon la valeur <code>p_metadataValue</code> du type de métadata <code>p_metadataKey</code>
+	 * 
+	 * @param p_metadataKey		le type de métadata
+	 * @param p_metadataValue	la valeur du métadta
+	 */
 	public static void refreshListSongs(int p_metadataKey, String p_metadataValue) {
 		initMusicFiles();
 		if(p_metadataKey != -1 && p_metadataValue != null && !p_metadataValue.trim().isEmpty()) {

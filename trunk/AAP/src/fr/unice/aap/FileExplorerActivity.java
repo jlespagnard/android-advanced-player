@@ -2,8 +2,6 @@ package fr.unice.aap;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 import android.app.AlertDialog;
@@ -11,7 +9,6 @@ import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -19,12 +16,28 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+/**
+ * <p>
+ * Activité utilisée pour parcourir les répertoires présents au sein du téléphones.
+ * </p>
+ * 
+ * @author Julien LESPAGNARD
+ * @author Anthony BONIN
+ * @author Michel CARTIER
+ * @author Élodie MAZUEL
+ * @see ListActivity
+ */
 public class FileExplorerActivity extends ListActivity {
+	// Liste des chemins des fichiers présents dans le répertoire courant
 	private List<String> item = null;
-	 private List<String> path = null;
-	 private String root="/";
-	 private TextView myPath;
-	 private String currentPath;
+	// Liste des chemins des répertoire présents dans le répertoire courant
+	private List<String> path = null;
+	// Le chemin vers la racine
+	private String root="/";
+	// Le nom du répertoire courant à afficher
+	private TextView myPath;
+	// Le chemin du répertoire courant
+	private String currentPath;
 	 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +47,11 @@ public class FileExplorerActivity extends ListActivity {
         getDir(root);
 	}
 	
+	/**
+	 * Initialise la liste des fichiers et répertoires présents dans le répertoir <code>dirPath</code>.
+	 * 
+	 * @param dirPath	le nouveau répertoire courant 
+	 */
 	private void getDir(String dirPath) {
 		currentPath = dirPath;
 		myPath.setText("Location: " + dirPath);
@@ -73,6 +91,11 @@ public class FileExplorerActivity extends ListActivity {
 		setListAdapter(fileList);
 	}
 	
+	/**
+	 * Action appelée lorsque que l'utilisateur sélectionne un répertoire dans le répertoire courant.
+	 * 
+	 * @param v	la vue par laquelle l'action a été appelée
+	 */
 	public void selectionnerRepertoireCourant(View v) {
 		SharedPreferences appPref = PreferenceManager.getDefaultSharedPreferences(this);
 		String temp = appPref.getString("music_files_paths", null);
