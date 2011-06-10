@@ -6,19 +6,27 @@ import android.media.MediaRecorder;
 import android.os.Environment;
 import android.util.Log;
 
-/*Classe d'enregistrement du son*/
+/**
+ * Classe d'enregistrement du son via le microphone du téléphone. Cette classe ne fonctionnera pas sans la permission RECORD_AUDIO dans le fichier AndroidManifext.xml
+ */
 public class AudioRecorder {
 
   final MediaRecorder recorder = new MediaRecorder();
   final String path;
 
   /**
-   * Lieu où sera placé l'enregistrement.
+   * Nom du fichier d'enregistrement.
+   * @param path	Nom du fichier à enregistrer
    */
   public AudioRecorder(String path) {
     this.path = sanitizePath(path);
   }
 
+  /**
+   *  Formattage du nom du fichier, enregistrement sous le format .3gp par défaut et modification du nom si un fichier portant ce nom existe déjà
+   *  @param path	Nom du fichier à enregistrer
+   *  @return String Le nom du fichier formatté
+   */
   private String sanitizePath(String path) {
     if (!path.startsWith("/")) {
       path = "/" + path;
