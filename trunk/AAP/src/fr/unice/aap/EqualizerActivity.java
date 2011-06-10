@@ -17,6 +17,10 @@ import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+/**
+ * Classe implémentant l'equalizer
+ */
+
 public class EqualizerActivity extends Activity {
      
     private static final float VISUALIZER_HEIGHT_DIP = 50f;
@@ -27,6 +31,10 @@ public class EqualizerActivity extends Activity {
     private TextView mStatusTextView;
 	private Button closeButton;
 
+	/**
+	 * Au lancement de l'activité: initialisation de toutes les vuers 
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
     @Override
     public void onCreate(Bundle icicle) {
     	super.onCreate(icicle);
@@ -53,6 +61,9 @@ public class EqualizerActivity extends Activity {
             
     }
     
+    /**
+     * Initialisation de l'equalizer , création des vues associées aux bandes de fréquence du morceau en cours de lecture
+     */
     private void setupEqualizerFxAndUI() {
     	// Create the Equalizer object (an AudioEffect subclass) and attach it to our media player,
     	mEqualizer = new Equalizer(0, AAP.mPlayer.getAudioSessionId());
@@ -110,6 +121,9 @@ public class EqualizerActivity extends Activity {
     	mLinearLayout.addView(closeButton);
     }
     
+    /**
+     * Création du Visualizer
+     */
     private void setupVisualizerFxAndUI() {
     	// Create a VisualizerView (defined below), which will render the simplified audio
     	// wave form to a Canvas.
@@ -129,10 +143,17 @@ public class EqualizerActivity extends Activity {
     	}, Visualizer.getMaxCaptureRate() / 2, true, false);
     }
     
+    /**
+     * Stop l'equalizer 
+     */
     public void resetEqualizer(){
     	mEqualizer.release();
     }
     
+    /**
+     * (non-Javadoc)
+     * @see android.app.Activity#onPause()
+     */
     @Override
     protected void onPause() {
     	super.onPause();

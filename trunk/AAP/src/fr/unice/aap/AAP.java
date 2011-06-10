@@ -849,7 +849,13 @@ public class AAP extends Activity {
         //On affiche le résultat
     	setLyricsTextResult(currentArtist, currentSong, false);
     }
-    
+
+    /**
+     * Recherche des paroles d'une chanson et affichage du résultat de la recherche
+     * @param artist Nom de l'artiste à rechercher
+     * @param song Titre de la chanson à rechercher
+     * @param estRetour true si cette méthode est appelée après clic du bouton de retour de la page contenant la WebView
+     */
     public void setLyricsTextResult(String artist, String song, boolean estRetour){
     	try{
     		TableLayout webBrowser = (TableLayout) findViewById(R.id.FrameLayout08);
@@ -903,18 +909,27 @@ public class AAP extends Activity {
     	}
     }
     
+    /**
+     * Lancement de la recherche à partir du bouton "Rechercher"
+     */
     public void updateLyricSearch(View v){
     	String artist = ((EditText) findViewById(R.id.ArtistName)).getText().toString();
     	String song = ((EditText) findViewById(R.id.SongName)).getText().toString();
     	setLyricsTextResult(artist, song, false);
     }
     
+    /**
+     * Lancement de la recherche à partir du bouton de retour de la page contenant la WebView
+     */    
     public void updateLyricSearchButtonReturn(View v){
     	String artist = ((EditText) findViewById(R.id.ArtistName)).getText().toString();
     	String song = ((EditText) findViewById(R.id.SongName)).getText().toString();
     	setLyricsTextResult(artist, song, true);
     }
     
+    /**
+     * Ouverture du navigateur web à l'intérieur de notre application grâce à une WebView
+     */
     public void openBrowser(){
     	((TableLayout) findViewById(R.id.FrameLayout06)).setVisibility(FrameLayout.INVISIBLE);
     	((TableLayout) findViewById(R.id.FrameLayout08)).setVisibility(FrameLayout.VISIBLE);
@@ -928,8 +943,13 @@ public class AAP extends Activity {
     	openBrowser();
     }
     
-    public String formatString(String s){
-    	return s.replace(" ", "%20");
+    /**
+     * Formattage de l'url pour éviter tout problème on remplace les espaces par le caractère %20 
+     * @param url Url à formatter
+     * @return L'url formattée
+     */
+    public String formatString(String url){
+    	return url.replace(" ", "%20");
     }
     
     /**
