@@ -32,7 +32,7 @@
 		<ImageButton android:id="@+id/help" android:onClick="help" android:background="@drawable/buttonhelp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center"></ImageButton>
 	</FrameLayout>
 	
-	<ScrollView android:id="@+id/LyricsView" android:background="@drawable/fondtransparant" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@+id/fonctionnalites"  android:layout_above="@+id/layoutBarreMusique" android:visibility="invisible">
+	<ScrollView android:id="@+id/LyricsView" android:background="@drawable/fondtransparent" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@+id/fonctionnalites"  android:layout_above="@+id/layoutBarreMusique" android:visibility="invisible">
 		<FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
 			<TableLayout android:id="@+id/FrameLayout08" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_centerInParent="true" android:visibility="invisible">
 				<WebView android:id="@+id/lyricsWebView" android:layout_width="fill_parent" android:layout_height="fill_parent"></WebView>
@@ -57,14 +57,14 @@
 		</FrameLayout>
 	</ScrollView>
 	
-	<LinearLayout android:id="@+id/RecordLayout" android:background="@drawable/fondtransparant" android:layout_width="fill_parent" android:layout_height="fill_parent" android:orientation="vertical" android:visibility="invisible" android:layout_below="@+id/fonctionnalites"  android:layout_centerHorizontal="true" android:layout_above="@+id/layoutBarreMusique" android:layout_centerInParent="true" android:gravity="center">
+	<LinearLayout android:id="@+id/RecordLayout" android:background="@drawable/fondtransparent" android:layout_width="fill_parent" android:layout_height="fill_parent" android:orientation="vertical" android:visibility="invisible" android:layout_below="@+id/fonctionnalites"  android:layout_centerHorizontal="true" android:layout_above="@+id/layoutBarreMusique" android:layout_centerInParent="true" android:gravity="center">
 		<TextView android:id="@+id/lyricsTextView"  android:text="Titre de l'enregistrement" android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center_horizontal" android:textStyle="bold" android:layout_marginTop="10dip"></TextView>
 		<EditText android:id="@+id/RecordTitle" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="MyRecord" android:layout_marginTop="10dip"></EditText>
 		<ImageButton android:id="@+id/RecordLayoutRecButton" android:onClick="recordSound" android:background="@drawable/rec" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dip"></ImageButton>				
 		<Button android:onClick="closeRecordLayout" android:background="@drawable/quit" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dip"></Button>
 	</LinearLayout>	
 	
-	<LinearLayout android:id="@+id/LayoutEnregistrementLoop" android:background="@drawable/fondtransparant" android:layout_width="fill_parent" android:layout_height="fill_parent" android:orientation="vertical" android:layout_below="@+id/fonctionnalites"  android:layout_centerHorizontal="true" android:layout_above="@+id/layoutBarreMusique" android:layout_centerInParent="true" android:gravity="center" android:visibility="invisible">
+	<LinearLayout android:id="@+id/LayoutEnregistrementLoop" android:background="@drawable/fondtransparent" android:layout_width="fill_parent" android:layout_height="fill_parent" android:orientation="vertical" android:layout_below="@+id/fonctionnalites"  android:layout_centerHorizontal="true" android:layout_above="@+id/layoutBarreMusique" android:layout_centerInParent="true" android:gravity="center" android:visibility="invisible">
 		<TextView android:id="@+id/titreEnregistrementLoop" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Nom" android:layout_gravity="center" android:textColor="#FFFFFF" android:minHeight="40dp"></TextView>
 		<EditText android:id="@+id/nomEnregistrementLoop" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="MyBoucle" android:layout_marginLeft="10dp" android:layout_marginRight="10dp"></EditText>
 		<Button android:id="@+id/validerEnregistrementBoucle" android:onClick="validerEnregistrementLoop" android:layout_width="wrap_content" android:layout_height="40dp" android:text="Valider"></Button>
