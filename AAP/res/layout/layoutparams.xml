@@ -8,7 +8,7 @@
 			<TextView android:id="@+id/ListMusicPaths" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textColor="#5EB6DD" android:editable="false" android:singleLine="false" android:lines="10" android:scrollbars="vertical"></TextView>
 		</LinearLayout>
 		<LinearLayout android:id="@+id/layoutParams03" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_marginBottom="5dp">
-			<Button android:onClick="ajouterDossierMusique" android:text="Ajouter un répertoire" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginTop="10dip" android:gravity="right"></Button>
+			<Button android:id="@+id/addMusicDirectory" android:onClick="ajouterDossierMusique" android:text="Ajouter un répertoire" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginTop="10dip" android:gravity="right"></Button>
 		</LinearLayout>
 	</LinearLayout>
 </ScrollView>
