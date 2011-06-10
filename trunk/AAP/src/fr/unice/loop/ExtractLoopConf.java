@@ -27,9 +27,24 @@ import org.w3c.dom.NodeList;
 import android.os.Environment;
 import android.util.Log;
 
+/**
+ * <p>
+ * Classe technique permettant d'accéder au fichier XML de sauvegarde
+ * </p>
+ * @author Mic
+ *
+ */
 public class ExtractLoopConf {
 
+	/**
+	 * Constructeur
+	 */
 	public ExtractLoopConf(){};
+	
+	/**
+	 * Methode permettant d'ajouter (sauvgarder) une boucle dans le fichier XML
+	 * @param loop Boucle a ajouter
+	 */
 	public static void addLoop(Loop loop)
 	{
 		try
@@ -43,6 +58,8 @@ public class ExtractLoopConf {
             NodeList nL = document.getElementsByTagName("root");
             Node n = nL.item(0);
             Node chansonNode = document.createElement("chanson");
+            
+            //Test pour savoir si le noeud chanson associé existe deja
             ArrayList<Loop> lstLoopExiste = getLoops(loop.getTitreChanson());
             if(lstLoopExiste.size()!=0)
             {
@@ -96,6 +113,12 @@ public class ExtractLoopConf {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Methode permettant de récupérer toutes les boucles d'une chanson 
+	 * @param titre Titre de la chanson
+	 * @return retourne toutes les boucles de la chanson "titre"
+	 */
 	public static ArrayList<Loop> getLoops(String titre)
 	{
 		ArrayList<Loop> lstLoop = new ArrayList<Loop>();
@@ -160,6 +183,13 @@ public class ExtractLoopConf {
         }
         
 	}
+	
+	/**
+	 * Methode permettant de récupérer une boucle 
+	 * @param nomLoop Nom de la boucle recherché
+	 * @param titre Nom de la chanson de la boucle recherché
+	 * @return retourne la boucle appartenant a la chanson "titre" et ayant pour nom "nomLoop"
+	 */
 	public static Loop getLoop(String nomLoop, String titre)
 	{
 		Loop l = new Loop();
@@ -174,6 +204,11 @@ public class ExtractLoopConf {
 		}
 		return null;
 	}
+	
+	/**
+	 * Methode verifiant l'existance du fichier XML de sauvegarde, a la racine de la carte SD.
+	 * Si le fichier n'existe pas, il est cree.
+	 */
 	public static void verifXML()
 	{
 		File fichiers[] = Environment.getExternalStorageDirectory().listFiles();
